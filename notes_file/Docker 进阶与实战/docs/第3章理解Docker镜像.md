@@ -57,34 +57,48 @@ Docker所宣称的用户可以随心所欲地“**Build、Ship and Run**”**应
 见https://github.com/justone/dockviz。
 
 
-# 3.2.2  Build：创建一个镜像
+## 3.2.2  Build：创建一个镜像
 
- 创建镜像是一个很常用的功能，既可以从无到有地创建镜像，也可以以现有的镜像为基础进行增量开发，还可以把容器保存为镜像。下面就详细介绍这些方法。
-直接下载镜像
-    我们可以从镜像仓库下载一个镜像，比如，以下为下载busybox镜像的示例。
+创建镜像是一个很常用的功能，**既可以从无到有地创建镜像，也可以以现有的镜像为基础进行增量开发，还可以把容器保存为镜像**。下面就详细介绍这些方法。
+* 1.直接下载镜像    
+ 我们可以从镜像仓库下载一个镜像，比如，以下为下载busybox镜像的示例。
+ ![](images/3.2.2.1.png)
 
-    具体使用镜像仓库的方法，本书会在后续章节详细描述，这里暂不做说明。
 
-导入镜像
-    还可以导入一个镜像，对此，Docker提供了两个可用的命令docker import和docker load。docker load一般只用于导入由docker save导出的镜像，导入后的镜像跟原镜像完全一样，包括拥有相同的镜像ID和分层等内容。下面的第一行命令可以导出busybox为busybox.tar，第二天命令则是导入该镜像：
 
-    不同于docker load，docker import不能用于导入标准的Docker镜像，而是用于导入包含根文件系统的归档，并将之变成Docker镜像。
+* 2.导入镜像    
+还可以导入一个镜像，对此，Docker提供了两个可用的命令**docker import和docker load**。**docker load一般只用于导入由docker save导出的镜像**，导入后的镜像跟原镜像完全一样，包括拥有相同的镜像ID和分层等内容。下面的第一行命令可以导出busybox为busybox.tar，第二条命令则是导入该镜像：
+![](images/3.2.2.2.png)
+不同于docker load，docker import不能用于导入标准的Docker镜像，而是用于导入包含根文件系统的归档，并将之变成Docker镜像。
 
-制作新的镜像
-    前面说过，docker import用于导入包含根文件系统的归档，并将之变成Docker镜像。因此，docker import常用来制作Docker基础镜像，如Ubuntu等镜像。与此相对，docker export则是把一个镜像导出为根文件系统的归档。
 
-    提示
-    读者可以使用Debian提供的Debootstrap制作Debian或Ubuntu的Base image，可以在Docker官网找到教程（https://docs.docker.com/articles/baseimages/）。
+* 3.制作新的镜像  
+前面说过，docker import用于导入包含根文件系统的归档，并将之变成Docker镜像。因此，**docker import常用来制作Docker基础镜像**，如Ubuntu等镜像。与此相对，**docker export则是把一个镜像导出为根文件系统的归档**。
+
+提示
+> 读者可以使用Debian提供的Debootstrap制作Debian或Ubuntu的Base image，可以在Docker官网找到教程（<https://docs.docker.com/articles/baseimages/>）。
 
     Docker提供的docker commit命令可以增量地生成一个镜像，该命令可以把容器保存为一个镜像，还能注明作者信息和镜像名称，这与git commit类似。当镜像名称为空时，就会形成“悬挂”镜像。当然，使用这种方式每新增加一层都需要数个步骤（比如，启动容器、修改、保存修改等），所以效率是比较低的，因此这种方式适合正式制作镜像前的尝试。当最终确定制作的步骤后，可以使用docker build命令，通过Dockerfile文件生成镜像。
 
 
 
+## 3.2.3 Ship：传输一个镜像
+
+镜像传输是连接开发和部署的桥梁。**可以使用Docker镜像仓库做中转传输**，**还可以使用docker export/docker save生成的tar包来实现**，或者**使用Docker镜像的模板文件Dockerfile做间接传输**。目前托管在Github等网站上的项目，已经原来越多地包含有Dockerfile文件；同时Docker官方镜像仓库使用了github.com的**webhook功能**，若代码被修改就会触发流程自动重新制作镜像。
+
+
+## 3.2.4 Run：以image为模板启动一个容器
+
+启动容器时，可以使用docker run命令，该命令有相关章节会详细描述，本节不做深入说明。
+![](images/3.2.4.1.png)
+
+图3-3总结了上文提到的Docker镜像生命周期管理的相关命令。现阶段Docker镜像相关的命令存在一些问题，包括：
+* 命令间逻辑不一致，比如**列出容器使用的是docker ps**，**列出镜像使用的是docker images**。
+* 混用命令导致命令语义不清晰，比如**查看容器和镜像详细信息的命令都是docker inspect**。
 
 
 
-
-
+# 3.3 Docker image的组织结构
 
 
 

@@ -24,14 +24,22 @@
     * 显示出悬挂镜像：【docker images --filter "dangling=true"】。
     * 使用如下管道命令删除所有的“悬挂”镜像: 》Linux命令【docker images --filter "dangling=true" -q | xargs  docker rmi】。
     
+* Build：创建一个镜像
+    * 直接下载镜像：【docker pull busybox】。
+    * 导入镜像： 【docker load】（一般只用于导入由docker save导出的镜像）和【docker import】（用于导入包含根文件系统的归档，【docker export】则是把一个镜像导出为根文件系统的归档）。
+        * 导出busybox为busybox.tar：【docker save -o busybox.tar busybox】。
+        * 导入镜像：【docker load -i busybox.tar】。
+    * 制作新的镜像：【docker import】常用来制作Docker基础镜像。【docker export】则是把一个镜像导出为根文件系统的归档
 
+* Ship：传输一个镜像
+    * Docker镜像仓库做中转传输。
+    * docker export/docker save生成的tar包来实现。
+    * Docker镜像的模板文件Dockerfile做间接传输。
 
-
-
-
-
-
-
+* Run：以image为模板启动一个容器
+    * 启动容器时，可以使用命令：【docker run】。
+    * 列出容器使用的是：【docker ps】。
+    * 列出镜像使用的是：【docker images】。
 
 
 
