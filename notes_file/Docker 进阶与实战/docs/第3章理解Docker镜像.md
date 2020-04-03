@@ -8,9 +8,9 @@ Docker所宣称的用户可以随心所欲地“B**uild、Ship and Run**”**应
 # 3.1 Docker image概念介绍
 
 简单地说，**Docker image是用来启动容器的只读模板**，是容器启动所需要的rootfs，类似于虚拟机所使用的镜像。首先需要通过一定的规则和方法表示Docker image,如图3-1所示。   
-![](Images/310001.png)
+![](images/310001.png)
 
-![Alt text](图片链接 "title")
+![Alt text](https://github.com/hanrx/notes/blob/develop/notes_file/Docker%20%E8%BF%9B%E9%98%B6%E4%B8%8E%E5%AE%9E%E6%88%98/Images/310001.png "title")
 
 图3-1是典型的Docker镜像的表示方法，可以看到其被“/”分为了三个部分，其中每部分都可以类比Github中的概念。下面按照从左到右的顺序介绍这几个部分以及相关的一些重要概念。
 
