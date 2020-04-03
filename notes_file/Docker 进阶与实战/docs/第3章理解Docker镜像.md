@@ -44,11 +44,60 @@ Docker所宣称的用户可以随心所欲地“**Build、Ship and Run**”**应
 ![](images/3.2.1.3.png)
 
 * 在上面的命令中，**--no-trunc参数可以列出完整长度的Image ID**。若添加参数-q则会只输出Image ID，该参数在管道命令中很有用处。一般来说悬挂镜像并不总是我们所需要的，并且会浪费磁盘空间。**可以使用如下管道命令删除所有的“悬挂”镜像**。
+![](images/3.2.1.4.png)
 
-    这里的--digests比较特别，这个参数是伴随着新版本的Docker Registry V2（即Distribution）产生的，在本书接下来的第4章会详细说明。
+* 这里的--digests比较特别，这个参数是伴随着新版本的Docker Registry V2（即Distribution）产生的，在本书接下来的第4章会详细说明。
 
-    按照Docker官方路标和最近的动作，Docker只会保留最核心的image相关命令和功能，因此那些非核心功能就会被删除。比如-- tree和—dot已经从Docker 1.7中删掉。官方推荐使用dockerviz工具分析Docker image。执行以下命令，可以图形化地展示Docker image的层次关系。
+按照Docker官方路标和最近的动作，**Docker只会保留最核心的image相关命令和功能**，因此那些非核心功能就会被删除。比如-- tree和—dot已经从Docker 1.7中删掉。**官方推荐使用dockerviz工具分析Docker image**。执行以下命令，可以图形化地展示Docker image的层次关系。
+![](images/3.2.1.5.png)
 
-    执行结果如图3-2所示，可以看到，同一个仓库中的镜像并不一定要有特别的关系，比如ubuntu:14.04和ubuntu:14.04.2之间就没有共享任何层。
+执行结果如图3-2所示，可以看到，同一个仓库中的镜像并不一定要有特别的关系，比如ubuntu:14.04和ubuntu:14.04.2之间就没有共享任何层。
+![](images/3.2.1.6.png)
 
 见https://github.com/justone/dockviz。
+
+
+# 3.2.2  Build：创建一个镜像
+
+ 创建镜像是一个很常用的功能，既可以从无到有地创建镜像，也可以以现有的镜像为基础进行增量开发，还可以把容器保存为镜像。下面就详细介绍这些方法。
+直接下载镜像
+    我们可以从镜像仓库下载一个镜像，比如，以下为下载busybox镜像的示例。
+
+    具体使用镜像仓库的方法，本书会在后续章节详细描述，这里暂不做说明。
+
+导入镜像
+    还可以导入一个镜像，对此，Docker提供了两个可用的命令docker import和docker load。docker load一般只用于导入由docker save导出的镜像，导入后的镜像跟原镜像完全一样，包括拥有相同的镜像ID和分层等内容。下面的第一行命令可以导出busybox为busybox.tar，第二天命令则是导入该镜像：
+
+    不同于docker load，docker import不能用于导入标准的Docker镜像，而是用于导入包含根文件系统的归档，并将之变成Docker镜像。
+
+制作新的镜像
+    前面说过，docker import用于导入包含根文件系统的归档，并将之变成Docker镜像。因此，docker import常用来制作Docker基础镜像，如Ubuntu等镜像。与此相对，docker export则是把一个镜像导出为根文件系统的归档。
+
+    提示
+    读者可以使用Debian提供的Debootstrap制作Debian或Ubuntu的Base image，可以在Docker官网找到教程（https://docs.docker.com/articles/baseimages/）。
+
+    Docker提供的docker commit命令可以增量地生成一个镜像，该命令可以把容器保存为一个镜像，还能注明作者信息和镜像名称，这与git commit类似。当镜像名称为空时，就会形成“悬挂”镜像。当然，使用这种方式每新增加一层都需要数个步骤（比如，启动容器、修改、保存修改等），所以效率是比较低的，因此这种方式适合正式制作镜像前的尝试。当最终确定制作的步骤后，可以使用docker build命令，通过Dockerfile文件生成镜像。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

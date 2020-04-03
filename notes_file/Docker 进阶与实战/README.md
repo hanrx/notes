@@ -22,6 +22,7 @@
     * 列出本地存储中镜像: 【docker images】。
     * 通过--help参数还可以查询docker images的详细用法: 【docker images --help】。
     * 显示出悬挂镜像：【docker images --filter "dangling=true"】。
+    * 使用如下管道命令删除所有的“悬挂”镜像: 》Linux命令【docker images --filter "dangling=true" -q | xargs  docker rmi】。
     
 
 
