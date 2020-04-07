@@ -41,7 +41,10 @@
     * 列出容器使用的是：【docker ps】。
     * 列出镜像使用的是：【docker images】。
 
-
+* 数据的内容：Docker image包含数据及元数据。数据由一层层image layer组成，元数据是JSON文件来描述数据（image layer）之间关系以及容器一些配置信息。
+    * 查看镜像 image layer：【docker history busybox】。
+    
+* 数据的组织: 通过docker inspect得到该层的元数据【docker inspect busybox】。
 
 
 

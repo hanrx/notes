@@ -100,16 +100,52 @@ Docker所宣称的用户可以随心所欲地“**Build、Ship and Run**”**应
 
 # 3.3 Docker image的组织结构
 
+**Docker image是用来启动容器的只读模板**，提供容器**启动所需要的rootfs**，那么Docker是怎么组织这些数据的呢？
+
+## 3.3.1 数据的内容
+
+**Docker image包含着数据及必要的元数据**。**数据由一层层的image layer组成，元数据则是一下JSON文件，用来描述数据（image layer）之间的关系以及容器的一些配置信息**。下面使用overlay存储驱动对Docker image的组织结构进行分析，首先需要启动Docker daemon，命令如下：
+![](images/3.3.1.1.png)
+
+这里从官方镜像库下载busybox镜像用在分析。由于前面已经下载过该镜像，所有这里并没有重新下载，而只是做了简单的校验。可以看到Docker对进行进行了完整性校验，这种完整性的凭证是由镜像仓库提供的。
+![](images/3.3.1.2.png)
+
+> 该镜像包含cf2616975b4a、6ce2e90b0bc7、8c2e06607696三个layer。让我们先到本地存储路径一探究竟吧。
+![](images/3.3.1.3.png)
+
+* 1.总体信息    
+从repositories-overlay文件可以看到该存储目录下的所有**image以及其对应的layer ID**。为了减少干扰，实验环境之中只包含一个镜像，其ID为8c2e06607696bd4af，如下。
+![](images/3.3.1.4.png)
+
+* 2.数据和元数据  
+graph目录和overlay目录包含**本地镜像库中的所有元数据和数据信息**。对于不同的存储驱动，数据的存储位置和存储结构是不同的，本章不做深入的讨论。可以通过下面的命令观察数据和元数据中的具体内容。元数据包含json和layersize两个文件，其中json文件包含了必要的层次和配置信息，layersize文件则包含了该层的大小。
+![](images/3.3.1.5.png)
+可以看到Docker镜像存储下已经存储了足够的信息，**Docker daemon可以通过这些信息还原出Docker image：先通过repositories-overlay获得image对应的layer ID；再根据layer对应的元数据梳理出image包含的所有层，以及层与层之间的关系；然后使用联合挂载技术还原出容器启动所需要的rootfs和一些基本的配置信息**。
+
+## 3.3.2 数据的组织
+
+从上节看到，**通过repositories-overlay可以找到某个镜像的最上层layer ID，进而找到对应的元数据**，那么元数据都存了那些信息呢？可以通过docker inspect得到该层的元数据。为了简单起见，下面的命令输出中删除了一些讨论无关的层次信息。
+
+注意
+>docker insper并不是直接输出磁盘中的元数据文件，而是对元数据文件进行了整理，使其更易读，比如标记镜像创建时间的条目由created改成了Created；标记容器配置的条目由container_config该成了ContainerConfig，但是两者的数据是完全一致的。
+![](images/3.3.2.1.png)
+![](images/3.3.2.2.png)
+![](images/3.3.2.3.png)
+
+对于上面的输出，有几项需要重点说明一下：    
+* Id：Image的ID。通过上面的讨论，可以看到image ID**实际上只是最上层的layer ID**，所以docker inspect也适用于任意一层layer。
+* Parent：**该layer的父层**，可以递归地获得某个image的所有layer信息。
+* Comment：非常**类似于Git的commit message**，可以为该层做一些历史记录，方便其他人理解。
+* Container：这个条目比较有意思，其中包含哲学的味道。比如前面提到容器的启动需要以image为**模板**。但又可以把该容器保存为镜像，所以一般来说image的每个layer都保存自一个容器，所以该容器可以说是image layer的“模板”。
+* Config：包含了该image的一些配置信息，其中比较重要的是：**“env”容器启动时会作为容器的环境变量；“Cmd”作为容器启动时的默认命令；“Labels”参数可以用于docker images命令过滤**。
+* Architecture：该image对应的CPU体系结构。现在Docker官方支持amd64，对其他体系架构的支持也在进行中。
+
+通过这些元数据信息，可以得到某个image包含的所有layer，进而组合出容器的rootfs，再加上元数据中的配置信息（环境变量、启动参数、体系架构等）作为容器启动时的参数。至此已经具备启动容器必需的所有信息。
 
 
+# 3.4 Docker image扩展知识
 
-
-
-
-
-
-
-
+Cgroup和Namespace等容器相关技术已经存在很久，在VPS、PaaS等领域也有很广泛的应用，但是直到Docker的出现才真正把这些技术带入到大众的视野。同样，Docker的出现才让我们发现原来可以这样管理镜像，可以这样糅合老技术以适应新的需求。Docker引入联合挂载技术（Union mount）使镜像分层成为可能；而Git式的管理方式，使基础镜像的重用成为可能。现在就了解一下相关的技术吧。
 
 
 
