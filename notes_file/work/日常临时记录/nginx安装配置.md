@@ -54,7 +54,18 @@
     * 重启 Nginx【./nginx -s reopen】。
     * 停止 Nginx【./nginx -s stop】
 
-
+* 10. 配置轮询（注：缺省配置就是轮询策略。修改配置文件：/usr/local/nginx/conf/nginx.conf）
+    * 添加：轮询配置
+    > upstream backend{
+          server 10.0.251.122:8091 ;
+          server 192.168.32.78:8091 ; 
+      	}
+    * 配置：server
+    >  location / {
+                  #root   html;
+                  #index  index.html index.htm;
+      			proxy_pass http://backend;
+              }
 
 
 
