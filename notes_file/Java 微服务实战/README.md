@@ -55,7 +55,15 @@
         * 过滤器：指通过类似过滤器的方式完成一系列的横切功能。如权限校验、限流及监控等。
     * 服务编排：基于容器技术来实现一个服务的自动容错功能。
 
+* Spring Boot的优势
+    * 零配置，可直接以jar包运行。
+    * starter引入使得jar包管理更加智能。
+    * 自动配置使得整合一些框架非常简单。
 
+* 注解@SpringBootApplication（复合注解，包含比较重要的注解是以下三个）
+    * @SpringBootConfiguration：也是一个复合注解，其最重要的注解是@Configuration，**指明该类由Spring容器管理**。
+    * @EnableAutoConfiguration：用于启动服务的自动配置功能。
+    * @ComponentScan：用于扫描类，作用类似于Spring中的<context:component-scan>标签。
 
 
 
