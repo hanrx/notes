@@ -45,11 +45,11 @@
 示例：
 ![](images/nginx10.png)
 
-* 检查配置文件nginx.conf的正确性命令：
+* 8.检查配置文件nginx.conf的正确性命令：
     * 命令：【./nginx -t】。
 ![](images/nginx11.png)  
 
-*  Nginx 常用的几个命令:
+*  9.Nginx 常用的几个命令:
     * 重新载入配置文件【./nginx -s reload】。
     * 重启 Nginx【./nginx -s reopen】。
     * 停止 Nginx【./nginx -s stop】
