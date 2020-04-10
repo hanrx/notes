@@ -23,7 +23,7 @@
     * 进入【nginx-1.0.15】目录。
     * 执行命令【./configure】。(configure命令做了检测操作系统内核和已经安装软件， 参数 的 解析， 中间目录的生成以及根据各种参数生成一些C源码文件、Makefile文件 等)
     * 执行命令【make】。(make命令根据configure命令生成 的Makefile文件编译Nginx工程，并生成目标文件、最终的二进制 文件)
-    *执行命令【make install】。(命令根据configure执行时的参数将部署到指定的安装目录，包括相关目录的建立和二进制文件、配置文件的复制)
+    * 执行命令【make install】。(命令根据configure执行时的参数将部署到指定的安装目录，包括相关目录的建立和二进制文件、配置文件的复制)
 
 ![](images/nginx7.png)
 ![](images/nginx8.png)
