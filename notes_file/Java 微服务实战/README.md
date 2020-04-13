@@ -65,7 +65,9 @@
     * @EnableAutoConfiguration：用于启动服务的自动配置功能。
     * @ComponentScan：用于扫描类，作用类似于Spring中的<context:component-scan>标签。
 
-
+* 注解@RestController（复合注解，包含的比较重要的注解是）
+    * @Controller：控制器类。
+    * @ResponseBody：映射URI与方法。
 
 
 
