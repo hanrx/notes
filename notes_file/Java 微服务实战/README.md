@@ -69,9 +69,12 @@
     * @Controller：控制器类。
     * @ResponseBody：映射URI与方法。
 
+* 运行Spring Boot项目(两种方式)
+    * 用man install打成jar包，后使用java -jar运行该jar包（线上部署常使用该方式）。  
+    * 用mvn spring-boot:run运行jar包（本地IDE调试常使用该方式）。
 
-
-
+* Maven依赖树验证Spring Boot自动引包功能
+    * 在终端执行【mvn dependency:tree】。
 
 
 
