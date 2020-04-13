@@ -121,7 +121,10 @@
 
 ## [第4章 微服务数据库](docs/第4章微服务数据库.md "第4章 微服务数据库")
 
-
+* 使用MyBatis-Generator生成数据访问层
+    * MyBatis-Generator的配置文件：
+        * 数据库连接四要素（driver、connectionurl、username、password）。
+        * 生成的model类、mapper接口的位置及映射文件存储目录，指定表（tableName）对应哪一个model（domainObjectName）。
 
 
 
