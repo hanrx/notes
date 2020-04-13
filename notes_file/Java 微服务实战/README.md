@@ -55,6 +55,10 @@
         * 过滤器：指通过类似过滤器的方式完成一系列的横切功能。如权限校验、限流及监控等。
     * 服务编排：基于容器技术来实现一个服务的自动容错功能。
 
+
+
+## [第2章 微服务基础框架](docs/第2章微服务基础框架.md "第2章 微服务基础框架")
+
 * Spring Boot的优势
     * 零配置，可直接以jar包运行。
     * starter引入使得jar包管理更加智能。
@@ -79,11 +83,38 @@
 
 
 
+## [第3章 微服务文档输出](docs/第3章微服务文档输出.md "第3章 微服务文档输出")
 
 
+* Swagger概述：是一款用于设计、构建、文档化并执行API的框架。
 
+* 使用Swagger：首先需要引入Swagger的两个依赖：springfox-swaggwer2和springfox-swagger-ui。
+    * @EnableSwagger2注解：使用该注解来启动Swagger。
+    * @ApiModel：为POJO类做注释。
+    * @ApiModelProperty：为POJO类中的属性做注释。
+    * @Api：为controller类做注解，说明controller职能。
+    * @ApiOperation：为接口做注释，说明接口职能。
+    * @ApiImplicitParams：包含接口一组参数注解，可简单理解为参数注解的集合。
+    * @ApiImplicitParam：用在@AplimplicitParams中，说明一个请求参数的各个方面。包含常用选项有如下：
+        * paramType，**参数所放置的地方**，包含query、header、path、body及form，常用的是前4个。query域中的值需要使用@RequestHeader获取，path域中的值需要使用@PathVariable获取，body域中的值需要使用@RequestBody获取，否则可能出错。
+        * name，参数名。
+    	* dataType，参数类型。
+    	* required，参数是否必传。
+    	* value，参数的值。
+    	* defaultValue，参数的默认值。
+    * @ApiResponses：包含接口的一组响应注解，可理解为响应注解的集合。
+    * @ApiResponse：用在@ApiResponses中，用于表达一个错误的响应信息。
+        * code，即httpCode数字，例如400。
+    	* message，信息，例如“请求参数没填好”。
 
-
+* Lombok：主要用来消除POJO模板代码（例如，getter、setter等）的框架
+    * 无论Eclipse还是IDEA使用Lombok，都要安装Lombok插件。
+    * @Getter：生成getter方法，可用在类或属性上。
+    * @Setter：生成setter方法，可用在类或属性上。
+    * @AllArgsConstructor：生成全参构造器，用在类上。
+    * @NoArgsConstructor：生成无参构造器，用在类上。
+    * @Builder：将类改造成builder模式，用在类、方法或构造器上。
+    * @Data：复合注解，生成默认无参构造器、所有属性getter、所有非final的属性setter方法，重写toString方法，重写equals方法，重写hashcode方法。
 
 
 
