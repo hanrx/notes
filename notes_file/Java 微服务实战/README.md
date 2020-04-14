@@ -133,7 +133,7 @@
         * mysql-connector-java：scope是runtime。
         * mybatis。
         * mybatis-spring。
-    * 集成MyBatis：（即配置数据源，配置MyBatis）
+    * 单数据源集成MyBatis：（即配置数据源，配置MyBatis）
         * @MapperScan：指定扫描的mapper接口所在的包。
         * 创建单例DataSource：根据数据库配置。
         * 创建SqlSessionFactory单例：根据DataSource实例和SqlSessionFactionBean。
@@ -142,10 +142,21 @@
         * 补充SqlSessionFactoryBean说明：
             * TypeAliasesPackage：指定domain类的基包，指定后在xxxMapper.xml文件中可使用简名来代替全类名。
             * MapperLocations：指定xxxMapper.xml文件所在的位置。
-    
+    * 多数据源集成MyBatis:(步骤)
+        * 1.DatabaseType列出所有的数据源key作为第5步中所说的key。
+        * 2.DatabaseContextHolder是一个线程安全的DatabaseType容器，并提供了向其中设置和获取DatabaseType的方法。
+        * 3.DynamicDataSource继承AbstractRoutingDataSource并重写其中的方法determineCurrentLookupKey(),在该方法中使用DatabaseContextHolder获取当前线程的DatabaseType。
+        * 4.在MyBatisCOnfig中生成两个数据源DataSource的bean作为第5步中所说的value。
+        * 5.在MyBatisConfig中将第1步中的key和第4步中的value组成的key-value对写入DynamicDataSource动态数据源的targetDataSources属性中（当然，同时也会设置两个数据源其中的一个到DynamicDataSource的defalutTargetDataSource属性中）。
+        * 6.将DynamicDataSource作为primary数据源注入SqlSessionFactory的dataSource属性中。
+        * 7.使用的时候，在dao层或service层先使用DatabaseContextHolder设置将要使用的数据源key(当然也可以使用Spring AOP去做)，然后再调用mapper层进行相应的操作。在mapper层进行操作的时候，会先调用determineCurrentLookupKey()方法获取一个数据源（获取数据源的方法：先根据设置去targetDataSources中找，若没有，则选择defaultTargetDataSource），之后再进行数据库操作。
+         
+* @Primary注解：作用是“指定在同一个接口有多个实现类可以注入的时候，默认选择哪一个。
 
-
-
+* MyBatis-Generator基本用法:
+    * 1.生成model类、mapper接口、mapper对应的xml文件。
+    * 2.数据库微小的变动时可以直接使用MyBatis-Generator重写生成以上文件。
+    * 3.避免手工操作错误、jdbcType和javaType的避免对应错误。    
 
 
 
