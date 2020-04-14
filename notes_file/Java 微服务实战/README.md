@@ -179,9 +179,22 @@
         * 提供RDB和AOF支持数据持久化。
         * 支持事件调度、发布订阅等，还可以充当一下队列。
             
-
-
-
-
-
+* Spring Boot集成ShardJedis
+    * 依赖：
+        * Jedis。
+    * 引入commons-lang3：有一系列的工具类 方便开发。
+    * 引入fastjson：该JSON工具类较Jackson方便顺手。       
+    * 配置Redis信息：
+        * Redis server：IP 、端口。
+        * maxTotal：同时建立最大连接个数（最多可分配ShardJedis实例数），默认8个，设置为-1，表示不限制。
+    * 集成分片版的Jedis：
+        * ShardedJedisPool：每台服务器封装成一个JedisShardInfo，通过这些JedisShardInfo组成的服务器列表以及Redis的配置信息JedisPoolConfig创建了一个ShardedJedisPool。
+        * maxTotal：指定同时获取多少个ShardJedis连接实例。
+    * 创建RedisUtil：操作缓存的工具类。
+        * 创建相应方法：set和get。set和get的逻辑：
+            * 获取操作Redis的连接：首先从ShardedJedisPool中获取shardedJedis，可理解为一个连接。
+            * 数据库的操作：之后使用该连接进行数据库的操作。
+            * 资源关闭：将shardedJedis资源关闭。
+    * 使用：编写一个缓存前缀指定类：
+        * 目的：防止缓存key冲突和增强语义。
 
