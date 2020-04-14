@@ -126,8 +126,23 @@
         * 数据库连接四要素（driver、connectionurl、username、password）。
         * 生成的model类、mapper接口的位置及映射文件存储目录，指定表（tableName）对应哪一个model（domainObjectName）。
 
-
-
+* 集成MyBatis主要步骤：
+    * 引包：
+        * spring-boot-starter-jdbc。
+        * druid：阿里巴巴的Druid数据源。
+        * mysql-connector-java：scope是runtime。
+        * mybatis。
+        * mybatis-spring。
+    * 集成MyBatis：（即配置数据源，配置MyBatis）
+        * @MapperScan：指定扫描的mapper接口所在的包。
+        * 创建单例DataSource：根据数据库配置。
+        * 创建SqlSessionFactory单例：根据DataSource实例和SqlSessionFactionBean。
+        * SqlSession: SqlSessionFactory创建出SqlSession。
+        * 操作数据：使用SqlSession获取相应的Mapper实例，通过Mapper实例操作数据库。
+        * 补充SqlSessionFactoryBean说明：
+            * TypeAliasesPackage：指定domain类的基包，指定后在xxxMapper.xml文件中可使用简名来代替全类名。
+            * MapperLocations：指定xxxMapper.xml文件所在的位置。
+    
 
 
 
