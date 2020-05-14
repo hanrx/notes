@@ -220,7 +220,16 @@
 ## [第6章Spring Boot启动源码解析](docs/第6章Spring Boot启动源码解析.md "第6章 Spring Boot启动源码解析")
 
 
-
+* Spring Boot启动源码解析：
+    * 关键字：定制点、初始化器（ApplicationContextInitializer接口的实现类）和监听器（ApplicationListener接口的实现类。
+    * initialize方法具体做了以下几件事：
+      * 将传入的“com.microservice.myserviceA.Application”放入Set<Object>sources集合。
+      * 判断是否是Web环境。
+        * 方法：通过在classpath中查看是否存在WEB_ENVIRONMENT_CLASSES这个数组中所包含的所有类（就2个类：javax.servlet.Servlet和org.springframework.web.context.ConfigurableWebApplicationContext），如果两个类都存在即是一个Web应用程序，反之则不然。
+      * 创建并初始化ApplicationInitializer列表。
+        * 方法：获取要加载的initializer的名字。反射创建对象。
+      * 创建并初始化ApplicationListener列表。
+      * 初始化主类mainApplicationClass。
 
 
 
