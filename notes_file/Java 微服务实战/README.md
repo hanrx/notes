@@ -178,12 +178,16 @@
         * 支持5种数据结构：string、hash、list、set、sorted set。
         * 提供RDB和AOF支持数据持久化。
         * 支持事件调度、发布订阅等，还可以充当一下队列。
+
+*Redis客户端分片OR集群:
+    * 客户端分片：不会共享数据，容易造成单点缓存丢失。
+    * 集群会：自动在多个Redis节点之间共享数据，不会造成单点问题。
             
-* Spring Boot集成ShardJedis
+* Spring Boot集成ShardJedis（客户端分片）：
     * 依赖：
         * Jedis。
-    * 引入commons-lang3：有一系列的工具类 方便开发。
-    * 引入fastjson：该JSON工具类较Jackson方便顺手。       
+        * 引入commons-lang3：有一系列的工具类 方便开发。
+        * 引入fastjson：该JSON工具类较Jackson方便顺手。       
     * 配置Redis信息：
         * Redis server：IP 、端口。
         * maxTotal：同时建立最大连接个数（最多可分配ShardJedis实例数），默认8个，设置为-1，表示不限制。
@@ -197,4 +201,37 @@
             * 资源关闭：将shardedJedis资源关闭。
     * 使用：编写一个缓存前缀指定类：
         * 目的：防止缓存key冲突和增强语义。
+
+* 搭建Redis集群（集群）：至少需要3个master实例，同时，为了使集群高可用，需为每个master实例至少分配一个slave实例。
+* Spring Boot集成JedisCluster（通常使用Jedis的JedisCluster操作集群版的Redis）：
+    * 依赖：
+        * Jedis。
+        * 引入commons-lang3：有一系列的工具类 方便开发。
+        * 引入fastjson：该JSON工具类较Jackson方便顺手。 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
