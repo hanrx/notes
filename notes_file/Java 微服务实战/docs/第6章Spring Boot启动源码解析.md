@@ -60,6 +60,22 @@ initialize方法具体做了以下几件事：
 ### 6.1.3 创建并初始化ApplicationListener列表
 
 
+![](images/6.1.2.8.png)
+初始化List<ApplicationListener<?>> listeners实例的过程与初始化initializer实例的过程一样。来看一下spring-boot-1.4.3.RELEASE.jar中的spring.factories中的listeners：
+![](images/6.1.2.9.png)
+
+再看一下spring-boot-autoconfigure-1.4.3.RELEASE.jar中的spring.factories中的listeners：
+![](images/6.1.2.10.png)
+
+所以，**初始化后的List<ApplicationListener<?>>listeners包含如上10个listener实例**。
+
+
+### 6.1.4 初始化主类mainApplicationClass
+
+
+
+
+
 
 
 

@@ -229,6 +229,7 @@
       * 创建并初始化ApplicationInitializer列表。
         * 方法：获取要加载的initializer的名字。反射创建对象。
       * 创建并初始化ApplicationListener列表。
+        * 方法：获取要加载的initializer的名字。反射创建对象。
       * 初始化主类mainApplicationClass。
 
 
