@@ -231,7 +231,27 @@
       * 创建并初始化ApplicationListener列表。
         * 方法：获取要加载的initializer的名字。反射创建对象。
       * 初始化主类mainApplicationClass。
-
+      * 启动核心run方法:
+        * 创建计时器StopWatch。
+        * 配置awt系统属性。
+        * 获取SpringApplicationRunListeners。
+        * 启动SpringApplicationRunListener。
+        * 创建ApplicationArguments。
+        * 创建并初始化ConfigurableEnvironment。
+        * 打印Banner。
+        * 创建ConfigurableApplicationContext。
+        * 准备ConfigurableApplicationContext。
+        * 刷新ConfigurableApplicationContext。
+        * 容器刷新后动作。
+        * SpringApplicationRunListeners发布finish事件。
+        * 计时器停止计时。
+    * 自定义监听器：就是向之前的listener列表中添加一个自己的监听器。
+    * 创建启动停止计时器。
+    * 配置awt系统属性。
+    * 获取SpringApplicationRunListeners。
+    * 启动SpringApplicationRunListener。
+    * 创建ApplicationArguments。
+    * 创建并初始化ConfigurableEnvironment。
 
 
 
