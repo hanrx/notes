@@ -252,6 +252,11 @@
     * 启动SpringApplicationRunListener。
     * 创建ApplicationArguments。
     * 创建并初始化ConfigurableEnvironment。
+    * 打印Banner。
+    * 创建ConfigurableApplicationContext。
+    * 准备ConfigurableApplicationContext。
+    * 刷新ConfigurableApplicationContext。
+    * 容器刷新后动作。
 
 
 

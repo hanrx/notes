@@ -215,8 +215,66 @@ propertySourceList属性会存放所有的属性源PropertySource。接下来就
 所有监听了该事件的监听器执行相应的逻辑。这里不列出了。这些监听器监听之后，**最主要做了一件事，就是读取配置文件application.properties，并把这些信息存储在一个name为“applicationConfigurationProperties”的属性源**中，并**将该属性源置于整个属性源列表的最后**。如果将来只是从外放的配置文件中读取配置，最好将该配置源删掉，然后自己读取外部配置文件构建数据源，之后再将该数据源放到数据源列表中。
 
 ### 6.3.7 打印Banner
+![](images/6.3.7.1.png)    
+该行主要用于打印出Spring Boot的图标和版本号，可以自己定制，这里不做解析。
 
 
+### 6.3.8 创建ConfigurableApplicationContext
+![](images/6.3.8.1.png)
+改行代码主要用于创建一个ApplicationContext，源码如下：
+![](images/6.3.8.2.png)
+这里主要是为contextClass赋值，使用了Spring Boot自己的一个AnnotationConfigEmbeddedWebApplicationContext。之后使用反射实例化该ApplicationContext，看一下instantiate的源码：
+![](images/6.3.8.3.png)
+
+
+### 6.3.9 准备ConfigurableApplicationContext
+![](images/6.3.9.1.png)
+看一下源码：
+![](images/6.3.9.2.png)
+
+考虑到篇幅的问题，以下只分析重要的源码。以上比较重要的代码有：执行初始化器；加载配置。
+#### 1.执行初始化器
+![](images/6.3.9.3.png)
+遍历所有的初始化器，执行每一个初始化器的initialize方法。这里可以通过实现ApplicationContextInitializer<ConfigurableApplicationContext>接口来创建自己的初始化器。例如，可以在初始化器中读取外部配置文件。
+
+#### 2.加载配置
+![](images/6.3.9.4.png)
+其中，sources是一个只包含主类的set集合。之后将该主类注册到AnnotationConfigEmbeddedWebApplicationContext的beanFactory属性中。beanFactory属性是AnnotationConfigEmbeddedWebApplicationContext的父类GenericApplicationContext中的一个属性，源码如下：
+![](images/6.3.9.5.png)
+而在DefaultListableBeanFactory中含有如下属性：
+![](images/6.3.9.6.png)
+
+实际上最后会将主类注册到beanDefinitionMap中。key为“application”,value是以主类的单例Bean。load方法调用链较长，其中的一个方法比较重要，如下：
+![](images/6.3.9.7.png)
+所以主类需要加上@Component注解。
+
+
+### 6.3.10 刷新ConfigurableApplicationContext
+![](images/6.3.10.1.png)
+调用链也比较长，比较重要的是AbstractApplicationContext的refresh()方法：
+![](images/6.3.10.2.png)
+![](images/6.3.10.3.png)
+这个方法时Spring最重要的一个方法，其中比较重要的有this.onRefresh()和this.finishRefresh()方法。
+
+
+#### 1.onRefresh
+onRefresh的调用链比较长，比较重要的是：
+![](images/6.3.10.4.png)
+该方法创建了一个内嵌的Servlet容器，用于执行Web应用，默认使用TomcatEmbeddedServletContainer。
+
+#### 2.finishRefresh
+![](images/6.3.10.5.png)
+首先调用了父类AbstractApplicationContext的finishRefresh()方法，在该方法中发布了ContextRefreshedEvent事件，所有监听了该事件的监听器开始执行逻辑；然后启动TomcatEmbeddedServletContainer，最后发布EmbeddedServletContainerInitializedEvent，所有监听了该事件的监听器执行相应的逻辑。父类的finishRefresh()方法源码如下：
+![](images/6.3.10.6.png)
+
+
+### 6.3.11 容器刷新后动作
+
+![](images/6.3.11.1.png)
+该方法几乎没做什么事，不做解析了。
+
+
+### 6.3.12 SpringApplicationRunListeners发布finish事件
 
 
 
