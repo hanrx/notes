@@ -257,6 +257,13 @@
     * 准备ConfigurableApplicationContext。
     * 刷新ConfigurableApplicationContext。
     * 容器刷新后动作。
+    * SpringApplicationRunListeners发布finish事件。
+    * 计时器停止计时。
+    * 获取属性的4种方法:
+        * @Value。
+        * Environment。
+        * 整体代换：构建一个新类，专门用于读取配置。
+        * 动态获取:主要是使用第三方的工具包提供的获取属性方法，如Archaius。
 
 
 

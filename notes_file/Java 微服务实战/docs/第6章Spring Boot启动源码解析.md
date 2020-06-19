@@ -276,10 +276,32 @@ onRefresh的调用链比较长，比较重要的是：
 
 ### 6.3.12 SpringApplicationRunListeners发布finish事件
 
+![](images/6.3.12.1.png)
+这里发布ApplicationReadyEvent或ApplicationFailedEvent事件，所有监听了该事件的监听器去执行相应的逻辑。
 
 
+### 6.3.13 计时器停止计时
+
+![](images/6.3.13.1.png)
+这个方法之前分析过，这里就不分析了。
 
 
+## 6.4 再学一招：常用的获取属性的4种方法
+
+假设在application.properties中配置了以下两个属性：
+![](images/6.4.1.png)
+可以使用4种方法来获取这两个属性值。分别来看一下。
+### 1.@Value
+![](images/6.4.2.png)
+### 2.Environment
+![](images/6.4.3.png)
+### 3.整体代换
+构建一个新类，专门用于读取配置。
+![](images/6.4.4.png)
+之后，将该类作为一个Bean注入使用类中。如下：
+![](images/6.4.5.png)
+### 4.动态获取
+这种方式主要是使用第三方的工具包提供的获取属性方法，例如使用Archaius获取配置信息。具体见“配置管理”部分。
 
 
 
