@@ -275,7 +275,9 @@
 * 使用Consul实现服务注册与服务发现：
     * 搭建项目框架。
     * 配置服务注册信息。
-    * 实现服务启动注册。
+    * 实现服务启动注册：实现org.springframework.context.ApplicationListener<T>，并且将泛型T指定为ContextRefreshedEvent，这样该类就会监听容器刷新事件。
+    * 实现服务发现。
+    * 使用Consul与Actuator实现健康检查。
 
 
 
