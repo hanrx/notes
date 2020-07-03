@@ -299,4 +299,24 @@
 
 ## [第9章 微服务进程间通信](docs/第9章微服务进程间通信.md "第9章 微服务进程间通信")
 
+* 常见的三种服务通信技术：
+    * OkHttp：是一种http客户端，使用连接池技术减少请求延迟，会对响应进行缓存以减少重复的网络请求，无缝支持GZIP以减少数据流量。请求和响应API都是采用流式的builder模式来设计的；OkHttp同时支持同步阻塞调用和异步调用（使用callback实现回调）。使用Okhttp至少需要JDK1.7。
+    * AsyncHttpClient：目的是为让Java应用可以很方便地执行http请求并且异步处理http相应。AsyncHttpClient底层是Netty框架（一个非常优秀的rpc框架），这就注定了它的效率是很高的，优于OkHttp。使用最新版本的AsyncHttpClient需要JDK 1.8
+    * Retrofit：Retrofit和OkHttp师出同门，都是Square公司开源的项目，Retrofit实际上对OkHttp进行了封装。与OkHttp不同的是，Retrofit将url（或者更确切地说是rest API）封装成了Java接口，在该接口上可以使用注解来指定一系列的相关信息，比如请求方式、请求参数等。我们不需要写该接口的实现类，Retrofit会帮我们搞定。此外，Retrofit还自己封装了Gson，实现了将返回的json串自动转换为POJO的功能。
+* 总结：虽然OkHttp使用起来比较简单，因为论性能，AsyncHttpClient优于OkHttp，论设计，Retrofit优于OkHttp，。但是当引入服务路由之后，AsyncHttpClient使用起来依然简单，但是Retrofit就要使用自定义的retrofit.client.Client的实现类了，当然编写实现类也很简单，完全可以模仿Retrofit源码中给出的一些样例。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
