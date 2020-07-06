@@ -305,10 +305,11 @@
     * Retrofit：Retrofit和OkHttp师出同门，都是Square公司开源的项目，Retrofit实际上对OkHttp进行了封装。与OkHttp不同的是，Retrofit将url（或者更确切地说是rest API）封装成了Java接口，在该接口上可以使用注解来指定一系列的相关信息，比如请求方式、请求参数等。我们不需要写该接口的实现类，Retrofit会帮我们搞定。此外，Retrofit还自己封装了Gson，实现了将返回的json串自动转换为POJO的功能。
 * 总结：虽然OkHttp使用起来比较简单，因为论性能，AsyncHttpClient优于OkHttp，论设计，Retrofit优于OkHttp，。但是当引入服务路由之后，AsyncHttpClient使用起来依然简单，但是Retrofit就要使用自定义的retrofit.client.Client的实现类了，当然编写实现类也很简单，完全可以模仿Retrofit源码中给出的一些样例。
 
+* Retrofit源码解析。
 
 
 
-
+## [第10章 微服务降级容错](docs/第10章微服务降级容错.md "第10章 微服务降级容错")
 
 
 
