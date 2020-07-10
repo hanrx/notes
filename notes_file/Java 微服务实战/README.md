@@ -321,8 +321,11 @@
 
 ## [第11章 微服务日志系统](docs/第11章微服务日志系统.md "第11章 微服务日志系统")
 
-
-
+* ELK：是一个技术栈，包括Elasticsearch、Logstash和Kibana，ELK是三种技术首字母缩写。ELK主要用于日志收集、存储和查询。
+    * 目的：定位问题、分析性能、数据挖掘。
+    * ELK最常用的两种架构:
+        * 最简架构：使用Logstash收集日志，将日志直接存储到ELasticsearch中，通过Kibana查询日志并展示。
+        * 缓冲架构：将原本的Logstash按职能分为Logstash-Shipper（简称Shipper）和Logstash-Indexer（简称Indexer），其中Shipper用于收集日志，Indexer用于指定索引；第二件，在Shipper和Indexer之间添加了Redis来做缓冲，减少Indexer将数据索引到ElasticSearch的压力。
 
 
 
