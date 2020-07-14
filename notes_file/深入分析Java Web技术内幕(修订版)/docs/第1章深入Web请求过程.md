@@ -172,6 +172,25 @@ Expires通常的使用格式是Expires: Sat, 25 Feb 2012 12:22:17 GMT，后面�
 
 ### 1.4.2 跟踪域名解析过程
 
+在Linux和Windows下都可以用nslookup命令来查询域名的解析结果，如图1-13所示。
+
+    在Linux系统中还可以使用dig命令来查询DNS的解析过程，如下所示：
+
+
+    结果的第一行输出了当前Linux的版本号，第2行说明可以增加可选参数printcmd，如果加上printcmd，打印出来的结果如下：
+
+
+    “QUESTION SECTION”部分表示当前查询的域名是一个A记录，“ANSWER SELECTION”部分返回了这个域名由CNAME到www.gslb.taobao.com，返回了这个域名对应的IP地址。
+    还可通过增加+trace参数跟踪这个域名的解析过程，如下所示：
+
+
+    上面清楚地显示了整个域名是如何发起和解析的，从根域名（.）到gTLD Server(.com)，再到Name Server（taobao.com）的整个过程都显示出来了。还可以看出DNS的服务器有多个备份，可以从任何一台查询到解析结果。
+
+
+
+
+
+
 
 
 
