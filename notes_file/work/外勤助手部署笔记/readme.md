@@ -4,7 +4,7 @@
 * 蚌埠开发分支：
     * 主应用BR_STARSMS-6_7_2_R1
     * 中间层BENBU_develop_10.0.0
-    * 数据源配置：
+    * 数据源配置：（BOSS管理员账号：00000，密码：admin）
     <bean id="dataSource"
     		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
     		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
@@ -16,7 +16,7 @@
 * 辽宁开发分支：
     * 主应用BR_STARSMS-8_0_0_R1
     * 中间层7.1.0.0   
-    * 数据源配置：
+    * 数据源配置：（BOSS管理员账号：00000，密码：admin）
     <bean id="dataSource"
     		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
     		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
