@@ -37,6 +37,9 @@
 * 客户端访问server配置文件：prefs.ini
 * 设置IDEA启动参数：-Dfile.encoding=UTF-8
 * IDEA部署Application context：/starFSAAppIntf
+* postMan测试https：
+    * http://confluence.startimes.me/pages/viewpage.action?pageId=63520080
+    * http://confluence.startimes.me/pages/viewpage.action?pageId=52758208
            
 
 
