@@ -42,7 +42,8 @@
     * http://confluence.startimes.me/pages/viewpage.action?pageId=52758208
            
 
-
+# 4.密码记录
+> http://jira.startimes.me:1880/   hanrx      HanRX20161209ZZZ
 
 
 

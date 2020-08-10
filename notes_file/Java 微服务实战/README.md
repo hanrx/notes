@@ -341,9 +341,37 @@
 
 ## [第13章 微服务持续集成与持续部署系统](docs/第13章微服务持续集成与持续部署系统.md "第13章 微服务持续集成与持续部署系统")
 
+* 初识持续集成与持续部署系统：
+    * 包括代码管理、版本管理、自动编译打包及自动部署等，当如果按照Docker镜像来部署，则还包括自动打包成镜像文件以及push到镜像仓库等步骤。
 
+* 系统总体架构：
+    * 主要包括三大组件：GitLab、Jenkins及Docker-Registry。还有一个webhooks，这是用来轻松连接GitLab和Jenkins的纽带，它可以非常方便地实现持续集成和持续部署。
+    * GitLab：主要用于代码管理的工具。
+        * 包含Git仓库管理、问题追踪、活动流、代码重审及wiki等功能。
+    * Jenkins：主要用于版本管理，进行代码的编译和部署，使用webhook插件可以实现与GitLab的集成，实现持续集成与持续部署。
+    * Docker-Registry：是存放Docker镜像的仓库，可以类比GitLab。
 
-
-
-
-
+* 使用jar包部署项目的整体流程
+    * 第一步，开发人员使用Git客户端，将代码push到GitLab。
+    * 第二步，GitLab的webhook插件会通知Jenkins进行工作。
+    * 第三步，Jenkins从GitLab上拉取代码并使用Maven进行编译打包。
+    * 第四步，Jenkins将jar包发到服务器。
+    * 第五步，Jenkins调用服务器上的Shell脚本停止之前的服务，并启动jar进程。
+    
+* 使用Docker镜像部署项目的整体流程
+    * 第一步，开发人员使用Git客户端，将代码push到GitLab。
+    * 第二步，GitLab的webhook插件会通知Jenkins进行工作。
+    * 第三步，Jenkins从GitLab上拉取代码并使用docker-maven-plugin进行编译打包，最后将jar包打成镜像。
+    * 第四步，Jenkins将镜像push到Docker-Registry。
+    * 第五步，Jenkins调用服务器上的Shell脚本从Docker-Registry拉取镜像，然后停止之前的服务，最后启动Docker镜像。   
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
