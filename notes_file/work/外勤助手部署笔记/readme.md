@@ -24,6 +24,18 @@
     		<property name="username" value="shenyang20200226" />
     		<property name="password" value="shenyang20200226" />
     	</bean>
+    	
+* 天津开发分支：
+    * 主应用BR_STARSMS-6_3_4R1
+    * 中间层develop-3.0.0   
+    * 数据源配置：（BOSS管理员账号：00000，密码：admin）
+    <bean id="dataSource"
+    		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+    		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+    		<property name="url" value="jdbc:oracle:thin:@10.0.250.19:1521:starbass" />
+    		<property name="username" value="tj_20160217" />
+    		<property name="password" value="tj_20160217" />
+    	</bean>
 
 # 2. 参考
 外勤助手部署参考：http://confluence.startimes.me/pages/viewpage.action?pageId=6684935
