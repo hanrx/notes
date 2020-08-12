@@ -19,11 +19,20 @@
     * 使用Maven编译和打包源代码
     * 构建和提供每章使用的Docker镜像
     * 使用Docker Compose启动由构建编译的Docker镜像
+    * 构建Docker镜像：
+        * Spotify Maven：服务都被打包为Docker镜像。
+        * 使用Alpine Linux提供实例，常用来构建Docker镜像。
+        * 将安装名为nc的命令行实用程序。nc命令用于ping服务器并查看特定的端口是否在网络上可用。该命令将在run.sh命令脚本中使用，以确保在启动服务之前，所有依赖的服务（如数据库和Spring Cloud Config服务）都已启动。
+        * 为许可证服务的可执行JAR文件创建一个目录，然后将jar文件从本地文件系统复制到在Docker镜像上创建的目录中。
+        * 通过ADD命令安装run.sh脚本。
+        * 一旦将run.sh命令复制到许可证服务的Docker镜像，Docker命令CMD./run.sh用于告知Docker在实际镜像启动时执行run.sh启动脚本。
+    * Docker Compose启动服务：
+        * Docker Compose是一个服务编排工具，它允许开发人员将服务定义为一个组，然后作为一个单元一起启动。
+        * Docker Compose还拥有为每个服务定义环境变量的功能。
 
 
 
-
-
+## [第1章 欢迎迈入云世界，Spring](docs/第1章%20欢迎迈入云世界，Spring.md "第1章 欢迎迈入云世界，Spring")
 
 
 
