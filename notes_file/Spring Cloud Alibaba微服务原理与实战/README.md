@@ -94,10 +94,14 @@ AT模式：Seata最主推的分布式事务解决方案，它是基于XA演进�
         * 事件/编排式：**把Saga的决策和执行顺序逻辑分布在Saga的每一个参与者中，它们通过交换事件的方式来进行沟通**。
         * 命令/协同式：**把Saga的决策和执行顺序逻辑集中在一个Saga控制类中，它以命令/回复的方式与每项服务进行通信，告诉他们应该执行哪些操作**。
 
-
-
-
-
+* Seata：
+    * file存储模式：Server端存储模式（store.mode）有file、db两种（后续将引入Raft实现Seata的高可用机制），file存储模式无须改动，直接启动即可。File存储模式为单机模式，全局事务会话信息持久化在本地文件${SEATA_HOME}\bin\sessionStore\root.data中，性能较高。
+    * db存储模式为高可用模式，全局事务会话信息通过db共享，性能相对差一些。
+    * Seata服务端配置中心说明：在${SEATA_HOME}\conf目录下有两个配置文件，分别是registry.conf和file.conf。
+        * registry.conf：包含两项配置。
+            * registry：表示配置Seata服务注册的地址。
+            * config：配置用于配置Seata服务端的配置文件地址。
+        * file.conf：存储的是Seata服务端的配置信息。
 
 
 
