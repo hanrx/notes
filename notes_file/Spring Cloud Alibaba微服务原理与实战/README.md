@@ -42,9 +42,20 @@
 
 
 ## [第2章 微服务解决方案之Spring Cloud](docs/第2章%20微服务解决方案之Spring Cloud.md "第2章 微服务解决方案之Spring Cloud")   
-
-
-
+* 什么是Spring Cloud：Spring Cloud提供了一些可以让开发者快速构建微服务应用的工具，比如配置管理、服务发现、熔断、智能路由等，这些服务可以在任何分布式环境下很好地工作。Spring Cloud主要致力于解决如下问题：
+* Spring Cloud版本简介：
+    * 根据字母表的顺序结合对应版本的时间顺序来定义一个大版本：Spring Cloud项目的发布内容积累到一个临界点或者解决一些严重的Bug后，会发布一个Service Release的版本，简称SRX，其中X是一个递增的数字。
+    * Spring Cloud中所有子项目都依赖Spring Boot框架：Spring Boot框架的版本号和Spring Cloud的版本号之间也存在依赖及兼容的关系。
+* Spring Cloud规范下的实现：
+    * Spring Cloud Netflix：包括以下组件：
+        * Eureka，服务注册与发现。
+        * Zuul，服务网关。
+        * Ribbon，负载均衡。
+        * Feign，远程服务的客户端代理。
+        * Hystrix，断路器，提供服务熔断和限流功能。
+        * Hystrix Dashboard，监控面板。
+        * Turbine，将各个服务实例上的Hystrix监控信息进行统一聚合。                   
+    * Spring Cloud Alibaba：
 
 
 
