@@ -56,11 +56,19 @@
         * Hystrix Dashboard，监控面板。
         * Turbine，将各个服务实例上的Hystrix监控信息进行统一聚合。                   
     * Spring Cloud Alibaba：
+        * Sentinel，流量控制和服务降级。
+        * Nacos，服务注册与发现。
+        * Nacos，分布式配置中心。
+        * RocketMQ，消息驱动。
+        * Seate，分布式事务。
+        * Dubbo，RPC通信。
+        * OSS，阿里云对象存储（收费的云服务）。           
+    * Spring Cloud Alibaba的优势:大规模应用过、不仅完全覆盖了Spring Cloud Netflix原生特性，而且还提供了更加稳定和成熟的实现。
+    * Spring Cloud Alibaba的版本：在2018年10月31号发布了第一个预览版本，0.2.0.RELEASE和0.1.0.RELEASE，其中0.1.0.RELEASE与Spring Boot 1.5.x兼容，0.2.0.RELEASE与Spring Boot 2.0.x兼容。
 
 
 
-
-
+## [第3章 Spring Cloud的核心之Spring Boot](docs/第3章%20Spring%20Cloud的核心之Spring%20Boot.md "第3章 Spring Cloud的核心之Spring Boot")
 
 
 

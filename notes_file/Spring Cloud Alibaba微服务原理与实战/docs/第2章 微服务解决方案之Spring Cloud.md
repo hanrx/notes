@@ -95,14 +95,32 @@ Spring Cloud Netflix在很多公司都有大规模使用，一旦停止新的功
 
 ## 2.5 Spring Cloud Alibaba
 
+Spring Cloud Alibaba是阿里巴巴集团下的开源组件和云产品在Spring Cloud规范下的实现。2018年10月31日，Spring Cloud Alibaba正式入驻Spring Cloud官方孵化器，并发布了第一个预览版本。2019年8月1日在Alibaba仓库发布第一个毕业版本。    Spring Cloud Alibaba主要为微服务开发提供一站式的解决方案，使开发者通过Spring Cloud编程模型轻松地解决微服务架构下的各类技术问题。以下是Spring Cloud Alibaba生态下的主要功能组件，这些组件包含开源组件和阿里云产品组件，云产品是需要付费使用的。
+* Sentinel，流量控制和服务降级。
+* Nacos，服务注册与发现。
+* Nacos，分布式配置中心。
+* RocketMQ，消息驱动。
+* Seate，分布式事务。
+* Dubbo，RPC通信。
+* OSS，阿里云对象存储（收费的云服务）。
 
 
+### 2.5.1 Spring Cloud Alibaba的优势
+
+相对于Spring Cloud Netflix来说，它的优势有很多，笔者简单整理了以下两点：
+* Alibaba的开源组件在没有织入Spring Cloud生态之前，已经在各大公司广泛应用，所以集成到Spring Cloud生态使得开发者能够轻松地实现技术整合及迁移。我从2013年开始接触Dubbo，当时所在公司使用Webservice来实现服务的远程通信，但是Webservice在服务治理这块的能力是缺失的，因此使用Dubbo进行了全部替换。有意思的是，**Dubbo天然支持多协议**，因此在迁移和改造过程中没有投入太多的成本，这使得笔者开始关注Dubbo。在后续的几个公司中，也都是通过Dubbo来实现 服务通信及服务治理的。
+* Alibaba的开源组件**在服务治理上和处理高并发的能力上有天然的优势**，毕竟这些组件都经历过数次双11的考验，也在各大互联网公司大规模应用过。所以，相比Spring Cloud Netflix来说，Spring Cloud Alibaba**在服务治理这块的能力更适合于国内的技术场景**，同时，Spring Cloud Alibaba在功能上**不仅完全覆盖了Spring Cloud Netflix原生特性，而且还提供了更加稳定和成熟的实现**，因此笔者很看好Spring Cloud Alibaba未来的发展。
 
 
+### 2.5.2 Spring Cloud Alibaba的版本
 
+Spring Cloud Alibaba在**2018年10月31号发布了第一个预览版本，0.2.0.RELEASE和0.1.0.RELEASE，其中0.1.0.RELEASE与Spring Boot 1.5.x兼容，0.2.0.RELEASE与Spring Boot 2.0.x兼容**。由于Spring Cloud是基于Spring Boot架构来集成的，而Spring Boot1和Spring Boot2在一些配置类和注解等方面存在很大的变更，所以在一段时间内如果做升级，还是考虑兼容老的版本。
 
+![](images/2.5.2.1.png)
+目前Spring Cloud Alibaba发布了两个毕业版本，**最新的版本对应各个子项目的版本关系如图2-4所示**。
 
-
+其中每一个毕业版本对应三个小的版本，小的版本实际上就表示对应Spring Boot版本的兼容关系。图2-5展示的是Spring Cloud大版本与Spring Cloud Alibaba和Spring Boot版本之间的依赖关系。不难发现，Spring Cloud Alibaba的版本是从Spring Cloud Edgware这个大版本开始支持的。另外，Spring官方宣布Edgware版本在2019年8月1号已经停止维护了，所以大家在选择版本的时候，可以采用Finchley或者Greenwich。
+![](images/2.5.2.2.png)
 
 
 # [README](../README.md "回到 README")
