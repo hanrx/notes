@@ -70,7 +70,75 @@
 
 ## [第3章 Spring Cloud的核心之Spring Boot](docs/第3章%20Spring%20Cloud的核心之Spring%20Boot.md "第3章 Spring Cloud的核心之Spring Boot")
 
-* 重新认识Spring Boot：
+* 重新认识Spring Boot：Spring是一个轻量级框架，它的主要目的是简化JavaEE的企业级应用开发，而达到这个目的的两个关键手段是IoC/DI和AOP。
+    * Spring IoC/DI：分别是控制反转和依赖注入。
+        * IoC（控制反转）：实际上就是把对象的生命周期托管到Spring容器中，而反转是指对象的获取方式被反转了。
+        * DI（Dependency Inject）：也就是依赖注入，简单理解就是IoC容器在运行期间，动态地把某种依赖关系注入组件中。实现依赖注入的方法有三种，分别是接口注入、构造方法注入和setter方法注入。
+    * Bean装配方式的升级：
+        * XML配置的方式：随着项目规模不断扩大，XML的配置也逐渐增多，使得配置文件难以管理。另一方面，项目中依赖关系越来越复杂，配置文件变得难以理解。
+        * 注解的方式：随着JDK 1.5带来的注解支持，Spring从2.x开始，可以使用注解的方式来对Bean进行声明和注入，大大减少了XML的配置量。
+        * JavaConfig：Spring升级到3.x后，提供了JavaConfig的能力，它可以完全取代XML，通过Java代码的方式来完成Bean的注入。
+    * Spring Boot解决：
+        * 依赖过多。Spring可以整合几乎所有常用的技术框架，比如JSON、MyBatis、Redis、Log等，不同依赖包的版本很容易导致版本兼容的问题。
+        * 配置太多。以Spring使用JavaConfig方式整合MyBatis为例，需要配置注解驱动、配置数据源、配置MyBatis、配置事务管理器等，这些只是集成一个技术组件需要的基础配置，在一个项目中这类配置很多，开发者需要做很多类似的重复工作。
+        * 运行和部署很烦琐。需要先把项目打包，再部署到容器上。
+* Spring Boot的价值：在Spring框架中支持无容器Web应用程序体系结构。
+    * 主要作用：简化Spring应用的开发，开发者只需要通过少量的代码就可以创建一个产品级的Spring应用，而达到这一目的最核心的思想就是“约定优于配置（Convention over Configuration）”。  
+    * 约定优于配置（Convention Over Configuration）：是一种软件设计范式，目的在于减少配置的数量或者降低理解难度，从而提升开发效率。
+        * 在Spring Boot中，约定优于配置的思想主要体现在以下方面（包括但不限于）：
+            * Maven目录结构的约定。
+            * Spring Boot默认的配置文件及配置文件中配置属性的约定。
+            * 对于Spring MVC的依赖，自动依赖内置的Tomcat容器。
+            * 对于Starter组件自动完成装配。
+    * Spring Boot的核心
+        * Starter组件，提供开箱即用的组件。
+        * 自动装配，自动根据上下文完成Bean的装配。
+        * Actuator，Spring Boot应用的监控。
+        * Spring Boot CLI，基于命令行工具快速构建Spring Boot应用。
+* Spring Boot自动装配的原理：简单来说，就是自动将Bean装配到IoC容器。基于某种约定或者规范，只要Starter组件符合Spring Boot中自动装配约定的规范，就能实现自动装配。
+    * 自动装配的实现：
+        * 自动装配在Spring Boot中是通过@EnableAutoConfiguration注解来开启的，这个注解的声明在启动类注解@SpringBootApplication内。
+            * @EnableAutoConfiguration：注解里，可以看到除@Import注解之外，还多了一个@AutoConfigurationPackage注解（它的作用是把使用了该注解的类所在的包及子包下所有组件扫描到Spring IoC容器中）。实现配置类的导入。
+                * @AutoConfigurationPackage：AutoConfigurationImportSelector实现了ImportSelector，它只有一个SelectImports抽象方法，并且返回一个String数组，在这个数组中可以指定需要装配到IoC容器的类，当在@Import中导入一个ImportSelector的实现类之后，会把该实现类中返回的Class名称都装载到IoC容器中。
+    * 自动装配原理分析：自动装配的核心是扫描约定目录下的文件进行解析，解析完成之后把得到的Configuration配置类通过ImportSelector进行导入，从而完成Bean的自动装配过程。
+        * 定位到AutoConfigurationImportSelector中的selectImports方法，它是ImportSelector接口的实现，这个方法中主要有两个功能：
+            * AutoConfigurationMetadataLoader.loadMetadata从META-INF/spring-autoconfigure-metadata.properties中加载自动装配的条件元数据，简单来说就是只有满足条件的Bean才能够进行装配。
+            * 收集所有符合条件的配置类autoConfigurationEntry.getConfigurations()，完成自动装配。
+        * 用到了SpringFactoriesLoader：它是Spring内部提供的一种约定俗成的加载方式，类似于Java中的SPI。简单来说，它会扫描classpath下的META-INF/spring.factories。
+* 自动装配的核心过程：
+    * 通过@Import（AutoConfigurationImportSelector）实现配置类的导入，但是这里并不是传统意义上的单个配置类装配。
+    * AutoConfigurationImportSelectory类实现了ImportSelector接口，重写了方法selectImports，它用于实现选择性批量配置类的装配。
+    * 通过Spring提供的SpringFactoriesLoader机制，扫描classpath路径下的META-INF/spring.factories，读取需要实现自动装配的配置类。
+    * 通过条件筛选的方式，把不符合条件的配置类移除，最终完成自动装配。
+* @Conditional条件装配：注解的作用是提供自动装配的条件约束。
+* Spring Boot中的@Conditional：
+    * ConditionalOnBean/ConditionalOnMissingBean：容器中存在某个类或者不存在某个Bean时进行Bean装载。
+    * ConditionalOnClass/ConditionalOnMissingClass：classpath下存在指定类或者不存在指定类时进行Bean装载。
+    * ConditionalOnCloudPlatform：只有运行在指定的云平台上才加载指定的Bean。
+    * ConditionalOnExpression：基于SpEl表达式的条件判断。
+    * ConditionalOnJava：只有运行指定版本的Java才会加载Bean。
+    * ConditionalOnJndi：只有指定的资源通过JNDI加载后才加载Bean。
+    * ConditionalOnWebApplication/ConditionalOnNotWebApplication：如果是Web应用或者不是Web应用，才加载指定的Bean。
+    * ConditionalOnProperty：系统中指定的对应的属性是否有对应的值。
+    * ConditionalOnResource：要加载的Bean依赖指定资源是否存在于classpath中。
+    * ConditionalOnSingleCandidate：只有在确定了给定Bean类的单个候选项时才会加载Bean。
+* Spring-autoconfigure-metadata：除了@Conditional注解类，在Spring Boot中还提供了spring-autoconfigure-metadata.properties文件来实现批量自动装配条件配置。通过这种配置化的方式来实现条件过滤必须要遵循两个条件：
+    * 配置文件的路径和名称必须是/META-INF/spring-autoconfigure-metadata.properties。
+    * 配置文件中key的配置格式：自动配置类的全路径名.条件=值。
+* 手写实现一个Starter：
+    * Staeter组件主要有三个功能：
+        * 涉及相关组件的Jar包依赖。
+        * 自动实现Bean的装配。
+        * 自动声明并加载application.properties文件中的属性配置。
+    * Starter的命名规范：
+        * 官方命名的格式为：spring-boot-starter-模块名称，比如spring-boot-starter-web。
+        * 自定义命名格式为：模块名称-spring-boot-starter，比如mybatis-spring-boot-starter。
+    * 实现基于Redis的Starter：
+
+
+
+## [第4章 微服务架构下的服务治理](docs/第4章%20微服务架构下的服务治理.md "第4章 微服务架构下的服务治理")
+
 
 
 
