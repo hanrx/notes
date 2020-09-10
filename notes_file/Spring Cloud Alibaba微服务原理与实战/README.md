@@ -175,8 +175,50 @@
         * 注册中心重启时，Dubbo能够自动恢复注册数据及订阅请求。
         * 为了保证节点操作的安全性，ZooKeeper提供了ACL权限控制，在Dubbo中可以通过dubbo.registry.username/dubbo.registry.password设置节点的验证信息。
         * 注册中心默认的根节点是/dubbo，如果需要针对不同环境设置不同的根节点，可以使用dubbo.registry.group修改跟节点名称。
-* 实战Dubbo Spring Cloud：
+* 实战Dubbo Spring Cloud：Dubbo Spring Cloud是Spring Cloud Alibaba的核心组件，它构建在原生的Spring Cloud标准之上，不仅覆盖了Spring Cloud原生特性，还提供了更加稳定和成熟的实现。
+    * 实现Dubbo服务提供方：
+    * 实现Dubbo服务调用方：
+    
+    
+* Apache Dubbo的高级应用：
+    * Apache Dubbo更像一个生态，它提供了很多比较主流框架的集成，比如：
+        * 支持多种协议的服务发布，默认是dubbo://，还可以支持rest://、webservice://、thrift://等。
+        * 支持多种不同的注册中心，如Nacos、ZooKeeper、Redis，未来还将会支持Consul、Eureka、Etcd等。
+        * 支持多种序列化技术，如avro、fst、fastjson、hessian2、kryo等。
+        * *除此之外，Apache Dubbo在服务治理方面的功能非常完善，比如集群容错、服务路由、负载均衡、服务降级、服务限流、服务监控、安全验证等。
+        
+    * 集群容错：Dubbo默认提供了6种容错模式，默认为Failover Cluster。
+        * Failover Cluster，失败自动切换。当服务调用失败后，会切换到集群中的其他机器进行重试，默认重试次数为2，通过属性retries=2可以修改次数，但是重试次数增加会带来更长的响应延迟。这种容错模式通常用于读操作，因为事务型操作会带来数据重复问题。
+        * Failfast Cluster，快速失败，当服务调用失败后，立即报错，也就是只发起一次调用。通常用于一些幂等的写操作，比如新增数据，因为当服务调用失败时，很可能这个请求已经在服务器端处理成功，只是因为网络延迟导致响应失败，为了避免在结果不确定的情况下导致数据重复插入的问题，可以使用这种容错机制。
+        * Failsafe Cluster，失败安全。也就是出现异常时，直接忽略异常。
+        * Failback Cluster，失败后自动回复。服务调用出现异常时，在后台记录这条失败的请求定时重发。这种模式适合用于消息通知操作，保证这个请求一定发送成功。
+        * forking Cluster，并行调用集群中的多个服务，只要其中一个成功就返回。可以通过forks=2来设置最大并行数。
+        * Broadcast Cluster，广播调用所有的服务提供者，任意一个服务报错则表示服务调用失败。这种机制通常用于通知所有的服务提供者更新缓存或者本地资源信息。
+    * 集群容错配置方式：只需要在指定服务的@Service注解上增加一个参数即可。
+    
+    * 负载均衡：提供了4中负载均衡策略，默认负载均衡策略是random。
+        * Random LoadBalance，随机算法。可以针对性能较好的服务器设置较大的权重值，权重值越大，随机的概率也会越大。
+        * RoundRobin LoadBalance，轮询。按照公约后的权重设置轮询比例。
+        * LeastActive LoadBalance，最少活跃调用书。处理较慢的节点将会收到更少的请求。
+        * ConsistentHash LoadBalance，一致性Hash。相同参数的请求总是发送到同一个服务提供者。
+    * 负载均衡配置方式：在@Service注解上增加loadbalance参数。
 
+    * 服务降级：降级有多个层面的分类：
+        * 按照是否自动化可以分为自动降级和人工降级。
+        * 按照功能可分为读服务降级和写服务降级。       
+
+    * 主机绑定规则：即查询接口发布地址IP。
+
+
+* Apache Dubbo核心源码分析：
+
+    * Dubbo的核心之SPI：扩展点实际上就是Dubbo中的SPI机制。自适应扩展点、指定名称的扩展点、激活扩展点三种。
+        * Java SPI扩展点实现：类似于JDBC连接驱动，定义了接口，由第三方厂商提供实现。
+        
+        * Dubbo自定义协议扩展点：Dubbo或者SpringFactoriesLoader并没有使用JDK内置的SPI机制，只是利用了SPI的思想根据实际情况做了一些优化和调整。**Dubbo SPI的相关逻辑被封装在了ExtensionLoader类中**，通过ExtensionLoader我们可以加载指定的实现类。
+            * 方法：通过注解@SPI注解标准接口为扩展点。在resources/META-INF/dubbo目录下创建以SPI接口命名的文件，配置接口实现类。
+            
+        * Dubbo SPI扩展点源码分析：
 
 
 
