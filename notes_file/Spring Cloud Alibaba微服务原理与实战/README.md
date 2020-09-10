@@ -145,6 +145,46 @@
     * 如何动态地更新服务中的配置信息，比如限流阈值、降级开关等。
     * 如何实现大规模服务机器所带来的服务地址的管理和服务上下线的动态感知。
 * 如何理解Apache Dubbo：Apache Dubbo是一个分布式服务框架，主要实现多个系统之间的高性能、透明化调用，简单来说它就是一个RPC框架，但是和普通RPC框架不同的是，它提供了服务治理功能，比如服务注册、监控、路由、容错等。
+* Spring Boot集成Apache Dubbo：
+    * 服务提供者开发流程：
+        * 创建接口(@Service注解发布服务)，实现接口。
+        * 引入以下依赖，其中dubbo-spring-boot-starter是Apche Dubbo官方提供的开箱即用的组件。
+        * 添加配置。
+        * Spring Boot启动方法上添加@DubboComponentScan注解，它的作用和Spring Framework提供的@ComponetScan一样，只不过这里扫描的是Dubbo中提供的@Service注解。
+    * 服务调用者的开发流程：
+        * 添加Jar包依赖。
+        * 使用Dubbo提供的@Reference注解来获得一个远程代理对象。
+* 快速上手ZooKeeper：是一个高性能的分布式协调中间件。
+    * ZooKeeper的安装。
+    * ZooKeeper的数据结构：是一种层次化的属性结构，ZooKeeper的数据是结构化存储的，并没有在物理上体系出文件和目录。
+    * ZooKeeper的特性：
+        * 节点类型分为：持久化节点，临时节点，有序节点，容器节点，TTL节点。
+    * Watcher机制：也就是当Znode节点状态发生变化时或者ZooKeeper客户端连接状态发生变化时，会触发事件通知。
+        * getData()、getChildren()、exists()。
+    * 常见应用场景分析：分布式锁、Master选举
+* Apache Dubbo集成ZooKeeper实现服务注册：
+    * 在远程RPC通信过程中，会遇到两个比较尖锐的问题：
+        * 服务动态上下线感知。
+        * 负载均衡。
+* Apache Dubbo集成ZooKeeper实现服务注册的步骤：
+    * 添加依赖。
+    * 修改配置文件。
+* ZooKeeper注册中心的实现原理：
+    * Dubbo还可以针对不同的情况来实现以下功能**。
+        * 基于临时节点的特性，当服务提供者宕机或者下线时，注册中心会自动删除该服务提供者的信息。
+        * 注册中心重启时，Dubbo能够自动恢复注册数据及订阅请求。
+        * 为了保证节点操作的安全性，ZooKeeper提供了ACL权限控制，在Dubbo中可以通过dubbo.registry.username/dubbo.registry.password设置节点的验证信息。
+        * 注册中心默认的根节点是/dubbo，如果需要针对不同环境设置不同的根节点，可以使用dubbo.registry.group修改跟节点名称。
+* 实战Dubbo Spring Cloud：
+
+
+
+
+
+
+
+
+
 
 
 
