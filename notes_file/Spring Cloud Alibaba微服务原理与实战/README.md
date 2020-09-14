@@ -260,8 +260,33 @@
 
     * 集群配置:
     
+    * 配置MySQL数据库：
+    
+    * 启动Nacos服务：
+
+* Dubbo使用Nacos实现注册中心：
+    * 添加依赖
+    * 修改application.properties配置
+    * 运行Spring Boot启动类，注意需要声明DubboComponentScan
     
     
+* Spring Cloud Alibaba Nacos Discovery：
+    * 服务端开发：
+        * 暴露服务接口。
+        * 接口的实现。 
+        * 添加依赖：
+            * spring-cloud-starter：Spring Cloud核心包。
+            * spring-cloud-starter-dubb：引入Spring Cloud Alibaba Dubbo。
+            * spring-cloud-dubbo-sample-api：API的接口声明。
+            * spring-cloud-alibaba-nacos-discovery：基于Nacos的服务注册与发现。
+        * 创建接口的实现类HelloServiceImpl，添加@Service（Dubbo服务的）注解，表示当前服务会发布成一个远程服务。
+        * 在application.properties中提供Dubbo及Nacos的配置：
+            * dubbo.scan.base-packages：功能等同于@DubboComponentScan，指定Dubbofu服务实现类的扫描包路径。
+            * dubbo.registry.address：Dubbo服务注册中心的配置地址。
+            * spring.cloud.nacos.discovery.server-addr：Nacos服务注册中心的地址。
+     * 启动服务。
+        
+        
     
 
 ## [第8章 分布式事务](docs/第8章%20分布式事务.md "第8章 分布式事务")
