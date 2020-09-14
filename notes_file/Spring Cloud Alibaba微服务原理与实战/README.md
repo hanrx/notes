@@ -285,7 +285,7 @@
             * dubbo.registry.address：Dubbo服务注册中心的配置地址。
             * spring.cloud.nacos.discovery.server-addr：Nacos服务注册中心的地址。
      * 启动服务。
-        
+    * 消费端开发：    
         
     
 
