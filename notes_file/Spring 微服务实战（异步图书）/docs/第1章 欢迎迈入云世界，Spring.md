@@ -320,49 +320,124 @@ Spring Boot框架对Java和Gradle编程语言提供了强力的支持。可以�
 
 ## 1.10 使用Spring Cloud构建微服务
 
+本节将简要介绍在构建微服务时会使用的Spring Cloud技术。这是一个高层次的概述。在书中使用各项技术时，我们会根据需要为读者讲解这些技术的细节。
+
+从零开始实现所有这些模式将是一项巨大的工作。幸好，Spring团队将大量经过实战检验的开源项目整合到一个称为Spring Cloud的Spring子项目中。
+
+Spring Cloud将Pivotal、HashCorp和Netflix等开源公司的工作封装在一起。Spring Cloud简化了将这些项目设置和配置到Spring应用程序中的工作，以便开发人员可以专注于编写代码，而不会陷入配置构建和部署微服务应用程序的所有基础设施的细节中。
+
+图1-14将1.9节中列出的模式映射到实现它们的Spring Cloud项目。
+![](images/1.10.1.png)
+![](images/1.10.2.png)
+下面让我们更详细地了解一下这些技术。
 
 
+### 1.10.1 Spring Boot
+
+Spring Boot是微服务实现中使用的核心技术。**Spring Boot通过简化构建基于REST的微服务的核心任务，大大简化了微服务开发。Spring Boot还极大地简化了将HTTP类型的动词（GET、PUT、POST和DELETE）映射到URL、JSON协议序列化与Java对象的相互转化，以及将Java异常映射回标准HTTP错误代码的工作**。
 
 
+### 1.10.2 Spring Cloud Config
+
+Spring Cloud Config通过集中式服务来处理应用程序配置数据的管理，因此应用程序配置数据（特别是环境特定的配置数据）与部署的微服务完全分离。这**确保了无论启动多少个微服务实例，这些微服务实例始终具有相同的配置**。Spring Cloud Config拥有自己的属性管理存储库，也可以与以下开源项目集成。
+* Git——Git是一个开源版本控制系统，它允许开发人员管理和跟踪任何类型的文本文件的更改。**Spring Cloud Config可以与Git支持的存储库集成，并读出存储库中的应用程序的配置数据**。
+* Consul——**Consul是一种开源的服务发现工具，允许服务实例向该服务注册自己**。服务客户端可以向Consul咨询服务实例的位置。Consul还包括可以被Spring Cloud Config使用的基于键值存储的数据库，**能够用来存储应用程序的配置数据**。
+* Eureka——Eureka是一个开源的Netflix项目，像Consul一样，**提供类似的服务发现功能。Eureka同样有一个可以被Spring Cloud Config使用的键值数据库**。
 
 
+### 1.10.3 Spring Cloud服务发现
+
+通过Spring Cloud服务发现，**开发人员可以从客户端消费的服务中抽象出部署服务器的物理位置（IP或服务器名称）。服务消费者通过逻辑名称而不是物理位置来调用服务器的业务逻辑**。Spring Cloud服务发现也处理服务实例的注册和注销（在服务实例启动和关闭时）。Spring Cloud服务发现可以使用Consul和Eureka作为服务发现引擎。
 
 
+### 1.10.4 Spring Cloud与Netflix Hystrix和Netflix Ribbon
+
+Spring Cloud与Netflix的开源项目进行了大量整合。对于微服务客户端弹性模式，  Spring Cloud封装了Netflix Hystrix库和Netflix Ribbon项目，开发人员可以轻松地在微服务中使用它们。
+
+使用Netfix Hystrix库，开发人员可以快速实现服务客户端弹性模式，如断路器模式和舱壁模式。
+
+虽然Netflix Ribbon项目简化了与诸如Eureka这样的服务发现代理的集成，但它也为服务消费者提供了客户端对服务调用的负载均衡。即使在服务发现代理暂时不可用时，客户端也可以继续进行服务调用。
 
 
+### 1.10.5 Spring Cloud与Netflix Zuul
+Spring Cloud使用Netflix Zuul项目为微服务应用程序提供服务路由功能。Zuul是代理服务请求的服务网关，确保在调用目标服务之前，对微服务的所有调用都经过一个“前门”。通过集中的微服务调用，开发人员可以强制执行标准服务策略，**如安全授权验证、内容过滤和路由规则**。
 
 
+### 1.10.6 Spring Cloud Stream
+
+Spring Cloud Stream（https://cloud.spring.io/spring-cloud-stream/）**是一种可让开发人员轻松地将轻量级消息处理集成到微服务中的支持技术**。借助Spring Cloud Stream，开发人员能够构建智能的微服务，它可以使用在应用程序中出现的异步事件。此外，使用Spring Cloud Stream可以快速将微服务与消息代理进行整合，**如RabbitMQ和Kafka**。
 
 
+### 1.10.7 Spring Cloud Sleuth
+
+Spring Cloud Sleuth**允许将唯一的追踪标识符集成到应用程序所使用的HTTP调用和消息通道（RabbitMQ、Apache Kafka）之中**。这些跟踪号码（有时称为关联ID或跟踪ID）能够让开发人员在事务流经应用程序中的不同服务时跟踪事务。有了Spring Cloud Sleuth，这些跟踪ID将自动添加到微服务生成的任何日志记录中。
+
+Spring Cloud Sleuth与日志聚合技术工具（如Papertrail）和跟踪工具（如Zipkin）结合时，能够展现出真正的威力。Papertail是一个基于云的日志记录平台，用于将日志从不同的微服务实例聚合到一个可查询的数据库中。Zipkin可以获取Spring Cloud Sleuth生成的数据，并允许开发 人员可视化单个事务涉及的服务调用流程。
 
 
+### 1.10.8 Spring Cloud Security
+
+Spring Cloud Security**是一个验证和授权框架，可以控制哪些人可以访问服务，以及他们可以用服务做什么**。Spring Cloud Security是基于令牌的，允许服务通过验证服务器发出的令牌彼此进行通信。接收调用的每个服务可以检查HTTP调用中提供的令牌，以确认用户的身份以及用户对该服务的访问权限。
+
+此外，Spring Cloud Security**支持JSON Web Token**。J**SON Web Token（JWT）框架标准化了创建OAuth2令牌的格式，并为创建的令牌进行数字签名提供了标准**。
 
 
+### 1.10.9 代码供应
+
+要实现代码供应，我们将会转移到其他的技术栈。Spring框架是面向应用程序开发的，它（包括Spring Cloud）没有用于**创建“构建和部署”管道的工具**。**要实现一个“构建和部署”管道，开发人员需要使用Travis CI和Docker这两样工具，前者可以作为构建工具，而后者可以构建包含微服务的服务器镜像**。
+
+为了部署构建好的Docker容器，本书的最后将通过一个例子，阐述如何将整个应用程序栈部署到亚马逊云上。
 
 
+## 1.11 通过示例来介绍Spring Cloud
+
+在本章最后这一节中，我们概要回顾一下要使用的各种Spring Cloud技术。因为每一种技术都是独立的服务，要详细介绍这些服务，整整一章的内容都不够。在总结这一章时，我想留给读者一个小小的代码示例，它再次演示了将这些技术集成到微服务开发工作中是多么容易。
+
+与代码清单1-1中的第一个代码示例不同，这个代码示例不能运行，因为它需要设置和配置许多支持服务才能使用。不过，不要担心，在设置服务方面，这些Spring Cloud服务（配置服务，服务发现）的设置是一次性的。一旦设置完成，微服务就可以不断使用这些功能。在本书的开头，我们无法将所有的精华都融入一个代码示例中。
+
+**代码清单1-2中的代码快速演示了如何将远程服务的服务发现、断路器、舱壁以及客户端负载均衡集成到“Hello World”示例中**。
+![](images/1.11.1.png)
+![](images/1.11.2.png)
+
+这段代码包含了很多内容，让我们慢慢分析。记住。这个代码清单只是一个例子，在第1章的GitHub仓库源代码中是找不到的。把它放在这里，是为了让读者了解本书后面的内容。
+
+开发人员首先应该要注意的是@EnableCircuitBreaker和@EnableEurekaClient注解。@EnableCircuitBreaker注解告诉Spring微服务，将要在应用程序使用Netflix Hystrix库。@EnableEurekaClient注解告诉微服务使用Eureka服务发现代理去注册它自己，并且将要在代码中使用服务发现去查询远程REST服务端点。注意，配置是在一个属性文件中的，该属性文件告诉服务要进行通信的Eureka服务器的地址和端口号。读者第一次看到使用Hystrix是在声明hello方法时：
+![](images/1.11.3.png)
+
+@HystrixCommand注解做两件事。第一件事是，在任何时候调用helloRemoteServiceCall方法，该方法都不会被直接调用，这个调用会被委派给由Hystrix管理的线程池。如果调用时间太长（默认为1s），Hystrix将介入并中断调用。这是断路器模式的实现。第二件事是创建一个由Hystrix管理的名为helloThreadPoll的线程池。所有对helloRemoteServiceCall方法的调用只会发生在此线程池中，并且将与正在进行的任何其他远程服务调用隔离。
+
+最后要注意的是helloRemoteServiceCall方法中发生的事情。**@EnableEurekaClient的存在告诉Spring Boot，在使用REST服务调用时，使用修改过的RestTemplate类（这不是标准的Spring RestTemplate的工作方式）。这个RestTemplate类允许用户传入自己想要调用的服务的逻辑服务ID：**
+![](images/1.11.4.png)
+
+在幕后，RestTemplate类将与Eureka服务进行通信，并查找一个或多个“name”服务实例的实际位置。作为服务的消费者，开发人员的代码永远不需要知道服务的位置。
+
+另外，RestTemplate类使用Netflix的Ribbon库。**Ribbon将会检索与服务有关的所有物理端点的列表**。每当客户端调用该服务时，它不必经过集中式负载均衡器就可以对客户端上不同的服务实例进行轮询（round-robin）。**通过消除集中式负载均衡器并将其移动到客户端，可以消除应用程序基础设施中的其他故障点（故障的负载平衡器）**。
+
+我希望此刻读者会印象深刻，因为只需要几个注解就可以为微服务添加大量的功能。这就是Spring Cloud背后真正的美。作为开发人员，我们可以利用Netfix和Consul等知名的云计算公司的微服务功能，这些功能是久经考验的。如果在Spring Cloud之外使用这些功能，可能会很复杂并且难以设置。Spring Cloud简化了它们的使用，仅仅是使用一些简单的Spring Cloud注解和配置条目。
 
 
+## 1.12 确保本书的示例是有意义的
+
+我想要确保本书提供的示例都是与开发人员的工作息息相关的。为此，我将围绕一家名为ThoughtMechanix的虚构公司的冒险（不幸事件）来组织本书的章节以及对应的代码示例。
+
+ThoughtMechanix是一家软件开发公司，其核心产品EagleEye提供企业级软件资产管理应用程序。该产品覆盖了所有关键要素：**库存、软件交付、许可证管理、合规、成本以及资源管理**。其主要目标是使组织获得准确时间点的软件资产的描述。
+
+该公司成立了大概10年，尽管营收增长强劲，但在内部，他们正在讨论是否应该革新其核心产品，将它从一个单体内部部署的应用程序转移到云端。对该公司来说，与EagleEye相关的平台革新是“生死”时刻。
+
+该公司正在考虑在新架构上重构其核心产品EagleEye。虽然应用程序的大部分业务逻辑将保持原样，但应用程序本身将从单体设计中分解为更小的微服务设计，其部件可以独立部署到云端。本书中的示例不会构建整个ThoughtMechanix应用程序。相反，读者将从问题领域构建特定的微服务，然后使用各种Spring Cloud（和一些非Spring Cloud）技术来构建支持这些服务的基础设施。
+
+成功采用基于云的微服务架构的能力将影响技术组织的所有成员。这包括架构团队、工程团队、测试团队和运维团队。每个团队都需要投入，最终，当团队重新评估他们在这个新环境中的职责时，他们可能需要重组。让我们开始于ThoughtMechanix的旅程，读者将开始一些基础工作——识别和构建EagleEye中使用的几个微服务，然后使用Spring Boot构建这些微服务。
 
 
+## 1.13 小结
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+* 微服务是非常小的功能部件，负责一个特定的范围领域。
+* 微服务并没有行业标准。与其他早期的Web服务协议不同，**微服务采用原则导向的方法**，并与REST和JSON的概念相一致。
+* 编写微服务很容易，但是完全可以将其用于生产则需要额外的深谋远虑。**本书介绍了几类微服务开发模式，包括核心开发模式、路由模式、客户端弹性模式、安全模式、日志记录和跟踪模式以及构建和部署模式**。
+* 虽然微服务与语言无关，但本书引入了两个Spring框架,即Spring Boot和Spring Cloud，它们非常有助于构建微服务。
+* Spring Boot用于简化基于REST的JSON微服务的构建，其目标是让用户只需要少量注解，就能够快速构建微服务。
+* Spring Cloud是Netflix和HashiCorp等公司开源技术的集合，它们已经用Spring注解进行了“包装”，从而显著简化了这些服务的设置和配置。
+![](images/1.13.1.png)
 
 
 # [README](../README.md "回到 README")
