@@ -288,8 +288,41 @@
     * 消费端开发：    
 
 * Nacos实现原理分析：
-
-
+    * Nacos架构：服务提供者通过VIP（Virtual IP）访问Nacos Server高可用集群，基于Open API完成服务的注册和服务的查询。Nacos Server本身可以支持主备模式，所以底层会采用数据一致性算法来完成从节点的数据同步。服务消费者也是如此，基于Open API从Nacos Server中查询服务列表。
+    
+    * 注册中心的原理：
+        * 服务实例在启动时注册到服务注册表，并在关闭时注销。
+        * 服务消费者查询服务注册表，获得可用实例。
+        * 服务注册中心需要调用服务实例的健康检查API来验证它是否能够处理请求。
+    
+    * 深入解读Nacos源码：
+        * 服务注册。
+            * org.springframework.cloud.client.serviceregistry.ServiceRegistry，它是Spring Cloud提供的服务注册的标准。集成到Spring Cloud中实现服务注册的组件，都会实现该接口。
+            * Nacos实现类是：实现类是com.alibaba.cloud.nacos.registry.NacosServiceRegistry。
+            * META-INF/spring.factories中包含自动装配的AutoServiceRegistrationAutoConfiguration就是服务注册相关的配置类。
+            * 最终会调用NacosServiceRegistry.register方法进行服务注册。
+            
+            * Spring Cloud Alibaba Dubbo集成Nacos时，服务的注册是依托Dubbo中的自动装配机制完成的。
+            * 自动装配了一个和服务注册相关的配置类DubboLoadBalancedRestTemplatAutoConfiguration。
+            * 最终仍然调用NacosServiceRegistry中的register方法实现服务的注册。
+                * 于服务注册，对外提供的服务端口请求地址为nacos/v1/ns/instance，实现代码在nacos-naming模块下的InstanceController类中。
+                    * 从请求参数中获得serviceName（服务名）和namespaceId（命名空间Id）。
+                    * 调用registerInstance注册实例。
+                        * 创建一个空服务（在Nacos控制台“服务列表”中展示的服务信息），实际上是初始化一个serviceMap，它是一个ConcurrentHashMap集合。最终调用的方法时createServiceIfAbsent。
+                            * 根据namspaceId、serviceName从缓存中获取Service实例。
+                            * 如果Service实例为空，则创建并保存到缓存中(putServiceAndInit实现)。
+                                * 通过putService方法将服务缓存到内存。是将Service保存到serviceMap中。
+                                * service.init()建立心跳检查机制。
+                                * consistencyService.listen实现数据一致性的监听。
+                        * getService，从serviceMap中根据namespaceId和serviceName得到一个服务对象。
+                        * 调用addInstance添加服务实例。
+            * NacosServiceRegistry的实现：
+                * 在NacosServiceRegistry.registry方法中，调用了Nacos Client SDK中的namingService.registerInstance完成服务的注册。 
+                    * 通过beatReactor.addBeatInfo创建心跳信息实现健康检测，Nacos Server必须要确保注册的服务实例是健康的，而心跳检测就是服务健康检测的手段。
+                    * serverProxy.registerService实现服务注册：
+        * 服务地址的获取。
+        
+        * 服务地址变化的感知。
 
 
 
