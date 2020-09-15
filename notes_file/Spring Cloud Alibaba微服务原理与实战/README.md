@@ -320,9 +320,26 @@
                 * 在NacosServiceRegistry.registry方法中，调用了Nacos Client SDK中的namingService.registerInstance完成服务的注册。 
                     * 通过beatReactor.addBeatInfo创建心跳信息实现健康检测，Nacos Server必须要确保注册的服务实例是健康的，而心跳检测就是服务健康检测的手段。
                     * serverProxy.registerService实现服务注册：
-        * 服务地址的获取。
-        
-        * 服务地址变化的感知。
+        * 服务地址的获取。Nacos-Naming模块下的InstanceController类。
+            * 解析请求参数。
+            * 通过doSrvIPXT返回服务列表数据。
+                * 根据namespaceId、serviceName获得Service实例。
+                * 从Service实例中基于srvIPs得到所有服务提供者的实例信息。
+                * 遍历组装JSON字符串并返回。
+        * 服务地址变化的感知。可以通过调用subscribe方法来实现监听，其中serviceName表示服务名、EventListener表示监听到的事件。
+            * Nacos客户端有一个HostReactor类，它的功能是实现服务的动态更新，基本原理是：
+                * 客户端发起事件订阅后，在HostReactor中有一个UpdateTask线程，每10s发送一次Pull请求，获得服务端最新的地址列表。
+                * 对于服务端，它和服务提供者的实例之间维持了心跳检测，一旦服务提供者出现异常，则会发送一个Push给消息给Nacos客户端，也就是服务消费者。
+                * 服务消费者收到请求之后，使用HostReactor中提供的processServiceJSON解析消息，并更新本地服务地址列表。
+
+
+## [第6章 Nacos实现统一配置管理](docs/第6章%20Nacos实现统一配置管理.md "第6章 Nacos实现统一配置管理")
+
+
+
+
+
+
 
 
 
