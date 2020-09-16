@@ -33,10 +33,10 @@ A.1 所需的软件
 
 A.2 从GitHub下载项目
 本书的所有源代码都在我的GitHub存储库（http://github.com/carnellj）中。本书中的每一章都有自己的源代码存储库。下面是本书中使用的所有GitHub存储库的清单。
-* 第1章——http://github.com/carnellj/spmiachapter1。
-* 第2章——http://github.com/carnellj/spmiachapter2。
-* 第3章——http://github.com/carnellj/spmiachapter3和http://github.com/carnellj/configrepo。
-* 第4章——http://github.com/carnellj/spmiachapter4。
+* 第1章——http://github.com/carnellj/spmia-chapter1 。
+* 第2章——http://github.com/carnellj/spmia-chapter2 。
+* 第3章——http://github.com/carnellj/spmia-chapter3和http://github.com/carnellj/configrepo。
+* 第4章——http://github.com/carnellj/spmiachapter4 。
 * 第5章——http://github.com/carnellj/spmiachapter5。
 * 第6章——http://github.com/carnellj/spmiachapter6。
 * 第7章——http://github.com/carnellj/spmiachapter7。
