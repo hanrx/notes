@@ -24,7 +24,8 @@
 * 缺点
     * 无持久化标准。
 
-* 支持
+* 支持：
+    * 数据库：H2、MySQL、Oracle、Postgres、MSSQL、DB2
 
 * 原理
 
