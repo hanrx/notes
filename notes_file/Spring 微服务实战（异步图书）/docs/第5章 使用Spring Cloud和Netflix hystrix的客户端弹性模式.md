@@ -21,8 +21,8 @@
 ![](images/5.1.1.png)
 
 * Hystrix
--- 5.3进入Hystrix
-
+    * @EnableCircuitBreaker注解来标注服务的引导类。
+    * @HystrixCommand添加在方法上实现请求代理。
 
 
 
