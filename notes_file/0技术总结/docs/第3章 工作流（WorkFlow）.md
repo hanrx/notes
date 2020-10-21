@@ -49,6 +49,7 @@
 * 参考：
     * https://www.jianshu.com/p/86c0a4afd28e
     * http://www.mossle.com/docs/activiti/index.html
+    * http://www.mossle.com/activiti.do
 
 
 
@@ -57,6 +58,9 @@ Activiti Cloud版本7.x
 
 https://activiti.gitbook.io/activiti-7-developers-guide/overview
 
+* Activiti实战：
+    BPM：业务流程管理。
+    BPMN 2.0符号参考：https://camunda.com/bpmn/reference/#!/reference
 
 ## 3.2 JBPM
 概述：
