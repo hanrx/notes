@@ -1,0 +1,69 @@
+# 项目介绍
+
+## 项目简介
+
+蘑菇博客，一个基于微服务架构的前后端分离博客系统。前台使用Vue + Element , 后端使用spring boot + spring cloud + mybatis-plus进行开发，使用 Jwt + Spring Security做登录验证和权限校验，使用ElasticSearch和Solr作为全文检索服务，使用Github Actions完成博客的持续集成，文件支持上传七牛云。
+
+- 从大学的时候开始，就一直想要搭建一套属于自己的博客系统，但是一直被没有去弄，现在时间多了，结合目前流行的技术栈，使用前后端分离架构进行项目的开发，也希望自己能够将项目一步步进行完善。
+- 蘑菇博客大部分功能是我个人进行开发的，因能力有限，其中很多技术都是一边学习一边使用的，可以说蘑菇博客也是一个我用来熟悉技术的项目，所以很多地方可能考虑不周，在加上没怎么接触公司实际项目，故有能改正的地方，还请各位老哥能够指出~
+- 现在挺多是SSM或者SSH的博客管理系统，想用spring boot + spring cloud + vue 的微服务架构进行尝试项目的构建，里面很多功能可能只是为了满足自己的学习需求而引入的，因此本博客也是一个非常好的SpringBoot、SpringCloud以及Vue技术的入门学习项目。
+- 由于原来做过vue + element-ui 做过管理系统，所以现在打算做一套自己的、基于当前最新技术栈、前后端分离的微服务博客系统。
+- 考虑到门户网站使用Vue不是很好支持SEO优化，所以门户网站采用Nuxt.js进行开发（因部署时遇到问题，无法完成正常部署，故搁置...欢迎有了解nuxt或者SEO优化的老哥一起探讨~）
+
+## 项目特点
+
+- 友好的代码结构及注释，便于阅读及二次开发
+- 实现前后端分离，通过Json进行数据交互，前端再也不用关注后端技术
+- 页面交互使用Vue2.x，极大的提高了开发效率。
+- 引入swagger文档支持，方便编写API接口文档。
+- 引入RabbitMQ 消息队列，用于邮件发送、更新Redis和Solr
+- 引入JustAuth第三方登录开源库，支持Gitee、Github账号登录。
+- 引入ElasticSearch 和 Sol r作为全文检索服务，并支持可插拔配置
+- 引入Github Actions工作流，完成蘑菇博客的持续集成、持续部署。
+- 引入七牛云对象存储，同时支持本地文件存储
+- 引入RBAC权限管理设计，灵活的权限控制，按钮级别的细粒度权限控制，满足绝大部分的权限需求
+- 引入Zipkin链路追踪，聚合各业务系统调用延迟数据，可以一眼看出延迟高的服务
+- 采用自定义参数校验注解，轻松实现后端参数校验
+- 采用AOP+自定义注解+Redis实现限制IP接口访问次数
+- 采用自研的评论模块，实现评论邮件通知
+
+## 目录介绍
+
+- MoguBlog 是一款基于最新技术开发的多人在线、简洁的博客系统。
+- mogu_admin: 提供admin端API接口服务；
+- mogu_web：提供web端API接口服务；
+- mogu_eureka： 服务发现和注册
+- mogu_picture： 图片服务，用于图片上传和下载；
+- mogu_sms：消息服务，用于更新ElasticSearch、Solr索引、邮件和短信发送
+- mogu_monitor：监控服务，集成SpringBootAdmin用于管理和监控SpringBoot应用程序
+- mogu_spider：爬虫服务`（目前还未完善）`
+- mogu_spider：网关服务`（目前还未完善）`
+- mogu_zipkin：链路追踪服务，`目前使用java -jar的方式启动`
+- mogu_search：搜索服务，ElasticSearch和Solr作为检索工具，[支持可插拔配置](http://moguit.cn/#/info?blogUid=4042b4f4088e4e37e95d9fc75d97298b)，默认使用SQL搜索
+- mogu_commons: 是公共模块，主要用于存放Entity实体类和Feign远程调用接口
+- mogu_utils: 是常用工具类；
+- mogu_xo: 是存放 VO、Service，Dao层的
+- mogu_base: 是一些Base基类
+- mogu_config: 是存放一些配置
+- doc: 是蘑菇博客的一些文档和数据库文件
+- vue_mogu_admin：VUE的后台管理页面
+- vue_mogu_web：VUE的门户网站
+- nuxt_mogu_web：Nuxt的门户网站，主要用于支持SEO搜索引擎优化`（目前还未完善）`
+
+## 运行配置
+
+蘑菇博客使用了一些监控的Spring Cloud组件，但是并不一定都需要部署，必须启动的服务包含
+
+`mogu-eureka`，`mogu-sms`，`mogu-picture`， `mogu-web`, `mogu-admin`
+
+其它的jar都可以不启动，也不影正常使用
+
+最低配置：1核2G `需要开启虚拟内存`
+
+推荐配置：2核4G
+
+> 【阿里云】双十一拼团 2核4G3M 664元/3年（强烈推荐） [点我进入](http://a.aliyun.com/f1.l0DRK)
+>
+> 【阿里云】云服务器双11狂欢特惠，1核2G 最低仅需84.97元/年  [点我传送](https://www.aliyun.com/1111/home?userCode=w7aungxw)
+>
+> 【腾讯云】双十一活动2核4G 100G盘700元/3年（老用户重新用微信QQ注册即可） [点我进入](https://curl.qcloud.com/8Nfp3pRy)
