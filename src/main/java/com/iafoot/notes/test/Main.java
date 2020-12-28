@@ -4,7 +4,7 @@ import java.io.InputStreamReader;
 import java.io.BufferedReader;
 
 public class Main {
-    public static void main1(String[] args) throws Exception{
+    public static void main(String[] args) throws Exception{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int a = Integer.parseInt(br.readLine());
         char [][] count = new char [a][];
