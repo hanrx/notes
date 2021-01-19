@@ -5,8 +5,17 @@ import ch.qos.logback.core.net.SyslogOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TestJavaP {
+/**
+ * -Xms60m -Xmx60m -XX:NewRatio=2 -XXSurvivorRatio=8 -XX:+PrintGCDetails
+ */
+public class TestJavaGC {
     public static void main(String[] args) throws Exception{
+        //测试大对象直接进入老年代
+        byte[] buffer = new byte[1024*1024*20];//20m 大对象
+
+    }
+
+    public void  testFullGC(Long l){
         int i = 0;
         try{
             List<String> list = new ArrayList<>();
@@ -21,13 +30,6 @@ public class TestJavaP {
         }catch (Throwable t){
             t.printStackTrace();
             System.out.println("遍历次数为："+i);
-        }
-
-    }
-
-    public void  test(Long l){
-        for (int i=0;i>l;i++){
-
         }
     }
 }
