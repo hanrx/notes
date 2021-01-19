@@ -5,6 +5,7 @@ import java.io.BufferedReader;
 
 public class Main {
     public static void main(String[] args) throws Exception{
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>: Begin");
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int a = Integer.parseInt(br.readLine());
         char [][] count = new char [a][];
@@ -14,7 +15,8 @@ public class Main {
         digui(count,0,0);
 
 
-    }    private static void digui(char[][] a, int i, int j) {
+    }
+    private static void digui(char[][] a, int i, int j) {
         if (i!=a.length) {
             if (j==a[i].length-1) {
                 System.out.println(a[i][j]);

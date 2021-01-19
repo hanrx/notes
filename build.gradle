@@ -7,7 +7,7 @@ plugins {
 
 group = 'com.iafoot'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+sourceCompatibility = '1.8'
 
 configurations {
     compileOnly {
@@ -42,7 +42,7 @@ dependencies {
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
     testImplementation 'org.springframework.security:spring-security-test'
 
-    compile ('com.oracle:ojdbc6:19.3.0.0')
+//    compile ('com.oracle:ojdbc6:19.3.0.0')
 }
 
 test {
