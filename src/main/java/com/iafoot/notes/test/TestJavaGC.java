@@ -1,7 +1,5 @@
 package com.iafoot.notes.test;
 
-import ch.qos.logback.core.net.SyslogOutputStream;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +23,9 @@ public class TestJavaGC {
         byte[] buffer = new byte[1024*1024*20];//20m 大对象
 
     }
+
+
+
 
     public void  testFullGC(Long l){
         int i = 0;
