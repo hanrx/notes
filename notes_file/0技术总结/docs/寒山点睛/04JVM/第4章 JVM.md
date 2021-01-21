@@ -1,6 +1,7 @@
 # JVM
 * 参考：
 > Java平台，标准版故障排除指南: https://docs.oracle.com/javase/8/docs/technotes/guides/troubleshoot/
+> Java ®虚拟机规范：https://docs.oracle.com/javase/specs/jvms/se8/html/
 
 * 调试查看工具：
     * 自带：jvisualvm。
@@ -465,6 +466,56 @@ https://www.bilibili.com/video/BV1PJ411n7xZ?p=86
     * 关闭JVM就会释放这个区域的内存。
 
 * Hotspot中方法区的演进：
+    * 在jdk7及以前，习惯上把方法区，称为永久代。jdk8开始，使用元空间取代了永久代。
+    * 本质上，方法区和永久代并不等价。仅是对hotspot而言的。《Java虚拟机规范》对如何实现方法区，不做统一要求。例如：EBA JRockit/IBM J9中不存在永久代的概念。
+        * 现在来看，当年使用永久代，不是好的idea。导致Java程序更容易OOM（超过-XX:maxPermSize上限）。
+    * 方法区概述：
+    ![img_13.png](img_13.png)
+    * 到了JDK 8，终于完全废弃了永久代的概念，改用与JRockit、J9一样在本地内存中实现的元空间（Metaspace）来代替。
+    ![img_14.png](img_14.png)
+    * 元空间的本质和永久代类似，都是对JVM规范中方法区的实现。不过元空间与永久代最大的区别在于：元空间不在虚拟机设置的内存中，而是使用本地内存。
+    * 永久代、元空间二者并不只是名字变了，内部结构也调整了。
+    * 根据《Java虚拟机规范》的规定，如果方法区无法满足新的内存分配需求时，将抛出OOM异常。
+
+* 设置方法区大小与OOM：
+    * 方法区的大小不必是固定的，jvm可以根据应用的需要动态调整。
+    * JDK 7及以前：
+        * 通过-XX:PermSize来设置永久代初始分配空间。默认值是20.75M。
+        * -XX:MaxPermSize来设定永久代最大可分配空间。32位机器默认是64M,64位机器模式是82M。
+        * 当JVM加载的类信息容量超过了这个值，会报异常OutOfMemoryError:PermGen space。
+    ![img_15.png](img_15.png)
+    * JDK 8及以后：
+        * 元数据区大小可以使用参数-XX:MetaspaceSize和-XX:MaxMetaspaceSize指定，替代上述原有的两个参数。
+        * 默认值依赖于平台。windows下，-XX:MetaspaceSize是21M,-XX:MaxMetaspaceSize的值是-1，即没有限制。
+        * 与永久代不同，如果不指定大小，默认情况下，虚拟机会耗尽所有的可用系统内存。如果元数据区发生溢出，虚拟机一样会抛出异常OutOfMemoryError:Metaspace。
+        * -XX:MetaspaceSize：设置初始的元空间大小。对于一个64位的服务器端JVM来说，其默认的-XX:MetaspaceSize值为21MB。这就是初始的高水位线，一旦触及这个水位线，
+          Full GC将会被触发兵卸载没用的类（即这些类对应的类加载器不再存活），然后这个高水位线将会重置。新的高水位线的值取决于GC后释放了多少元空间。如果释放的空间不足，
+          那么在不超过MaxMetaspaceSize时，适当提高该值。如果释放空间过多，则适当降低该值。
+        * 如果初始化的高水位线设置过低，上述高水位线调整情况会发生很多次。通过垃圾回收器的日志可以观察到Full GC多次调用。为了避免频繁地GC，建议将-XX:MetaspaceSize设置为一个相对较高的值。          
+
+* 如何解决这些OOM？
+    * 要解决OOM异常或heap space的异常，一般的手段是首先通过内存映像分析工具（如Eclipse Memory Analyzer）对dump出来的堆转储快照进行分析，
+      重点是确认内存中的对象是否是必要的，也就是要先分清楚到底是出现了内存泄漏（Memory Leak）还是内存溢出（Memory Overflow）。
+    * 如果是内存泄漏，可进一步通过工具查看泄漏对象到GC Roots的引用链。于是就能找到泄漏对象是通过怎样的路径与GC Roots相关联并导致垃圾收集器无法
+      自动回收它们的。掌握了泄漏对象的类型信息。以及GC Roots引用链的信息， 就可以比较准确地定位出泄漏代码的位置。
+    * 如果不存在内存泄漏，换句话说就是内存中的对象确实都还必须存活着，那就应当检查虚拟机的堆参数（-Xmx与-Xms），与机器物理内存对比看是否还可以调
+      大，从代码上检查是否在某些对象生命周期过长、持有状态时间过长的情况，尝试减少程序运行期的内存消耗。      
+
+* 方法区的内部结构：
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 https://www.bilibili.com/video/BV1PJ411n7xZ?p=89
