@@ -4,7 +4,7 @@
 > Java ®虚拟机规范：https://docs.oracle.com/javase/specs/jvms/se8/html/
 
 * 调试查看工具：
-    * 自带：jvisualvm。
+    * 自带：jvisualvm、JHSDB（JDK9及以后）。
     * JDK命令行。
     * Eclipse:Memory Analyzer Tool。
     * Jconsole。
@@ -555,12 +555,25 @@ https://www.bilibili.com/video/BV1PJ411n7xZ?p=86
     * 当创建类或接口的运行时常量池时，如果构造运行时常量池所需的内存空间超过了方法区所能提供的最大值，则JVM会抛出OutOfMemoryError异常。
 
 * 方法区的演进细节：
+    * 首先明确：只有HotSpot才有永久代。
+    BEA JRockit、IBM J9等来世，是不存在永久代的概念的。原则上如何实现方法区属于虚拟机实现细节，不受《Java虚拟机规范》管束，并不要求统一。
+    * Hotspot中方法区的变化：
+    ![img_19.png](img_19.png)
 
+* 永久代为什么要被元空间替换？
+    * 随着Java 8的到来，HotSpot VM中再也见不到永久代了。但是这并不意味着类的元数据信息也消失了。这些数据被移到了一个与堆不相连的本地内存区域，这个区域叫做元空间（Metaspace）。
+    * 由于类的元数据分配在本地内存中，元空间的最大可分配空间就是系统可用的内存空间。
+    * 这项改动是很有必要的，原因有：
+    > 1.永久代设置空间大小是很难确定的。
+    > 在某些场景下，如果动态加载的类过多，容易产生Perm区的OOM。比如某个实际Web工程中，因为功能点较多，在运行过程中，要不断动态加载很多类，经常出现致命错误。
+    > 而元空间和永久代最大的区别在于：元空间并不在虚拟机中，而是使用本地内存。因此，默认情况下，元空间的大小受本地内存限制。
+    > 2. 对永久代进行调优是很困难的。 
 
+* StringTable为什么要调整？
+    * jdk7中将StringTable放到了堆空间中。因为永久代的回收效率很低，在full gc的时候才会触发。而full gc是老年代的空间不足、永久代不足时才会触发。
+    这就导致String Table回收效率不高。而我们开发中有大量的字符串被创建，回收效率低，导致永久代内存不足。放到堆里，能及时回收内存。
 
-
-
-
+* 方法区的垃圾回收：
 
 
 
@@ -569,42 +582,6 @@ https://www.bilibili.com/video/BV1PJ411n7xZ?p=86
 
 ### OutOfMemory举例
 * OutOfMemoryError：堆空间占满。
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-https://www.bilibili.com/video/BV1PJ411n7xZ?p=76
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-https://www.bilibili.com/video/BV1PJ411n7xZ?p=65
-
-
-
-
-
 
 
 
