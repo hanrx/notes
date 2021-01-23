@@ -595,6 +595,17 @@ https://www.bilibili.com/video/BV1PJ411n7xZ?p=86
     虚拟机提供了-Xnoclassgc参数进行控制，还可以使用-verbose:class以及-XX:+TraceClass-Loading、-XX:TraceClassUnLading查看类加载和卸载信息。
     * 在大量使用反射、动态代理、CGLib等字节码框架，动态生成JSP以及OSGi这类频繁自定义类加载器的场景中，通常都需要Java虚拟机具备类型卸载的能力，以保证不会堆方法区造成过大的内存压力。
 
+## 总结
+![img_20.png](img_20.png)
+
+## 对象的实例化内存布局与访问定位
+
+
+
+
+
+
+
 
 
 
