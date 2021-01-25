@@ -36,8 +36,6 @@ https://www.jetbrains.com/
 
 
 
-https://www.bilibili.com/video/BV1Sk4y1d7y6?p=9
-
 
 
 
