@@ -1358,7 +1358,17 @@ C2编译器。开发人员可以通过如下命令显式指定Java虚拟机在�
     * Serial收集器时最基本、历史最悠久的垃圾收集器了。JDK1.3之前回收新生代唯一的选择。
     * Serial收集器作为HotSpot中Client模式下的默认新生代垃圾收集器。
     * Serial收集器采用复制算法、串行回收和“Stop-the-World”机制的方式执行内存回收。
-    * 
+    * 除了年轻代之外，Serial收集器还提供了用于执行老年代垃圾收集的Serial Old收集器。Serial收集器还提供用于执行老年代垃圾收集的Serial Old收集器。
+    Serial Old收集器同样也采用了串行回收和“Stop the World”机制，只不过内存回收算法使用的是标记-压缩算法。
+        * Serial Old是运行在Client模式下默认的老年代的垃圾回收器。
+        * Serial Old是Server模式下主要有两个用途：①与新生代的Parallel Scavenge配合使用 ②作为老年代CMS收集器的后备垃圾收集方案。
+![img_56.png](img_56.png)
+    
+    * 优势：简单而高效（与其他收集器的单线程比），对于限定单个CPU的环境来说，Serial收集器由于没有线程交互的开销，专心做垃圾收集自然可以获得最高的单线程收集效率。
+        * 运行在Client模式下的虚拟机是个不错的选择。
+    * 在用户的桌面应用场景中，可用内存一般不大（几十MB至一两百MB）,可以在较短时间内完成垃圾收集（几十ms至一百多ms），只要不频繁发生，使用串行回收器是可以接受的。
+    * 在HotSpot虚拟机中，使用-XX:+UserSerialGC参数可以指定年轻代和老年代都使用串行收集器。
+        * 等价于 新生代用Serial GC，且老年代用Serial Old GC
 
 
 
@@ -1371,9 +1381,7 @@ C2编译器。开发人员可以通过如下命令显式指定Java虚拟机在�
 
 
 
-
-
-https://www.bilibili.com/video/BV1PJ411n7xZ?p=163
+https://www.bilibili.com/video/BV1PJ411n7xZ?p=177
 
 ### OutOfMemory举例
 * OutOfMemoryError：Java heap space。 堆空间占满。
