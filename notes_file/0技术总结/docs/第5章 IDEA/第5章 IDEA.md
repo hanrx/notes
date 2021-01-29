@@ -29,6 +29,10 @@ https://www.jetbrains.com/
 ![img_4.png](img_4.png)
 ![img_5.png](img_5.png)
 
+>常用快捷键
+>* Ctrl + H ：查看 树形 的类层次结构图--子类。
+>* Alt + 7 : 展示类中所有方法。
+
 # 配置说明
 ![](img.png)
 
