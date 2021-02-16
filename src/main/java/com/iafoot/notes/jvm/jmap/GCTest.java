@@ -1,6 +1,7 @@
 package com.iafoot.notes.jvm.jmap;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * -Xms60m -Xmx60m -XX:SurvivorRatio=8
@@ -21,5 +22,15 @@ public class GCTest {
                 e.printStackTrace();
             }
         }
+    }
+}
+
+//静态集合类
+class MemoryLeak{
+    static List list = new ArrayList();
+
+    public void oomTests(){
+        Object obj = new Object();//局部变量
+        list.add(obj);
     }
 }
