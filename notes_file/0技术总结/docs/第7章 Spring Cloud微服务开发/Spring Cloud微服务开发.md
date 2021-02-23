@@ -100,9 +100,23 @@
       > ![img_6.png](img_6.png)
       > ![img_7.png](img_7.png)
   * 父工程POM:
+    > ![img_18.png](img_18.png)
+    > 
   * Maven工程落地细节：
   * 父工程创建完成执行mvn:install将父工程发布到仓库方便子工程继承。
 
+* Rest微服务工程构建：
+  * 1.cloud-provider-payment8001：微服务提供者支付Module模块。
+    > ![img_19.png](img_19.png)
+    > ![img_20.png](img_20.png)
+    > ![img_21.png](img_21.png)
+    > ![img_22.png](img_22.png)
+    > ![img_23.png](img_23.png)
+    > ![img_24.png](img_24.png)
+    > 
+  * 2.热部署Devtools：
+  * 3.cloud-consumer-order80：微服务消费者订单Module模块。
+  * 4.工程重构。
 
 
 
