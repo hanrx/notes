@@ -27,8 +27,9 @@ https://github.com/DuGuQiuBai/Java
 
 https://github.com/doocs/source-code-hunter
 
-
-
+# 个人服务PC文件说明
+* 路径/home/hanrx：上传文件路径
+* /home/hanrx/iafootSoft：软件存放路径
 
 
 
