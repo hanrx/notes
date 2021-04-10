@@ -32,7 +32,9 @@ https://github.com/doocs/source-code-hunter
 * /home/hanrx/iafootSoft：软件存放路径
 
 
+100万次请求 1分钟内返回 任务分配 架构优化底层
 
+基础数据监控 应用监控 可以用率 日志分析 大部门
 
 
 
