@@ -31,7 +31,39 @@
 
 # 第1章：React入门
 
+### 1.1.1 官网
+1）英文官网：https://reactjs.org/
+2) 中午官网:https://react.docschina.org/
 
+### 1.1.2 介绍描述
+1）用于动态构建用户界面的JavaScript库（只关注视图）
+2）由Facebook开源
+
+### 1.1.3 React的特点
+1）声明式编码
+2）组件化编码
+3）React Native编写原生应用
+4）高效（优秀的Diffing算法）
+
+### 1.1.4 React高效的原因
+1）使用虚拟（virtual）DOM，不总是直接操作页面真实DOM.
+2）DOM Diffing算法，最小化页面重绘。
+
+## 1.2 React的基本使用
+
+### 1.2.1 效果
+效果
+![img_3.png](img_3.png)
+代码实现：
+![img_4.png](img_4.png)
+
+### 1.2.2 相关js库
+1）react.js：React核心库。
+2）react-dom.js：提供操作DOM的react扩展库。
+3）babel.min.js：解析JSX语法代码转为JS代码的库。
+
+### 1.2.3 创建DOM的两种方式
+![img_5.png](img_5.png)
 
 
 
