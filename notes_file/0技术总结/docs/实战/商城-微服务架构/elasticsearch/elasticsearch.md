@@ -1,33 +1,40 @@
 
+# Docker 安装
+## 1、下载镜像文件
+docker pull elasticsearch:7.4.2 ：存储和检索数据
+docker pull kibana:7.4.2 : 可视化检索数据
 
+## 2、创建实例
+![img.png](img.png)
 
+![img_1.png](img_1.png)
 
+## 3、Kibana
+![img_2.png](img_2.png)
 
+# 初步检索
+## 1、_cat
+![img_3.png](img_3.png)
 
+## 2、索引一个文档（保持）
+![img_4.png](img_4.png)
+![img_5.png](img_5.png)
+![img_6.png](img_6.png)
 
+## 3、查询文档
+![img_7.png](img_7.png)
 
+## 4、更新文档
+![img_8.png](img_8.png)
+![img_9.png](img_9.png)
+![img_10.png](img_10.png)
 
+## 5、删除文档&索引
+![img_11.png](img_11.png)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+## 6、bulk批量API
+![img_12.png](img_12.png)
+![img_13.png](img_13.png)
 
 
 
