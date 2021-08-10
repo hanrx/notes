@@ -1,16 +1,16 @@
-# 使用DockerCompose制作蘑菇博客YAML镜像文件
+# 使用DockerCompose制作iAfootBlogYAML镜像文件
 
 ## 前言
 
-首先特别感谢群里的小伙伴 [@touch fish](https://gitee.com/chengccn1) 使用DockerCompose部署了蘑菇博客，并且提供了 [搭建文档](https://gitee.com/chengccn1/mogu_blog_v2/blob/Nacos/docker-compose%E9%83%A8%E7%BD%B2.md)，本博客也是在上面的文档基础上进行修改~
+首先特别感谢群里的小伙伴 [@touch fish](https://gitee.com/chengccn1) 使用DockerCompose部署了iAfootBlog，并且提供了 [搭建文档](https://gitee.com/chengccn1/mogu_blog_v2/blob/Nacos/docker-compose%E9%83%A8%E7%BD%B2.md)，本博客也是在上面的文档基础上进行修改~
 
-本文主要讲解的是，如果将蘑菇博客制作成多个Docker业务镜像，逐步讲解每个镜像制作的过程
+本文主要讲解的是，如果将iAfootBlog制作成多个Docker业务镜像，逐步讲解每个镜像制作的过程
 
-如果你只想快速部署蘑菇博客，那么可直接参考：[DockerCompose一键部署蘑菇博客(Nacos版)](http://www.moguit.cn/#/info?blogOid=565)
+如果你只想快速部署iAfootBlog，那么可直接参考：[DockerCompose一键部署iAfootBlog(Nacos版)](http://www.moguit.cn/#/info?blogOid=565)
 
 如果你想了解一下Docker Compose的使用，参考： [Docker Compose入门学习](http://www.moguit.cn/#/info?blogOid=568)
 
-如果你想把制作好的镜像提交到镜像仓库，参考：[使用GithubAction构建蘑菇博客镜像提交DockerHub](http://www.moguit.cn/#/info?blogOid=569)
+如果你想把制作好的镜像提交到镜像仓库，参考：[使用GithubAction构建iAfootBlog镜像提交DockerHub](http://www.moguit.cn/#/info?blogOid=569)
 
 如果你想了解Docker图形化工具Portainer的使用，参考：[Docker图形化工具Portainer介绍与安装](http://www.moguit.cn/#/info?blogOid=570)
 
@@ -114,7 +114,7 @@ docker-compose -v
 
 ## 安装Git
 
-我们下面需要安装Git，然后下载蘑菇博客源码，我们采用yum来进行安装
+我们下面需要安装Git，然后下载iAfootBlog源码，我们采用yum来进行安装
 
 ```bash
 # 首先查看是否安装过 git【如果安装了就跳过】
@@ -127,7 +127,7 @@ git --version
 yum -y install git
 ```
 
-安装好后，我们下载蘑菇博客的源码【选择nacos分支】
+安装好后，我们下载iAfootBlog的源码【选择nacos分支】
 
 ```bash
 git clone -b Nacos --depth 1 https://gitee.com/chengccn1/mogu_blog_v2.git
@@ -135,7 +135,7 @@ git clone -b Nacos --depth 1 https://gitee.com/chengccn1/mogu_blog_v2.git
 
 ## 安装基础环境
 
-下面我们到蘑菇博客的源码目录，运行 `bash.sh` 脚本，主要用于安装常用工具，node等环境，内容如下。
+下面我们到iAfootBlog的源码目录，运行 `bash.sh` 脚本，主要用于安装常用工具，node等环境，内容如下。
 
 ```bash
 #!/usr/bin/env bash
@@ -706,7 +706,7 @@ networks:
     external: true
 ```
 
-## 部署蘑菇博客后台项目
+## 部署iAfootBlog后台项目
 
 在我们完成上述的环境搭建后，下面就可以开始部署我们的业务容器了，首先我们到我们的源码目录
 
@@ -1190,8 +1190,8 @@ http://ip:9000
 
 ![image-20201125144030439](images/image-20201125144030439.png)
 
-最后附上一张，蘑菇博客所有容器启动后的图片
+最后附上一张，iAfootBlog所有容器启动后的图片
 
 ![image-20201125202352995](images/image-20201125202352995.png)
 
-到此为止，蘑菇博客的镜像改造已经结束了~，后面就可以使用制作好的镜像来完成我们 [蘑菇博客的一键部署](http://www.moguit.cn/#/info?blogOid=565) 咯
+到此为止，iAfootBlog的镜像改造已经结束了~，后面就可以使用制作好的镜像来完成我们 [iAfootBlog的一键部署](http://www.moguit.cn/#/info?blogOid=565) 咯

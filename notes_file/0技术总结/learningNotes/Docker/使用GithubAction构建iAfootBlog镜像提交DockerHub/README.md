@@ -1,16 +1,16 @@
-# 使用GithubAction构建蘑菇博客镜像提交DockerHub
+# 使用GithubAction构建iAfootBlog镜像提交DockerHub
 
 ## 前言
 
-这阵子使用DockerCompose部署蘑菇博客， 但是还存在一些问题，就是每次我们需要下载 [蘑菇博客](https://gitee.com/moxi159753/mogu_blog_v2) 源码，然后进行编译，打包，部署。而因为蘑菇博客还是前后端分离项目，因此为了完成这一系列的操作，就需要在环境中安装maven、node、git 等环境。但是因为这些环境只是在我们项目的构建阶段才会使用，而构建项目完成后，就不需要使用了，因此就打算使用Github Actions在代码提交的后，我们提前把蘑菇博客的镜像给构建完成，然后上传到DockerHub上，最后在其它人需要使用的时候，就不需要自己重新构建镜像了，而是直接拉取线上的镜像，完成项目的部署。
+这阵子使用DockerCompose部署iAfootBlog， 但是还存在一些问题，就是每次我们需要下载 [iAfootBlog](https://gitee.com/moxi159753/mogu_blog_v2) 源码，然后进行编译，打包，部署。而因为iAfootBlog还是前后端分离项目，因此为了完成这一系列的操作，就需要在环境中安装maven、node、git 等环境。但是因为这些环境只是在我们项目的构建阶段才会使用，而构建项目完成后，就不需要使用了，因此就打算使用Github Actions在代码提交的后，我们提前把iAfootBlog的镜像给构建完成，然后上传到DockerHub上，最后在其它人需要使用的时候，就不需要自己重新构建镜像了，而是直接拉取线上的镜像，完成项目的部署。
 
-如果你想了解Github Actions的使用，参考：[使用Github Action完成蘑菇博客持续集成](http://www.moguit.cn/#/info?blogUid=0762bfb392c2cf0a94c8a7934fe46f8f)
+如果你想了解Github Actions的使用，参考：[使用Github Action完成iAfootBlog持续集成](http://www.moguit.cn/#/info?blogUid=0762bfb392c2cf0a94c8a7934fe46f8f)
 
 如果你想知道更多的官方Actions，参考：[Build and push Docker images](https://github.com/marketplace/actions/build-and-push-docker-images)
 
-如果想了解蘑菇博客镜像构建和部署，参考： [使用DockerCompose制作蘑菇博客YAML镜像文件](http://www.moguit.cn/#/info?blogOid=567)
+如果想了解iAfootBlog镜像构建和部署，参考： [使用DockerCompose制作iAfootBlogYAML镜像文件](http://www.moguit.cn/#/info?blogOid=567)
 
-如果想快速一键部署蘑菇博客，参考：[DockerCompose一键部署蘑菇博客(Nacos版)](http://www.moguit.cn/#/info?blogOid=565)
+如果想快速一键部署iAfootBlog，参考：[DockerCompose一键部署iAfootBlog(Nacos版)](http://www.moguit.cn/#/info?blogOid=565)
 
 ## 环境准备
 
