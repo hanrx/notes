@@ -56,7 +56,7 @@ mkdir docker-compose
 cd docker-compose
 
 # 创建配置文件
-vim mogu_portainer.yml
+vim iafoot_portainer.yml
 ```
 
 然后添加如下内容
@@ -88,7 +88,7 @@ unzip Portainer-CN.zip -d public
 然后运行下面命令
 
 ```bash
-docker-compose -f mogu_portainer.yml up -d
+docker-compose -f iafoot_portainer.yml up -d
 ```
 
 构建portainer容器后，我们访问下面页面
