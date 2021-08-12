@@ -2,15 +2,15 @@
 
 ## 前言
 
-这阵子使用DockerCompose部署iAfootBlog， 但是还存在一些问题，就是每次我们需要下载 [iAfootBlog](https://gitee.com/moxi159753/mogu_blog_v2) 源码，然后进行编译，打包，部署。而因为iAfootBlog还是前后端分离项目，因此为了完成这一系列的操作，就需要在环境中安装maven、node、git 等环境。但是因为这些环境只是在我们项目的构建阶段才会使用，而构建项目完成后，就不需要使用了，因此就打算使用Github Actions在代码提交的后，我们提前把iAfootBlog的镜像给构建完成，然后上传到DockerHub上，最后在其它人需要使用的时候，就不需要自己重新构建镜像了，而是直接拉取线上的镜像，完成项目的部署。
+这阵子使用DockerCompose部署iAfootBlog， 但是还存在一些问题，就是每次我们需要下载 [iAfootBlog](https://gitee.com/moxi159753/iafoot_blog_v2) 源码，然后进行编译，打包，部署。而因为iAfootBlog还是前后端分离项目，因此为了完成这一系列的操作，就需要在环境中安装maven、node、git 等环境。但是因为这些环境只是在我们项目的构建阶段才会使用，而构建项目完成后，就不需要使用了，因此就打算使用Github Actions在代码提交的后，我们提前把iAfootBlog的镜像给构建完成，然后上传到DockerHub上，最后在其它人需要使用的时候，就不需要自己重新构建镜像了，而是直接拉取线上的镜像，完成项目的部署。
 
-如果你想了解Github Actions的使用，参考：[使用Github Action完成iAfootBlog持续集成](http://www.moguit.cn/#/info?blogUid=0762bfb392c2cf0a94c8a7934fe46f8f)
+如果你想了解Github Actions的使用，参考：[使用Github Action完成iAfootBlog持续集成](http://www.iafootit.cn/#/info?blogUid=0762bfb392c2cf0a94c8a7934fe46f8f)
 
 如果你想知道更多的官方Actions，参考：[Build and push Docker images](https://github.com/marketplace/actions/build-and-push-docker-images)
 
-如果想了解iAfootBlog镜像构建和部署，参考： [使用DockerCompose制作iAfootBlogYAML镜像文件](http://www.moguit.cn/#/info?blogOid=567)
+如果想了解iAfootBlog镜像构建和部署，参考： [使用DockerCompose制作iAfootBlogYAML镜像文件](http://www.iafootit.cn/#/info?blogOid=567)
 
-如果想快速一键部署iAfootBlog，参考：[DockerCompose一键部署iAfootBlog(Nacos版)](http://www.moguit.cn/#/info?blogOid=565)
+如果想快速一键部署iAfootBlog，参考：[DockerCompose一键部署iAfootBlog(Nacos版)](http://www.iafootit.cn/#/info?blogOid=565)
 
 ## 环境准备
 
@@ -99,7 +99,7 @@ mvn docker:build
 ```bash
 FROM java:alpine
 VOLUME /tmp
-ADD mogu_admin-0.0.1-SNAPSHOT.jar app.jar
+ADD iafoot_admin-0.0.1-SNAPSHOT.jar app.jar
 ENTRYPOINT ["java","-Xms256m","-Xmx256m","-jar","/app.jar"]
 ```
 
@@ -116,43 +116,43 @@ ENTRYPOINT ["java","-Xms256m","-Xmx256m","-jar","/app.jar"]
           mvn install -DskipTests=true && mvn package -DskipTests=true
 
           echo '=====开始构建镜像====='
-          echo '=====开始构建mogu_admin====='
-          cd mogu_admin
+          echo '=====开始构建iafoot_admin====='
+          cd iafoot_admin
           mvn docker:build
           cd ..
 
-          echo '=====开始构建mogu_gateway====='
-          cd mogu_gateway
+          echo '=====开始构建iafoot_gateway====='
+          cd iafoot_gateway
           mvn docker:build
           cd ..
 
-          echo '=====开始构建mogu_monitor====='
-          cd mogu_monitor
+          echo '=====开始构建iafoot_monitor====='
+          cd iafoot_monitor
           mvn docker:build
           cd ..
 
-          echo '=====开始构建mogu_picture====='
-          cd mogu_picture
+          echo '=====开始构建iafoot_picture====='
+          cd iafoot_picture
           mvn docker:build
           cd ..
 
-          echo '=====开始构建mogu_search====='
-          cd mogu_search
+          echo '=====开始构建iafoot_search====='
+          cd iafoot_search
           mvn docker:build
           cd ..
 
-          echo '=====开始构建mogu_sms====='
-          cd mogu_sms
+          echo '=====开始构建iafoot_sms====='
+          cd iafoot_sms
           mvn docker:build
           cd ..
 
-          echo '=====开始构建mogu_spider====='
-          cd mogu_spider
+          echo '=====开始构建iafoot_spider====='
+          cd iafoot_spider
           mvn docker:build
           cd ..
 
-          echo '=====开始构建mogu_web====='
-          cd mogu_web
+          echo '=====开始构建iafoot_web====='
+          cd iafoot_web
           mvn docker:build
           cd ..
 
@@ -194,7 +194,7 @@ ENTRYPOINT ["java","-Xms256m","-Xmx256m","-jar","/app.jar"]
           password: ${{ secrets.ALIYUN_PASSWORD }}
 ```
 
-同时要求我们的镜像前缀为 `registry.cn-shenzhen.aliyuncs.com/mogublog` ，其中 mogublog 为我们阿里云容器镜像服务的命名空间
+同时要求我们的镜像前缀为 `registry.cn-shenzhen.aliyuncs.com/iafootblog` ，其中 iafootblog 为我们阿里云容器镜像服务的命名空间
 
 ![image-20201127172858624](images/image-20201127172858624.png)
 
@@ -208,7 +208,7 @@ ENTRYPOINT ["java","-Xms256m","-Xmx256m","-jar","/app.jar"]
     <version>1.2.0</version>
     <configuration>
         <!-- 注意imageName一定要是符合正则[a-z0-9-_.]的，否则构建不会成功 -->
-        <imageName>registry.cn-shenzhen.aliyuncs.com/mogublog/${project.artifactId}</imageName>
+        <imageName>registry.cn-shenzhen.aliyuncs.com/iafootblog/${project.artifactId}</imageName>
         <dockerDirectory>${project.basedir}/src/main/resources</dockerDirectory>
         <rm>true</rm>
         <resources>
@@ -226,9 +226,9 @@ ENTRYPOINT ["java","-Xms256m","-Xmx256m","-jar","/app.jar"]
 
 ```bash
 # 打包镜像
-docker build -t registry.cn-shenzhen.aliyuncs.com/mogublog/vue_mogu_web .
+docker build -t registry.cn-shenzhen.aliyuncs.com/iafootblog/vue_iafoot_web .
 # 提交镜像
-docker push registry.cn-shenzhen.aliyuncs.com/mogublog/vue_mogu_web
+docker push registry.cn-shenzhen.aliyuncs.com/iafootblog/vue_iafoot_web
 ```
 
 在我们完成DockerHub的登录后，我们就可以使用 `docker push 镜像名`   提交我们的镜像了
@@ -239,29 +239,29 @@ docker push registry.cn-shenzhen.aliyuncs.com/mogublog/vue_mogu_web
       - name: Push Docker Image
         run: |
           echo '=====开始上传镜像====='
-          echo '=====开始上传mogu_admin====='
-          docker push moxi/mogu_admin
+          echo '=====开始上传iafoot_admin====='
+          docker push moxi/iafoot_admin
 
-          echo '=====开始上传mogu_gateway====='
-          docker push moxi/mogu_gateway
+          echo '=====开始上传iafoot_gateway====='
+          docker push moxi/iafoot_gateway
 
-          echo '=====开始上传mogu_monitor====='
-          docker push moxi/mogu_monitor
+          echo '=====开始上传iafoot_monitor====='
+          docker push moxi/iafoot_monitor
 
-          echo '=====开始上传mogu_picture====='
-          docker push moxi/mogu_picture
+          echo '=====开始上传iafoot_picture====='
+          docker push moxi/iafoot_picture
 
-          echo '=====开始上传mogu_search====='
-          docker push moxi/mogu_search
+          echo '=====开始上传iafoot_search====='
+          docker push moxi/iafoot_search
 
-          echo '=====开始上传mogu_sms====='
-          docker push moxi/mogu_sms
+          echo '=====开始上传iafoot_sms====='
+          docker push moxi/iafoot_sms
 
-          echo '=====开始上传mogu_spider====='
-          docker push moxi/mogu_spider
+          echo '=====开始上传iafoot_spider====='
+          docker push moxi/iafoot_spider
 
-          echo '=====开始上传mogu_web====='
-          docker push moxi/mogu_web
+          echo '=====开始上传iafoot_web====='
+          docker push moxi/iafoot_web
 ```
 
 ## 完整脚本
@@ -306,43 +306,43 @@ jobs:
           mvn install -DskipTests=true && mvn package -DskipTests=true
 
           echo '=====开始构建镜像====='
-          echo '=====开始构建mogu_admin====='
-          cd mogu_admin
+          echo '=====开始构建iafoot_admin====='
+          cd iafoot_admin
           mvn docker:build
           cd ..
 
-          echo '=====开始构建mogu_gateway====='
-          cd mogu_gateway
+          echo '=====开始构建iafoot_gateway====='
+          cd iafoot_gateway
           mvn docker:build
           cd ..
 
-          echo '=====开始构建mogu_monitor====='
-          cd mogu_monitor
+          echo '=====开始构建iafoot_monitor====='
+          cd iafoot_monitor
           mvn docker:build
           cd ..
 
-          echo '=====开始构建mogu_picture====='
-          cd mogu_picture
+          echo '=====开始构建iafoot_picture====='
+          cd iafoot_picture
           mvn docker:build
           cd ..
 
-          echo '=====开始构建mogu_search====='
-          cd mogu_search
+          echo '=====开始构建iafoot_search====='
+          cd iafoot_search
           mvn docker:build
           cd ..
 
-          echo '=====开始构建mogu_sms====='
-          cd mogu_sms
+          echo '=====开始构建iafoot_sms====='
+          cd iafoot_sms
           mvn docker:build
           cd ..
 
-          echo '=====开始构建mogu_spider====='
-          cd mogu_spider
+          echo '=====开始构建iafoot_spider====='
+          cd iafoot_spider
           mvn docker:build
           cd ..
 
-          echo '=====开始构建mogu_web====='
-          cd mogu_web
+          echo '=====开始构建iafoot_web====='
+          cd iafoot_web
           mvn docker:build
           cd ..
 
@@ -358,29 +358,29 @@ jobs:
       - name: Push Docker Image
         run: |
           echo '=====开始上传镜像====='
-          echo '=====开始上传mogu_admin====='
-          docker push moxi/mogu_admin
+          echo '=====开始上传iafoot_admin====='
+          docker push moxi/iafoot_admin
 
-          echo '=====开始上传mogu_gateway====='
-          docker push moxi/mogu_gateway
+          echo '=====开始上传iafoot_gateway====='
+          docker push moxi/iafoot_gateway
 
-          echo '=====开始上传mogu_monitor====='
-          docker push moxi/mogu_monitor
+          echo '=====开始上传iafoot_monitor====='
+          docker push moxi/iafoot_monitor
 
-          echo '=====开始上传mogu_picture====='
-          docker push moxi/mogu_picture
+          echo '=====开始上传iafoot_picture====='
+          docker push moxi/iafoot_picture
 
-          echo '=====开始上传mogu_search====='
-          docker push moxi/mogu_search
+          echo '=====开始上传iafoot_search====='
+          docker push moxi/iafoot_search
 
-          echo '=====开始上传mogu_sms====='
-          docker push moxi/mogu_sms
+          echo '=====开始上传iafoot_sms====='
+          docker push moxi/iafoot_sms
 
-          echo '=====开始上传mogu_spider====='
-          docker push moxi/mogu_spider
+          echo '=====开始上传iafoot_spider====='
+          docker push moxi/iafoot_spider
 
-          echo '=====开始上传mogu_web====='
-          docker push moxi/mogu_web
+          echo '=====开始上传iafoot_web====='
+          docker push moxi/iafoot_web
 
           echo '=====镜像上传结束====='
 
@@ -432,16 +432,16 @@ jobs:
           echo '=====开始mvn install&&package====='
           mvn install -DskipTests=true && mvn package -DskipTests=true
 
-      - name: Build vue_mogu_admin and vue_mogu_web
+      - name: Build vue_iafoot_admin and vue_iafoot_web
         run: |
-          echo '=====开始安装Vue_mogu_admin依赖====='
-          cd ./vue_mogu_admin
+          echo '=====开始安装Vue_iafoot_admin依赖====='
+          cd ./vue_iafoot_admin
           npm install
           npm run build
           cd ..
 
-          echo '=====开始安装Vue_mogu_web依赖====='
-          cd ./vue_mogu_web
+          echo '=====开始安装Vue_iafoot_web依赖====='
+          cd ./vue_iafoot_web
           npm install
           npm run build
           cd ..
@@ -451,43 +451,43 @@ jobs:
         run: |
 
           echo '=====开始构建镜像====='
-          echo '=====开始构建mogu_admin====='
-          cd mogu_admin
+          echo '=====开始构建iafoot_admin====='
+          cd iafoot_admin
           mvn docker:build
           cd ..
 
-          echo '=====开始构建mogu_gateway====='
-          cd mogu_gateway
+          echo '=====开始构建iafoot_gateway====='
+          cd iafoot_gateway
           mvn docker:build
           cd ..
 
-          echo '=====开始构建mogu_monitor====='
-          cd mogu_monitor
+          echo '=====开始构建iafoot_monitor====='
+          cd iafoot_monitor
           mvn docker:build
           cd ..
 
-          echo '=====开始构建mogu_picture====='
-          cd mogu_picture
+          echo '=====开始构建iafoot_picture====='
+          cd iafoot_picture
           mvn docker:build
           cd ..
 
-          echo '=====开始构建mogu_search====='
-          cd mogu_search
+          echo '=====开始构建iafoot_search====='
+          cd iafoot_search
           mvn docker:build
           cd ..
 
-          echo '=====开始构建mogu_sms====='
-          cd mogu_sms
+          echo '=====开始构建iafoot_sms====='
+          cd iafoot_sms
           mvn docker:build
           cd ..
 
-          echo '=====开始构建mogu_spider====='
-          cd mogu_spider
+          echo '=====开始构建iafoot_spider====='
+          cd iafoot_spider
           mvn docker:build
           cd ..
 
-          echo '=====开始构建mogu_web====='
-          cd mogu_web
+          echo '=====开始构建iafoot_web====='
+          cd iafoot_web
           mvn docker:build
           cd ..
 
@@ -498,13 +498,13 @@ jobs:
         run: |
 
           echo '=====开始构建镜像====='
-          echo '=====开始构建vue_mogu_admin====='
-          cd vue_mogu_admin
-          docker build -t registry.cn-shenzhen.aliyuncs.com/mogublog/vue_mogu_admin .
+          echo '=====开始构建vue_iafoot_admin====='
+          cd vue_iafoot_admin
+          docker build -t registry.cn-shenzhen.aliyuncs.com/iafootblog/vue_iafoot_admin .
           cd ..
 
-          cd vue_mogu_web
-          docker build -t registry.cn-shenzhen.aliyuncs.com/mogublog/vue_mogu_web .
+          cd vue_iafoot_web
+          docker build -t registry.cn-shenzhen.aliyuncs.com/iafootblog/vue_iafoot_web .
           cd ..
 
           echo '=====镜像构建结束====='
@@ -520,35 +520,35 @@ jobs:
       - name: Push Docker Image
         run: |
           echo '=====开始上传镜像====='
-          echo '=====开始上传mogu_admin====='
-          docker push registry.cn-shenzhen.aliyuncs.com/mogublog/mogu_admin
+          echo '=====开始上传iafoot_admin====='
+          docker push registry.cn-shenzhen.aliyuncs.com/iafootblog/iafoot_admin
 
-          echo '=====开始上传mogu_gateway====='
-          docker push registry.cn-shenzhen.aliyuncs.com/mogublog/mogu_gateway
+          echo '=====开始上传iafoot_gateway====='
+          docker push registry.cn-shenzhen.aliyuncs.com/iafootblog/iafoot_gateway
 
-          echo '=====开始上传mogu_monitor====='
-          docker push registry.cn-shenzhen.aliyuncs.com/mogublog/mogu_monitor
+          echo '=====开始上传iafoot_monitor====='
+          docker push registry.cn-shenzhen.aliyuncs.com/iafootblog/iafoot_monitor
 
-          echo '=====开始上传mogu_picture====='
-          docker push registry.cn-shenzhen.aliyuncs.com/mogublog/mogu_picture
+          echo '=====开始上传iafoot_picture====='
+          docker push registry.cn-shenzhen.aliyuncs.com/iafootblog/iafoot_picture
 
-          echo '=====开始上传mogu_search====='
-          docker push registry.cn-shenzhen.aliyuncs.com/mogublog/mogu_search
+          echo '=====开始上传iafoot_search====='
+          docker push registry.cn-shenzhen.aliyuncs.com/iafootblog/iafoot_search
 
-          echo '=====开始上传mogu_sms====='
-          docker push registry.cn-shenzhen.aliyuncs.com/mogublog/mogu_sms
+          echo '=====开始上传iafoot_sms====='
+          docker push registry.cn-shenzhen.aliyuncs.com/iafootblog/iafoot_sms
 
-          echo '=====开始上传mogu_spider====='
-          docker push registry.cn-shenzhen.aliyuncs.com/mogublog/mogu_spider
+          echo '=====开始上传iafoot_spider====='
+          docker push registry.cn-shenzhen.aliyuncs.com/iafootblog/iafoot_spider
 
-          echo '=====开始上传mogu_web====='
-          docker push registry.cn-shenzhen.aliyuncs.com/mogublog/mogu_web
+          echo '=====开始上传iafoot_web====='
+          docker push registry.cn-shenzhen.aliyuncs.com/iafootblog/iafoot_web
 
-          echo '=====开始上传vue_mogu_admin====='
-          docker push registry.cn-shenzhen.aliyuncs.com/mogublog/vue_mogu_admin
+          echo '=====开始上传vue_iafoot_admin====='
+          docker push registry.cn-shenzhen.aliyuncs.com/iafootblog/vue_iafoot_admin
 
-          echo '=====开始上传vue_mogu_web====='
-          docker push registry.cn-shenzhen.aliyuncs.com/mogublog/vue_mogu_web
+          echo '=====开始上传vue_iafoot_web====='
+          docker push registry.cn-shenzhen.aliyuncs.com/iafootblog/vue_iafoot_web
 
           echo '=====镜像上传结束====='
 ```

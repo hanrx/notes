@@ -55,9 +55,9 @@ mkdir -p /home/minio/config
 
 ```bash
 docker run -p 9000:9000 --name minio \
--e "MINIO_ACCESS_KEY=mogu2018" \
+-e "MINIO_ACCESS_KEY=iafoot2018" \
 --privileged=true \
--e "MINIO_SECRET_KEY=mogu2018" \
+-e "MINIO_SECRET_KEY=iafoot2018" \
 -v /home/minio/data:/data \
 -v /home/minio/config:/root/.minio \
 minio/minio server /data
@@ -76,9 +76,9 @@ minio/minio server /data
 
 ```bash
 docker run --privileged -d -it -p 9000:9000 --name minio \
--e "MINIO_ACCESS_KEY=mogu2018" \
+-e "MINIO_ACCESS_KEY=iafoot2018" \
 --privileged=true \
--e "MINIO_SECRET_KEY=mogu2018" \
+-e "MINIO_SECRET_KEY=iafoot2018" \
 -v /home/minio/data:/data \
 -v /home/minio/config:/root/.minio \
 minio/minio server /data
@@ -94,7 +94,7 @@ http://192.168.1.101:9000
 
 ![image-20201015150747476](images/image-20201015150747476.png)
 
-会有一个不错的登录页面，我们输入刚刚配置的账号和密码  mogu2018  mogu2018 即可进入
+会有一个不错的登录页面，我们输入刚刚配置的账号和密码  iafoot2018  iafoot2018 即可进入
 
 ![image-20201015150824563](images/image-20201015150824563.png)
 
@@ -104,7 +104,7 @@ http://192.168.1.101:9000
 
 我们首先需要创建一个桶，可以当成是一个目录，点击我们的右下角 加号 按钮，选择 create bucket进行创建
 
-我们创建一个叫 mogublog 的桶，创建完成后，在侧边栏就能够看到我们刚刚创建的了
+我们创建一个叫 iafootblog 的桶，创建完成后，在侧边栏就能够看到我们刚刚创建的了
 
 ![image-20201015151202753](images/image-20201015151202753.png)
 
@@ -126,7 +126,7 @@ http://192.168.1.101:9000
 
 ![image-20201015151639447](images/image-20201015151639447.png)
 
-首先点击我们的mogublog的右边区域，点击Edit policy，然后添加我们的权限为 可读可写，保存即可
+首先点击我们的iafootblog的右边区域，点击Edit policy，然后添加我们的权限为 可读可写，保存即可
 
 ### 添加依赖
 
@@ -151,9 +151,9 @@ spring:
 
 minio:
   endpoint: http://192.168.1.101:9000
-  accessKey: mogu2018
-  secretKey: mogu2018
-  bucketImageName: mogublog
+  accessKey: iafoot2018
+  secretKey: iafoot2018
+  bucketImageName: iafootblog
 ```
 
 ### 添加配置文件
@@ -198,7 +198,7 @@ public class MinIoController {
         String fileName = data.getOriginalFilename();
         InputStream inputStram = data.getInputStream();
         minioClient.putObject(
-                PutObjectArgs.builder().bucket("mogublog").object(fileName).stream(
+                PutObjectArgs.builder().bucket("iafootblog").object(fileName).stream(
                         inputStram, data.getSize(), -1)
                         .contentType(data.getContentType())
                         .build());
@@ -207,7 +207,7 @@ public class MinIoController {
 
     @PostMapping("/download")
     public String download(@RequestParam("fileName")String fileName) throws Exception{
-        String url = minioClient.presignedGetObject("mogublog", fileName, 60*60*24*7);
+        String url = minioClient.presignedGetObject("iafootblog", fileName, 60*60*24*7);
         return url;
     }
 }
@@ -238,7 +238,7 @@ Content-Type  multipart/form-data
 我们可以通过下面的地址直接访问我们的图片
 
 ```bash
-http://192.168.1.101:9000/mogublog/1578926382309.jpg
+http://192.168.1.101:9000/iafootblog/1578926382309.jpg
 ```
 
 ## 蘑菇博客配置Minio

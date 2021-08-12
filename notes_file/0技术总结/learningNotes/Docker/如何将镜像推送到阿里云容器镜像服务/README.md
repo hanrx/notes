@@ -10,7 +10,7 @@
 
 ![image-20201130101950767](images/image-20201130101950767.png)
 
-这里我已经创建了一个 `mogublog`，创建完成后，我们需要到访问凭证设置我们的密码，然后复制 登录脚本
+这里我已经创建了一个 `iafootblog`，创建完成后，我们需要到访问凭证设置我们的密码，然后复制 登录脚本
 
 ![image-20201130102300039](images/image-20201130102300039.png)
 
@@ -35,9 +35,9 @@ docker login --username=moxi****@163.com registry.cn-shenzhen.aliyuncs.com
 
 ```bash
 # 格式
-docker tag [ImageId] registry.cn-shenzhen.aliyuncs.com/mogublog/mogu_admin:[镜像版本号]
+docker tag [ImageId] registry.cn-shenzhen.aliyuncs.com/iafootblog/iafoot_admin:[镜像版本号]
 # 样例代码【如下】
-docker tag 5f96da15eb94  registry.cn-shenzhen.aliyuncs.com/mogublog/mogu_blog_nacos:latest
+docker tag 5f96da15eb94  registry.cn-shenzhen.aliyuncs.com/iafootblog/iafoot_blog_nacos:latest
 ```
 
 如果你的镜像没有制作好，可以先制作镜像
@@ -46,7 +46,7 @@ docker tag 5f96da15eb94  registry.cn-shenzhen.aliyuncs.com/mogublog/mogu_blog_na
 # 查看容器ID
 docker ps -a
 # 提交镜像
-docker commit -m "制作镜像" 容器ID registry.cn-shenzhen.aliyuncs.com/mogublog/mogu_blog_nacos:latest
+docker commit -m "制作镜像" 容器ID registry.cn-shenzhen.aliyuncs.com/iafootblog/iafoot_blog_nacos:latest
 ```
 
 打完tag后，我们就能够看到我们的镜像的tag了
@@ -60,7 +60,7 @@ docker images;
 下面我们就可以提交到我们的阿里云仓库
 
 ```bash
-docker push registry.cn-shenzhen.aliyuncs.com/mogublog/mogu_blog_nacos:latest
+docker push registry.cn-shenzhen.aliyuncs.com/iafootblog/iafoot_blog_nacos:latest
 ```
 
 ![image-20201130104229395](images/image-20201130104229395.png)

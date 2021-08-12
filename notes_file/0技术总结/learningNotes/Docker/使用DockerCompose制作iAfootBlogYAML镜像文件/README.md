@@ -2,17 +2,17 @@
 
 ## 前言
 
-首先特别感谢群里的小伙伴 [@touch fish](https://gitee.com/chengccn1) 使用DockerCompose部署了iAfootBlog，并且提供了 [搭建文档](https://gitee.com/chengccn1/mogu_blog_v2/blob/Nacos/docker-compose%E9%83%A8%E7%BD%B2.md)，本博客也是在上面的文档基础上进行修改~
+首先特别感谢群里的小伙伴 [@touch fish](https://gitee.com/chengccn1) 使用DockerCompose部署了iAfootBlog，并且提供了 [搭建文档](https://gitee.com/chengccn1/iafoot_blog_v2/blob/Nacos/docker-compose%E9%83%A8%E7%BD%B2.md)，本博客也是在上面的文档基础上进行修改~
 
 本文主要讲解的是，如果将iAfootBlog制作成多个Docker业务镜像，逐步讲解每个镜像制作的过程
 
-如果你只想快速部署iAfootBlog，那么可直接参考：[DockerCompose一键部署iAfootBlog(Nacos版)](http://www.moguit.cn/#/info?blogOid=565)
+如果你只想快速部署iAfootBlog，那么可直接参考：[DockerCompose一键部署iAfootBlog(Nacos版)](http://www.iafootit.cn/#/info?blogOid=565)
 
-如果你想了解一下Docker Compose的使用，参考： [Docker Compose入门学习](http://www.moguit.cn/#/info?blogOid=568)
+如果你想了解一下Docker Compose的使用，参考： [Docker Compose入门学习](http://www.iafootit.cn/#/info?blogOid=568)
 
-如果你想把制作好的镜像提交到镜像仓库，参考：[使用GithubAction构建iAfootBlog镜像提交DockerHub](http://www.moguit.cn/#/info?blogOid=569)
+如果你想把制作好的镜像提交到镜像仓库，参考：[使用GithubAction构建iAfootBlog镜像提交DockerHub](http://www.iafootit.cn/#/info?blogOid=569)
 
-如果你想了解Docker图形化工具Portainer的使用，参考：[Docker图形化工具Portainer介绍与安装](http://www.moguit.cn/#/info?blogOid=570)
+如果你想了解Docker图形化工具Portainer的使用，参考：[Docker图形化工具Portainer介绍与安装](http://www.iafootit.cn/#/info?blogOid=570)
 
 ## 安装常用工具
 
@@ -130,7 +130,7 @@ yum -y install git
 安装好后，我们下载iAfootBlog的源码【选择nacos分支】
 
 ```bash
-git clone -b Nacos --depth 1 https://gitee.com/chengccn1/mogu_blog_v2.git
+git clone -b Nacos --depth 1 https://gitee.com/chengccn1/iafoot_blog_v2.git
 ```
 
 ## 安装基础环境
@@ -222,11 +222,11 @@ vim /usr/share/maven/conf/settings.xml
 
 ## 部署博客初始环境
 
-下面我们在源码目录，找到 `mogublog_base_service` 文件夹，然后拷贝到 `/root` 目录
+下面我们在源码目录，找到 `iafootblog_base_service` 文件夹，然后拷贝到 `/root` 目录
 
 ```bash
 # 拷贝
-cp -R mogublog_base_service /root/
+cp -R iafootblog_base_service /root/
 ```
 
 ### 创建容器用的网络
@@ -234,7 +234,7 @@ cp -R mogublog_base_service /root/
 创建网络
 
 ```bash
-docker network create mogu
+docker network create iafoot
 ```
 
 重启docker
@@ -245,7 +245,7 @@ systemctl restart docker
 
 ### 部署mysql
 
-在 /soft/mogublog_base_service 执行下面命令
+在 /soft/iafootblog_base_service 执行下面命令
 
 ```bash
 cd mysql && docker-compose up -d && cd ..
@@ -274,9 +274,9 @@ services:
       - ./data:/var/lib/mysql
       - ./init/:/docker-entrypoint-initdb.d/
     networks:
-      - mogu
+      - iafoot
 networks:
-  mogu:
+  iafoot:
     external: true
 ```
 
@@ -322,7 +322,7 @@ services:
       - "9555:9555"
     restart: always
     networks:
-      - mogu
+      - iafoot
   redis:
     image: redis
     restart: always
@@ -332,7 +332,7 @@ services:
     volumes:
       - ./redis/data:/data
     networks:
-      - mogu
+      - iafoot
   rabbitmq:
     restart: always
     image: rabbitmq:management
@@ -347,10 +347,10 @@ services:
     volumes:
       - ./rabbitmq/data:/var/lib/rabbitmq
     networks:
-      - mogu
+      - iafoot
 
 networks:
-  mogu:
+  iafoot:
     external: true
 ```
 
@@ -363,32 +363,32 @@ networks:
 我们执行下面的命令
 
 ```bash
-docker-compose -f ./mogu_data/mogu_data.yml up -d
+docker-compose -f ./iafoot_data/iafoot_data.yml up -d
 ```
 
-`mogu_data.yml` 脚本内容如下所示
+`iafoot_data.yml` 脚本内容如下所示
 
 ```yml
 version: '3'
 services:
   #授权服务
-  vue_mogu_web:
+  vue_iafoot_web:
     image: nginx
-    container_name: mogu_data
+    container_name: iafoot_data
     restart: always
     ports:
       - 8600:80
     networks:
-      - mogu
+      - iafoot
     volumes:
-      - /home/moxi/mogu_blog_v2/mogu_data/:/home/mogu_blog/mogu_data/
+      - /home/moxi/iafoot_blog_v2/iafoot_data/:/home/iafoot_blog/iafoot_data/
       - ./default.conf:/etc/nginx/conf.d/default.conf
 networks:
-  mogu:
+  iafoot:
     external: true
 ```
 
-这里将我们的 mogu_data数据目录挂载出来了，同时也把配置文件挂载了出来，default.confi 如下所示
+这里将我们的 iafoot_data数据目录挂载出来了，同时也把配置文件挂载了出来，default.confi 如下所示
 
 ```bash
     server {
@@ -403,7 +403,7 @@ networks:
         }
 
         location / {
-                root   /home/mogu_blog/mogu_data/;
+                root   /home/iafoot_blog/iafoot_data/;
                 index  index.html index.htm;
         }
     }
@@ -435,18 +435,18 @@ services:
     ports:
       - 9411:9411
     networks:
-      - mogu
+      - iafoot
   sentinel:
-    image: registry.cn-shenzhen.aliyuncs.com/mogublog/sentinel
+    image: registry.cn-shenzhen.aliyuncs.com/iafootblog/sentinel
     restart: always
     container_name: sentinel
     ports:
       - 8070:8858
     networks:
-      - mogu
+      - iafoot
 
 networks:
-  mogu:
+  iafoot:
     external: true
 ```
 
@@ -473,7 +473,7 @@ ENTRYPOINT ["java", "-jar", "sentinel.jar", "--server.port=8070"]
 然后开始构建镜像【因为我需要上传到阿里云，所以使用了阿里云的镜像前缀】
 
 ```bash
-docker build -t registry.cn-shenzhen.aliyuncs.com/mogublog/sentinel .
+docker build -t registry.cn-shenzhen.aliyuncs.com/iafootblog/sentinel .
 ```
 
 完成后，即可看到构建成功的镜像了【体积相对较少】
@@ -488,16 +488,16 @@ docker build -t registry.cn-shenzhen.aliyuncs.com/mogublog/sentinel .
 version: '3.1'
 services:
   sentinel:
-    image: registry.cn-shenzhen.aliyuncs.com/mogublog/sentinel
+    image: registry.cn-shenzhen.aliyuncs.com/iafootblog/sentinel
     restart: always
     container_name: sentinel
     ports:
       - 8070:8070
     networks:
-      - mogu
+      - iafoot
 
 networks:
-  mogu:
+  iafoot:
     external: true
 ```
 
@@ -577,9 +577,9 @@ services:
       - ./logstash/conf:/etc/logstash/conf.d
       - ./kibana/kibana.yml:/opt/kibana/config/kibana.yml
     networks:
-      - mogu
+      - iafoot
 networks:
-  mogu:
+  iafoot:
     external: true
 ```
 
@@ -627,38 +627,38 @@ filter {
 #}
 
 output {
-    if [from] == 'mogu_web' {
+    if [from] == 'iafoot_web' {
         elasticsearch {
           hosts => ["127.0.0.1:9200"]
-          index => "logstash_mogu_web_%{+YYYY.MM.dd}"
+          index => "logstash_iafoot_web_%{+YYYY.MM.dd}"
         }
     }
 
-    if [from] == "mogu_admin" {
+    if [from] == "iafoot_admin" {
         elasticsearch {
           hosts => ["127.0.0.1:9200"]
-          index => "logstash_mogu_admin_%{+YYYY.MM.dd}"
+          index => "logstash_iafoot_admin_%{+YYYY.MM.dd}"
         }
     }
 
-    if [from] == "mogu_sms" {
+    if [from] == "iafoot_sms" {
         elasticsearch {
           hosts => ["127.0.0.1:9200"]
-          index => "logstash_mogu_sms_%{+YYYY.MM.dd}"
+          index => "logstash_iafoot_sms_%{+YYYY.MM.dd}"
         }
     }
 
-    if [from] == "mogu_picture" {
+    if [from] == "iafoot_picture" {
         elasticsearch {
           hosts => ["127.0.0.1:9200"]
-          index => "logstash_mogu_picture_%{+YYYY.MM.dd}"
+          index => "logstash_iafoot_picture_%{+YYYY.MM.dd}"
         }
     }
 
-    if [from] == "mogu_nginx" {
+    if [from] == "iafoot_nginx" {
         elasticsearch {
           hosts => ["127.0.0.1:9200"]
-          index => "logstash_mogu_nginx_%{+YYYY.MM.dd}"
+          index => "logstash_iafoot_nginx_%{+YYYY.MM.dd}"
         }
     }
 }
@@ -693,16 +693,16 @@ services:
     ports:
       - "9090:9000"
     environment:
-      - "MINIO_ACCESS_KEY=mogu2018"
-      - "MINIO_SECRET_KEY=mogu2018"
+      - "MINIO_ACCESS_KEY=iafoot2018"
+      - "MINIO_SECRET_KEY=iafoot2018"
     command: server /data
     volumes:
       - ./minio:/data
     networks:
-      - mogu
+      - iafoot
 
 networks:
-  mogu:
+  iafoot:
     external: true
 ```
 
@@ -735,56 +735,56 @@ mvn install -DskipTests=true && mvn package -DskipTests=true
 
 echo '=====开始构建镜像====='
 
-echo '=====开始构建mogu_admin====='
-cd mogu_admin
+echo '=====开始构建iafoot_admin====='
+cd iafoot_admin
 mvn docker:build
 
 cd ..
 
-echo '=====开始构建mogu_gateway====='
-cd mogu_gateway
-
-mvn docker:build
-
-cd ..
-
-echo '=====开始构建mogu_monitor====='
-cd mogu_monitor
+echo '=====开始构建iafoot_gateway====='
+cd iafoot_gateway
 
 mvn docker:build
 
 cd ..
 
-echo '=====开始构建mogu_picture====='
-cd mogu_picture
+echo '=====开始构建iafoot_monitor====='
+cd iafoot_monitor
 
 mvn docker:build
 
 cd ..
 
-echo '=====开始构建mogu_search====='
-cd mogu_search
+echo '=====开始构建iafoot_picture====='
+cd iafoot_picture
 
 mvn docker:build
 
 cd ..
 
-echo '=====开始构建mogu_sms====='
-cd mogu_sms
+echo '=====开始构建iafoot_search====='
+cd iafoot_search
 
 mvn docker:build
 
 cd ..
 
-echo '=====开始构建mogu_spider====='
-cd mogu_spider
+echo '=====开始构建iafoot_sms====='
+cd iafoot_sms
 
 mvn docker:build
 
 cd ..
 
-echo '=====开始构建mogu_web====='
-cd mogu_web
+echo '=====开始构建iafoot_spider====='
+cd iafoot_spider
+
+mvn docker:build
+
+cd ..
+
+echo '=====开始构建iafoot_web====='
+cd iafoot_web
 
 mvn docker:build
 
@@ -823,36 +823,36 @@ echo '=====开始运行后台====='
 cd docker-compose
 
 
-echo '=====开始运行mogu_gateway====='
+echo '=====开始运行iafoot_gateway====='
 
-docker-compose -f mogu_gateway.yml up -d
+docker-compose -f iafoot_gateway.yml up -d
 
-echo '=====开始运行mogu_admin====='
+echo '=====开始运行iafoot_admin====='
 
-docker-compose -f mogu_admin.yml up -d
+docker-compose -f iafoot_admin.yml up -d
 
-echo '=====开始运行mogu_picture====='
+echo '=====开始运行iafoot_picture====='
 
-docker-compose -f mogu_picture.yml up -d
+docker-compose -f iafoot_picture.yml up -d
 
-echo '=====开始运行mogu_search====='
+echo '=====开始运行iafoot_search====='
 
-docker-compose -f mogu_search.yml up -d
+docker-compose -f iafoot_search.yml up -d
 
-echo '=====开始运行mogu_sms====='
+echo '=====开始运行iafoot_sms====='
 
-docker-compose -f mogu_sms.yml up -d
+docker-compose -f iafoot_sms.yml up -d
 
-echo '=====开始运行mogu_monitor====='
+echo '=====开始运行iafoot_monitor====='
 
-docker-compose -f mogu_monitor.yml up -d
+docker-compose -f iafoot_monitor.yml up -d
 
-echo '=====开始运行mogu_web====='
+echo '=====开始运行iafoot_web====='
 
-docker-compose -f mogu_web.yml up -d
+docker-compose -f iafoot_web.yml up -d
 
 
-echo '执行完成 日志目录mogu_blog_v2/log'
+echo '执行完成 日志目录iafoot_blog_v2/log'
 ```
 
 `down.sh` 脚本内容如下所示
@@ -864,66 +864,66 @@ echo '=====结束运行====='
 
 cd docker-compose
 
-echo '=====结束运行mogu_gateway====='
+echo '=====结束运行iafoot_gateway====='
 
-docker-compose -f mogu_gateway.yml down
+docker-compose -f iafoot_gateway.yml down
 
-echo '=====结束运行mogu_admin====='
+echo '=====结束运行iafoot_admin====='
 
-docker-compose -f mogu_admin.yml down
+docker-compose -f iafoot_admin.yml down
 
-echo '=====结束运行mogu_picture====='
+echo '=====结束运行iafoot_picture====='
 
-docker-compose -f mogu_picture.yml down
+docker-compose -f iafoot_picture.yml down
 
-echo '=====结束运行mogu_search====='
+echo '=====结束运行iafoot_search====='
 
-docker-compose -f mogu_search.yml down
+docker-compose -f iafoot_search.yml down
 
-echo '=====结束运行mogu_sms====='
+echo '=====结束运行iafoot_sms====='
 
-docker-compose -f mogu_sms.yml down
+docker-compose -f iafoot_sms.yml down
 
-echo '=====结束运行mogu_monitor====='
+echo '=====结束运行iafoot_monitor====='
 
-docker-compose -f mogu_monitor.yml down
+docker-compose -f iafoot_monitor.yml down
 
-echo '=====结束运行mogu_web====='
+echo '=====结束运行iafoot_web====='
 
-docker-compose -f mogu_web.yml down
+docker-compose -f iafoot_web.yml down
 ```
 
-我们找到启动的一个脚本，以 `mogu_picture` 为例 【内部其实就是】
+我们找到启动的一个脚本，以 `iafoot_picture` 为例 【内部其实就是】
 
 ```yaml
 version: '3'
 services:
   #授权服务
-  mogu_admin:
-    image: moxi/mogu_admin:latest
-    container_name: mogu_admin
+  iafoot_admin:
+    image: moxi/iafoot_admin:latest
+    container_name: iafoot_admin
     restart: always
     ports:
       - 8601:8601
     networks:
-      - mogu
+      - iafoot
     environment:
-      - COMPOSE_PROJECT_NAME=mogu_admin
+      - COMPOSE_PROJECT_NAME=iafoot_admin
     volumes:
       - ../log/:/logs/
 networks:
-  mogu:
+  iafoot:
     external: true
 ```
 
 部署完成后，我们访问如下地址，即可查看swagger页面了
 
 ```bash
-# mogu_admin
+# iafoot_admin
 http://192.168.177.150:8601/swagger-ui/index.html
-# mogu_picture
+# iafoot_picture
 http://192.168.177.150:8602/swagger-ui/index.html
-# mogu_web
+# iafoot_web
 http://192.168.177.150:8603/swagger-ui/index.html
 ```
 
@@ -933,7 +933,7 @@ http://192.168.177.150:8603/swagger-ui/index.html
 
 ### 依赖安装&打包
 
-然后我们到 源码目录 mogu_blog_v2 目录下，执行vue构建和打包脚本【过程较慢，耐心等待】
+然后我们到 源码目录 iafoot_blog_v2 目录下，执行vue构建和打包脚本【过程较慢，耐心等待】
 
 ```sh
 sh vue_build.sh
@@ -945,10 +945,10 @@ sh vue_build.sh
 #!/usr/bin/env bash
 
 echo "=====开始构建前端项目====="
-echo "=====开始npm install & npm run build vue_mogu_admin====="
+echo "=====开始npm install & npm run build vue_iafoot_admin====="
 echo "=====构建比较慢 请稍等====="
 
-cd vue_mogu_admin
+cd vue_iafoot_admin
 
 npm i node-sass --sass_binary_site=https://npm.taobao.org/mirrors/node-sass --unsafe-perm
 
@@ -958,10 +958,10 @@ npm run build
 
 cd ..
 
-echo "=====开始npm install & npm run build vue_mogu_web====="
+echo "=====开始npm install & npm run build vue_iafoot_web====="
 echo "=====构建比较慢 请稍等====="
 
-cd vue_mogu_web
+cd vue_iafoot_web
 
 npm i node-sass --sass_binary_site=https://npm.taobao.org/mirrors/node-sass --unsafe-perm
 
@@ -972,12 +972,12 @@ npm run build
 cd ..
 ```
 
-### 制作vue_mogu_admin镜像
+### 制作vue_iafoot_admin镜像
 
-制作 vue_mogu_admin 镜像，首先我们需要准备一份 Dockerfile 文件【在vue_mogu_admin 目录下】
+制作 vue_iafoot_admin 镜像，首先我们需要准备一份 Dockerfile 文件【在vue_iafoot_admin 目录下】
 
 ```bash
-FROM registry.cn-shenzhen.aliyuncs.com/mogublog/nginx:latest
+FROM registry.cn-shenzhen.aliyuncs.com/iafootblog/nginx:latest
 ADD ./dist/ /usr/share/nginx/html
 RUN sed -i 's/\r$//' /usr/share/nginx/html/env.sh
 RUN chmod +x /usr/share/nginx/html/env.sh
@@ -988,15 +988,15 @@ CMD ["nginx", "-g", "daemon off;"]
 然后开始制作
 
 ```bash
-docker build -t moxi/vue_mogu_admin .
+docker build -t moxi/vue_iafoot_admin .
 ```
 
-### 制作vue_mogu_web镜像
+### 制作vue_iafoot_web镜像
 
-制作 vue_mogu_admin 镜像，首先我们需要准备一份 Dockerfile 文件【在vue_mogu_admin 目录下】
+制作 vue_iafoot_admin 镜像，首先我们需要准备一份 Dockerfile 文件【在vue_iafoot_admin 目录下】
 
 ```bash
-FROM registry.cn-shenzhen.aliyuncs.com/mogublog/nginx:latest
+FROM registry.cn-shenzhen.aliyuncs.com/iafootblog/nginx:latest
 ADD ./dist/ /usr/share/nginx/html
 RUN sed -i 's/\r$//' /usr/share/nginx/html/env.sh
 RUN chmod +x /usr/share/nginx/html/env.sh
@@ -1007,26 +1007,26 @@ CMD ["nginx", "-g", "daemon off;"]
 然后开始制作
 
 ```bash
-docker build -t moxi/vue_mogu_admin .
+docker build -t moxi/vue_iafoot_admin .
 ```
 
 ### 挂载前端配置
 
 因为前端项目的配置，我们需要做到动态的变化，如何做到的，参考 Vue项目打包后动态配置解决方案
 
-所以我们需要准备两个配置文件   config/vue_mogu_web.env 和 config/vue_mogu_admin.env ,这两个配置文件将在下面Docker compose 脚本中使用到
+所以我们需要准备两个配置文件   config/vue_iafoot_web.env 和 config/vue_iafoot_admin.env ,这两个配置文件将在下面Docker compose 脚本中使用到
 
-vue_mogu_web.env 文件内容如下
+vue_iafoot_web.env 文件内容如下
 
 ```bash
 NODE_ENV=production
-VUE_MOGU_WEB=http://192.168.1.101:9527
+VUE_iafoot_WEB=http://192.168.1.101:9527
 PICTURE_API=http://192.168.1.101:8602
 WEB_API=http://192.168.1.101:8603
 ELASTICSEARCH=http://192.168.1.101:8605
 ```
 
-vue_mogu_admin.env 文件内容如下
+vue_iafoot_admin.env 文件内容如下
 
 ```bash
 WEB_API=http://192.168.1.101:8603
@@ -1062,61 +1062,61 @@ echo '=====开始运行前台====='
 
 cd docker-compose
 
-echo '=====开始运行mogu_gateway====='
+echo '=====开始运行iafoot_gateway====='
 
-docker-compose -f vue_mogu_admin.yml up -d
+docker-compose -f vue_iafoot_admin.yml up -d
 
-echo '=====开始运行mogu_admin====='
+echo '=====开始运行iafoot_admin====='
 
-docker-compose -f vue_mogu_web.yml up -d
+docker-compose -f vue_iafoot_web.yml up -d
 ```
 
 该脚本其实主要是执行了两个 docker-compose.yml 文件
 
-`vue_mogu_admin.yml` 的内容如下
+`vue_iafoot_admin.yml` 的内容如下
 
 ```bash
 version: '3'
 services:
   #授权服务
-  vue_mogu_admin:
-    image: registry.cn-shenzhen.aliyuncs.com/mogublog/vue_mogu_admin:latest
-    container_name: vue_mogu_admin
+  vue_iafoot_admin:
+    image: registry.cn-shenzhen.aliyuncs.com/iafootblog/vue_iafoot_admin:latest
+    container_name: vue_iafoot_admin
     restart: always
     ports:
       - 9528:80
     networks:
-      - mogu
+      - iafoot
     env_file:
-      - ../config/vue_mogu_admin.env
+      - ../config/vue_iafoot_admin.env
     environment:
-      - COMPOSE_PROJECT_NAME=vue_mogu_admin
+      - COMPOSE_PROJECT_NAME=vue_iafoot_admin
 
 networks:
-  mogu:
+  iafoot:
     external: true
 ```
 
-`vue_mogu_web.yml` 的内容如下
+`vue_iafoot_web.yml` 的内容如下
 
 ```yaml
 version: '3'
 services:
   #授权服务
-  vue_mogu_web:
-    image: registry.cn-shenzhen.aliyuncs.com/mogublog/vue_mogu_web:latest
-    container_name: vue_mogu_web
+  vue_iafoot_web:
+    image: registry.cn-shenzhen.aliyuncs.com/iafootblog/vue_iafoot_web:latest
+    container_name: vue_iafoot_web
     restart: always
     ports:
       - 9527:80
     networks:
-      - mogu
+      - iafoot
     env_file:
-      - ../config/vue_mogu_web.env
+      - ../config/vue_iafoot_web.env
     environment:
-      - COMPOSE_PROJECT_NAME=vue_mogu_web
+      - COMPOSE_PROJECT_NAME=vue_iafoot_web
 networks:
-  mogu:
+  iafoot:
     external: true
 ```
 
@@ -1133,7 +1133,7 @@ http://192.168.177.150:9528
 
 ## 部署Docker容器可视化管理工具
 
-可以参考博客：[Docker图形化工具Portainer介绍与安装](http://www.moguit.cn/#/info?blogOid=570)
+可以参考博客：[Docker图形化工具Portainer介绍与安装](http://www.iafootit.cn/#/info?blogOid=570)
 
 在我们完成上面的服务后，就可以部署可视化管理工具 portainer了
 
@@ -1141,7 +1141,7 @@ http://192.168.177.150:9528
 # 进入目录
 cd docker-compose
 # 创建配置文件
-vim mogu_portainer.yml
+vim iafoot_portainer.yml
 ```
 
 然后添加如下内容
@@ -1173,7 +1173,7 @@ unzip Portainer-CN.zip -d public
 然后运行下面命令
 
 ```bash
-docker-compose -f mogu_portainer.yml up -d
+docker-compose -f iafoot_portainer.yml up -d
 ```
 
 构建portainer容器后，我们访问下面页面
@@ -1194,4 +1194,4 @@ http://ip:9000
 
 ![image-20201125202352995](images/image-20201125202352995.png)
 
-到此为止，iAfootBlog的镜像改造已经结束了~，后面就可以使用制作好的镜像来完成我们 [iAfootBlog的一键部署](http://www.moguit.cn/#/info?blogOid=565) 咯
+到此为止，iAfootBlog的镜像改造已经结束了~，后面就可以使用制作好的镜像来完成我们 [iAfootBlog的一键部署](http://www.iafootit.cn/#/info?blogOid=565) 咯
