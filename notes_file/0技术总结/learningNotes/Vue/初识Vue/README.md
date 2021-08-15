@@ -84,12 +84,30 @@ Vue中数据代理：
 
 ```
 
+# 事件处理
+## 事件的基本使用
+![img_9.png](img_9.png)
+```markdown
+事件的基本使用：
+    - 1.使用v-on:xxx 或 @xxx 绑定事件，其中xxx是事件名；
+    - 2.事件的回调需要配置在methods对象中，最终会在vm上；
+    - 3.methods中配置的函数，不要使用箭头函数！否则this就不是vm了；是windows。
+    - 4.methods中配置的函数，都是被Vue所管理的函数，this的指向是vm 或 组件实例对象；
+    - 5.@click="demo" 和@click="demo($event)"效果一致，但后者可以传参；【$event Vue的事件占位符】
+```
 
+## 事件修饰符
+```markdown
+Vue中的事件修饰符：
+    - 1.prevent：阻止默认事件（常用）；
+    - 2.stop：阻止事件冒泡（常用）：
+    - 3.once：事件只触发一次（常用）；
+    - 4.capture：使用事件的捕获模式；
+    - 5.self：只有event.target是当前操作的元素时才触发事件；
+    - 6.passive：事件的默认行为为立即执行，无需等待事件回调执行完毕；
+```
 
-
-
-
-
+## 键盘事件
 
 
 
