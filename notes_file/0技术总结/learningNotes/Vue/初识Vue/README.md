@@ -262,9 +262,7 @@ Vue监视数据的原理：
 				特别注意：Vue.set() 和 vm.$set() 不能给vm 或 vm的根数据对象 添加属性！！！
 ```
 
-P38
-https://www.bilibili.com/video/BV1Zy4y1K7SH/?p=38&spm_id_from=pageDriver
-
+# 数据绑定
  
 
 
