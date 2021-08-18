@@ -443,9 +443,21 @@ Vue中使用组件的三大步骤：
 ![img_11.png](img_11.png)
 
 ## 单文件组件
+```markdown
+<template>
+ <!-- 组件的结构 -->
+</template>
 
+<script>
+ <!-- 组件交互相关的代码 -->
+</script>
 
+<style>
+ <!-- 组件的样式 -->
+</style>
+```
 
+## Vue脚手架使用
 
 
 
