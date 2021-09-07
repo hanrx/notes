@@ -907,6 +907,7 @@ module.exports = {
    ```
 
 ## Vuex
+![img_12.png](img_12.png)
 
 ### 1.概念
 
