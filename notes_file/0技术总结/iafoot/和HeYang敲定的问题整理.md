@@ -18,11 +18,11 @@
 ## 20210915
 -- 未同步到何阳机器
 -- ALTER TABLE `mogu_blog`.`t_blog`
--- ADD COLUMN `praise_count` int(255) NULL DEFAULT NULL COMMENT '图文点赞数' AFTER `article_source`;
+-- ADD COLUMN `praise_count` int(255) NULL DEFAULT 0 COMMENT '图文点赞数' AFTER `article_source`;
 
 ## 20210916
 -- ALTER TABLE `mogu_blog`.`t_blog`
--- ADD COLUMN `comment_count` int(255) NULL DEFAULT NULL COMMENT '图文评论数' AFTER `praise_count`;
+-- ADD COLUMN `comment_count` int(255) NULL DEFAULT 0 COMMENT '图文评论数' AFTER `praise_count`;
 
 
 
