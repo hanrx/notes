@@ -178,7 +178,26 @@
 }
 ```
 
+### 删除评论
+实例》》 http://localhost:8607/iafoot-web/web/comment/delete
+请求：
+```json5
+{
+  "uid": "78221c3f3eee1e2df64b25182d610656",//评论UID
+  "userUid": "471be7cd3dbc38ddcab879245f0a08fa"//用户Uid
+}
+```
+响应：
+```json5
+{
+  "data": "删除成功",
+  "code": "success"
+}
+```
 
+## 收藏
+
+### 添加收藏
 
 
 
