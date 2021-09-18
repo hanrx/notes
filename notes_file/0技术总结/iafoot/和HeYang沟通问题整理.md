@@ -30,6 +30,18 @@
 -- ALTER TABLE `mogu_blog`.`t_comment`
 -- ADD COLUMN `video_uid` varchar(32) NULL COMMENT '视频UID' AFTER `blog_uid`;
 
+ALTER TABLE `mogu_blog`.`t_study_video`
+MODIFY COLUMN `click_count` int(0) NULL DEFAULT NULL COMMENT '点击数' AFTER `baidu_path`,
+ADD COLUMN `collect_count` int(0) NULL COMMENT '图文收藏数' AFTER `is_publish`,
+ADD COLUMN `comment_count` int(0) NULL COMMENT '评论数' AFTER `collect_count`;
+
+ALTER TABLE `mogu_blog`.`t_study_video`
+DROP COLUMN `click_count`,
+DROP COLUMN `collect_count`,
+DROP COLUMN `comment_count`,
+ADD COLUMN `click_count` int(255) NULL DEFAULT 0  COMMENT '点击数' AFTER `baidu_path`,
+ADD COLUMN `collect_count` int(255) NULL DEFAULT 0  COMMENT '图文收藏数' AFTER `click_count`,
+ADD COLUMN `comment_count` int(255) NULL DEFAULT 0  COMMENT '评论数' AFTER `collect_count`;
 
 
 # 接口验证
@@ -341,9 +353,33 @@ URL:http://localhost:8603/web/collect/getList
 }
 ```
 
-
-
-
+## 收藏 - 视频
+### 视频：增加收藏 
+URI：http://localhost:8603/web/collect/video/add
+请求：
+```json5
+{
+  "source": "BLOG_INFO",//写死即可
+  "videoUid": "5cdb5b3f1efaa513918c364a625c6122",//视频 UID
+  "userUid": "b2833edb8f46db03a4c17b3ef7d9b85a"//用户UID
+}
+```
+响应：
+```json5
+{
+  "data": {
+    "userUid": "b2833edb8f46db03a4c17b3ef7d9b85a",
+    "videoUid": "5cdb5b3f1efaa513918c364a625c6122",
+    "source": "BLOG_INFO",
+    "type": 2,
+    "uid": "27b5864c8c512532b01bf9a69de713d5",
+    "status": 1,
+    "createTime": "2021-09-18 17:21:25",
+    "updateTime": "2021-09-18 17:21:25"
+  },
+  "code": "success"//成功
+}
+```
 
 
 
