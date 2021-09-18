@@ -123,6 +123,39 @@ Spring Cloud开源社区实现。
 ```
 
 
+# 需要强记单词
+- FailureAnalyzer：故障分析器。Spring Boot概念，参见：https://docs.spring.io/spring-boot/docs/2.6.0-M2/reference/htmlsingle/#howto.application.failure-analyzer
+  - Failure：  /ˈfeɪljə(r)/  n. 失败；失败的人（或企业、事物）；未做到；缺乏，不足；故障，衰退；公司倒闭；歉收；突然失去
+  - Analyzer：/'ænəlaɪzə/ n. [计] 分析器；分析者；检偏镜
+- diagnostics：/ˌdaɪəɡˈnɒstɪks/  n. 诊断学（用作单数）
+- lazyInitialization：延迟初始化。Spring Boot概念，参见：7.1.2. 延迟初始化。
+  - lazy： /ˈleɪzi/  adj. 懒惰的；懒洋洋的；怠惰的；慢吞吞的
+  - Initialization： /ɪˌnɪʃəlaɪˈzeɪʃn/   n. [计] 初始化；赋初值
+
+
+
+
+
+# 待补充
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
