@@ -376,9 +376,52 @@ URI：http://localhost:8603/web/collect/video/add
 
 ### 添加收藏
 
-
-
-
+## 评论-视频
+### 视频》》添加评论
+实例》》 http://localhost:8607/web/comment/video/add
+请求：
+```json5
+{
+  "source": "BLOG_INFO",//写死
+  "videoUid": "62d0744ab83605ff86aebd3d83501eeb",//视频UID
+  "content": "视频评论测试",//评论内容
+  "userUid": "b2833edb8f46db03a4c17b3ef7d9b85a"//用户UID
+}
+```
+响应：
+```json5
+{
+    "data": {
+        "userUid": "b2833edb8f46db03a4c17b3ef7d9b85a",
+        "content": "视频评论测试",
+        "videoUid": "62d0744ab83605ff86aebd3d83501eeb",
+        "source": "BLOG_INFO",
+        "user": {
+            "userName": "99999",
+            "passWord": "d3eb9a9233e52948740d7eb8c3062d14",
+            "mobile": "99999",
+            "loginCount": 0,
+            "source": "iAfoot",
+            "lastLoginTime": "2021-09-22 09:33:26",
+            "lastLoginIp": "192.168.20.188",
+            "commentStatus": 1,
+            "startEmailNotification": 0,
+            "os": "Windows",
+            "browser": "Chrome-93.0.4577.82",
+            "userTag": 0,
+            "uid": "698483167b4aefa4b16ea85292dce0e6",
+            "status": 1,
+            "createTime": "2021-09-22 09:25:15",
+            "updateTime": "2021-09-22 09:33:26"
+        },
+        "uid": "27e7098c00c4a0b67961850ed5fb0893",
+        "status": 1,
+        "createTime": "2021-09-22 14:06:05",
+        "updateTime": "2021-09-22 14:06:05"
+    },
+    "code": "success"
+}
+```
 
 
 
