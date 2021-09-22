@@ -238,13 +238,13 @@ URL
 }
 ```
 
-### 删除收藏
+### 图文/视频 删除收藏
 URL: http://localhost:8603/web/collect/delete
 请求：
 ```json5
 {
-  "uid": "36ca0b8074270e64dff0b20907d033cc",
-  "userUid": "b2833edb8f46db03a4c17b3ef7d9b85a"
+  "uid": "36ca0b8074270e64dff0b20907d033cc",//收藏UID
+  "userUid": "b2833edb8f46db03a4c17b3ef7d9b85a"//用户UID
 }
 ```
 响应：
@@ -252,12 +252,12 @@ URL: http://localhost:8603/web/collect/delete
 {"data":"删除成功","code":"success"}
 ```
 
-### 获取收藏列表
+### 获取收藏列表(图文和视频)
 URL:http://localhost:8603/web/collect/getList
 请求：
 ```json5
 {
-  "userUid": "b2833edb8f46db03a4c17b3ef7d9b85a",
+  "userUid": "698483167b4aefa4b16ea85292dce0e6",
   "currentPage": 1,
   "pageSize": 11
 }
@@ -265,91 +265,71 @@ URL:http://localhost:8603/web/collect/getList
 响应：
 ```json5
 {
-    "data": [
-        {
-            "oid": 122, 
-            "title": "腾讯云测试", 
-            "content": "<p><img src=\"https://photo-2021-1307223178.cos.ap-beijing.myqcloud.com/abc/11111.jpg\" alt=\"1631258046250.jpg\" /></p>
-", 
-            "blogSortUid": "a03d7290b1c04b6eaf46659661b47032", 
-            "clickCount": 2, 
-            "collectCount": 1, 
-            "fileUid": "https://photo-2021-1307223178.cos.ap-beijing.myqcloud.com/abc/11111.jpg", 
-            "adminUid": "1f01cd1d2f474743b241d74008b12333", 
-            "isPublish": "1", 
-            "isOriginal": "1", 
-            "author": "admin", 
-            "articlesPart": "iAfoot媒体平台", 
-            "level": 1, 
-            "sort": 0, 
-            "openComment": "1", 
-            "type": "0", 
-            "praiseCount": 0, 
-            "commentCount": 0, 
-            "areasCodeList": [
-                "11"
-            ], 
-            "photoList": [
-                "https://photo-2021-1307223178.cos.ap-beijing.myqcloud.com/abc/11111.jpg"
-            ], 
-            "blogSort": {
-                "sortName": "公告", 
-                "content": "公告开发专题", 
-                "clickCount": 362, 
-                "sort": 16, 
-                "uid": "a03d7290b1c04b6eaf46659661b47032", 
-                "status": 1, 
-                "createTime": "2018-12-30 10:35:43", 
-                "updateTime": "2021-08-25 18:58:36"
-            }, 
-            "uid": "578bc9d11a0d40eeec653f4aadd8a585", 
-            "status": 1, 
-            "createTime": "2021-09-10 15:14:20", 
-            "updateTime": "2021-09-18 14:33:02"
-        }, 
-        {
-            "oid": 123, 
-            "title": "腾讯存储图片1", 
-            "content": "<p><img src=\"https://photo-2021-1307223178.cos.ap-beijing.myqcloud.com/blog/admin/jpeg/2021/9/10/1631261955793.jpeg\" alt=\"1631261955734.jpeg\" /><img src=\"https://photo-2021-1307223178.cos.ap-beijing.myqcloud.com/blog/admin/jpg/2021/9/10/1631261938459.jpg\" alt=\"1631261938390.jpg\" /></p>
-", 
-            "blogSortUid": "a03d7290b1c04b6eaf46659661b47032", 
-            "clickCount": 2, 
-            "collectCount": 3, 
-            "fileUid": "https://photo-2021-1307223178.cos.ap-beijing.myqcloud.com/blog/admin/jpeg/2021/9/10/1631261924859.jpeg", 
-            "adminUid": "1f01cd1d2f474743b241d74008b12333", 
-            "isPublish": "1", 
-            "isOriginal": "1", 
-            "author": "admin", 
-            "articlesPart": "iAfoot媒体平台", 
-            "level": 1, 
-            "sort": 0, 
-            "openComment": "1", 
-            "type": "0", 
-            "praiseCount": 0, 
-            "commentCount": 0, 
-            "areasCodeList": [
-                "11"
-            ], 
-            "photoList": [
-                "https://photo-2021-1307223178.cos.ap-beijing.myqcloud.com/blog/admin/jpeg/2021/9/10/1631261924859.jpeg"
-            ], 
-            "blogSort": {
-                "sortName": "公告", 
-                "content": "公告开发专题", 
-                "clickCount": 362, 
-                "sort": 16, 
-                "uid": "a03d7290b1c04b6eaf46659661b47032", 
-                "status": 1, 
-                "createTime": "2018-12-30 10:35:43", 
-                "updateTime": "2021-08-25 18:58:36"
-            }, 
-            "uid": "b2f3ba18b73899f0a5ae67ab5184fe11", 
-            "status": 1, 
-            "createTime": "2021-09-10 16:19:57", 
-            "updateTime": "2021-09-18 14:29:53"
-        }
-    ], 
-    "code": "success"
+  "data": {
+    "records": [
+      {
+        "oid": 122,
+        "title": "腾讯云测试",
+        "content": "<p><img src=\"https://photo-2021-1307223178.cos.ap-beijing.myqcloud.com/abc/11111.jpg\" alt=\"1631258046250.jpg\" /></p>\n",
+        "blogSortUid": "a03d7290b1c04b6eaf46659661b47032",
+        "clickCount": 2,
+        "collectCount": 2,
+        "fileUid": "https://photo-2021-1307223178.cos.ap-beijing.myqcloud.com/abc/11111.jpg",
+        "adminUid": "1f01cd1d2f474743b241d74008b12333",
+        "isPublish": "1",
+        "isOriginal": "1",
+        "author": "admin",
+        "articlesPart": "iAfoot媒体平台",
+        "level": 1,
+        "sort": 0,
+        "openComment": "1",
+        "type": "0",
+        "praiseCount": 0,
+        "commentCount": 0,
+        "areasCodeList": [
+          "11"
+        ],
+        "photoList": [
+          "https://photo-2021-1307223178.cos.ap-beijing.myqcloud.com/abc/11111.jpg"
+        ],
+        "blogSort": {
+          "sortName": "公告",
+          "content": "公告开发专题",
+          "clickCount": 362,
+          "sort": 16,
+          "uid": "a03d7290b1c04b6eaf46659661b47032",
+          "status": 1,
+          "createTime": "2018-12-30 10:35:43",
+          "updateTime": "2021-08-25 18:58:36"
+        },
+        "uid": "578bc9d11a0d40eeec653f4aadd8a585",
+        "status": 1,
+        "createTime": "2021-09-10 15:14:20",
+        "updateTime": "2021-09-22 11:42:28"
+      },
+      {
+        "uploadTime": "2021-09-18 17:06:44",
+        "isPublish": "1",
+        "name": "123",
+        "baiduPath": "https://photo-2021-1307223178.cos.ap-beijing.myqcloud.com/blog/admin/mp4/2021/9/18/1631956348394.mp4",
+        "resourceSortUid": "a442a4d5c4e07a9032af7de99f301de4",
+        "clickCount": 0,
+        "collectCount": 4,
+        "commentCount": 0,
+        "uid": "5cdb5b3f1efaa513918c364a625c6122",
+        "status": 1,
+        "createTime": "2021-09-18 17:13:02",
+        "updateTime": "2021-09-22 11:36:40"
+      }
+    ],
+    "total": 2,
+    "size": 10,
+    "current": 1,
+    "orders": [],
+    "optimizeCountSql": true,
+    "isSearchCount": true
+  },
+  "code": "success"
 }
 ```
 
@@ -380,6 +360,8 @@ URI：http://localhost:8603/web/collect/video/add
   "code": "success"//成功
 }
 ```
+### 视频：删除收藏 参见URL: http://localhost:8603/web/collect/delete
+
 
 
 
