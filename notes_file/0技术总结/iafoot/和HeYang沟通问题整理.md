@@ -402,6 +402,110 @@ URI：http://localhost:8603/web/collect/video/add
 
 
 
+## 登录管理相关接口
+### 用户注册
+URI：/login/register
+入参：
+```json5
+{
+  "mobile": "99999",//手机号
+  "passWord": "99999",//密码 暂时明文，后面要改成MD5加密
+  "userName": "99999",//用户名，和手机号保持一致
+  "validation": "12345678"//验证码
+}
+```
+响应：
+```json5
+{
+  "data": {
+    "user": {//返回注册用户信息
+      "userName": "99999",
+      "passWord": "",//密码返回数据置空处理，防止密码泄露
+      "mobile": "99999",
+      "source": "iAfoot",
+      "lastLoginIp": "192.168.20.188",
+      "os": "Windows",
+      "browser": "Chrome-93.0.4577.82",
+      "uid": "698483167b4aefa4b16ea85292dce0e6",//用户UID
+      "status": 1,
+      "createTime": "2021-09-22 09:25:15",
+      "updateTime": "2021-09-22 09:25:15"
+    }
+  },
+  "code": "success"
+}
+```
+
+
+
+### 获取验证码：接口暂未实现，返回假数据
+URI: /login/validation
+入参：手机号
+```json5
+curl -X POST "http://localhost:8603/login/validation?mobile=99999" -H "accept: */*" -d ""
+```
+响应：
+```json5
+{
+  "data": "12345678",//验证码信息
+  "code": "success"
+}
+```
+
+### 用户登录
+URI: /login/login
+入参：、
+验证码形式》
+```json5
+
+{
+"userName": "99999",//用户名，目前为注册用户手机号
+"validation": "12345678"//验证码，必须提前调用获取验证码接口获取
+}
+```
+密码形式》
+```json5
+{
+  "passWord": "99999",
+  "userName": "99999"
+}
+```
+响应：
+```json5
+{
+  "data": {
+    "user": {//用户信息
+      "userName": "99999",
+      "passWord": "",
+      "mobile": "99999",
+      "loginCount": 0,
+      "source": "iAfoot",
+      "lastLoginTime": "2021-09-22 09:33:25",
+      "lastLoginIp": "192.168.20.188",
+      "commentStatus": 1,
+      "startEmailNotification": 0,
+      "os": "Windows",
+      "browser": "Chrome-93.0.4577.82",
+      "userTag": 0,
+      "uid": "698483167b4aefa4b16ea85292dce0e6",
+      "status": 1,
+      "createTime": "2021-09-22 09:25:15",
+      "updateTime": "2021-09-22 09:33:25"
+    },
+    "token": "cf861b61eef249da9d95100dada9d355"//用户登录唯一标识token
+  },
+  "code": "success"
+}
+```
+
+
+
+
+
+
+
+
+
 
 
 
