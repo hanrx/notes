@@ -16,6 +16,10 @@
 
 
 # 脚本
+## 20210922
+ALTER TABLE `mogu_blog`.`t_study_video`
+ADD COLUMN `praise_count` int(255) NULL DEFAULT 0 COMMENT '图文点赞数' AFTER `comment_count`;
+
 
 ## 20210915
 -- 未同步到何阳机器
@@ -45,6 +49,16 @@ ADD COLUMN `comment_count` int(255) NULL DEFAULT 0  COMMENT '评论数' AFTER `c
 
 
 # 接口验证
+
+## 视频-点赞
+## 通过Uid给 视频 点赞
+实例》》http://localhost:8603/web/praise/praiseBlogByUid?uid=5cdb5b3f1efaa513918c364a625c6122
+请求：http://localhost:8603/web/praise/praiseBlogByUid?uid=5cdb5b3f1efaa513918c364a625c6122
+响应：
+```json5
+{"data":5,"code":"success"}
+```
+
 ## 评论
 ### 发表评论：接口
 实例》》 http://localhost:8607/iafoot-web/web/comment/add
