@@ -98,9 +98,10 @@ ADD COLUMN `comment_count` int(255) NULL DEFAULT 0  COMMENT '评论数' AFTER `c
 }
 ```
 
-### 获取评论列表 
+### 获取评论列表 （图文/视频）
 实例》》 http://localhost:8607/iafoot-web/web/comment/getList
 请求：
+图文》》
 ```json5
 {
   "blogUid": "11e0cace2148383e201439a682432d59",//图文UID
@@ -108,6 +109,16 @@ ADD COLUMN `comment_count` int(255) NULL DEFAULT 0  COMMENT '评论数' AFTER `c
   "pageSize": 10
 }
 ```
+
+视频》》
+```json5
+{
+  "videoUid": "5cdb5b3f1efaa513918c364a625c6122", //视频UID
+  "currentPage": 1,
+  "pageSize": 10
+}
+```
+
 响应：
 ```json5
 {
@@ -190,8 +201,48 @@ ADD COLUMN `comment_count` int(255) NULL DEFAULT 0  COMMENT '评论数' AFTER `c
   "code": "success"
 }
 ```
+视频;
+```json5
+{
+    "data": {
+        "records": [
+            {
+                "userUid": "b2833edb8f46db03a4c17b3ef7d9b85a",
+                "content": "视频评论测试",
+                "videoUid": "5cdb5b3f1efaa513918c364a625c6122",
+                "source": "BLOG_INFO",
+                "type": 0,
+                "replyList": [],
+                "uid": "b8d934db54cc757676fd3a09891117f0",
+                "status": 1,
+                "createTime": "2021-09-22 14:04:55",
+                "updateTime": "2021-09-22 14:04:55"
+            },
+            {
+                "userUid": "b2833edb8f46db03a4c17b3ef7d9b85a",
+                "content": "视频评论测试",
+                "videoUid": "5cdb5b3f1efaa513918c364a625c6122",
+                "source": "BLOG_INFO",
+                "type": 0,
+                "replyList": [],
+                "uid": "3637781d29042945526dfcd1703f19d2",
+                "status": 1,
+                "createTime": "2021-09-22 14:04:47",
+                "updateTime": "2021-09-22 14:04:47"
+            }
+        ],
+        "total": 2,
+        "size": 10,
+        "current": 1,
+        "orders": [],
+        "optimizeCountSql": true,
+        "isSearchCount": true
+    },
+    "code": "success"
+}
+```
 
-### 删除评论
+### 删除评论（图文/视频）
 实例》》 http://localhost:8607/iafoot-web/web/comment/delete
 请求：
 ```json5
