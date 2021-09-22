@@ -51,13 +51,22 @@ ADD COLUMN `comment_count` int(255) NULL DEFAULT 0  COMMENT '评论数' AFTER `c
 # 接口验证
 
 ## 视频-点赞
-## 通过Uid给 视频 点赞
+### 通过Uid给 视频 点赞
 实例》》http://localhost:8603/web/praise/praiseBlogByUid?uid=5cdb5b3f1efaa513918c364a625c6122
 请求：http://localhost:8603/web/praise/praiseBlogByUid?uid=5cdb5b3f1efaa513918c364a625c6122
 响应：
 ```json5
 {"data":5,"code":"success"}
 ```
+### 通过Uid获取 视频点赞数
+实例》》http://localhost:8603/web/praise/getBlogPraiseCountByUid?uid=5cdb5b3f1efaa513918c364a625c6122
+请求：http://localhost:8603/web/praise/getBlogPraiseCountByUid?uid=5cdb5b3f1efaa513918c364a625c6122
+响应：
+```json5
+{"data":2,//点赞数
+  "code":"success"}
+```
+
 
 ## 评论
 ### 发表评论：接口
