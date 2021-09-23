@@ -511,7 +511,7 @@ URI：http://localhost:8603/web/collect/video/add
 响应：实例1的响应
 ```json5
 {
-    "data": [
+    "data": [//数据集整体说明：该处返回数据最多2条数据，包含type为1的表示该【图文/视频】被该用户点赞了，包含type为2的表示该【图文/视频】被该用户收藏了
         {
             "userUid": "b2833edb8f46db03a4c17b3ef7d9b85a",
             "blogUid": "578bc9d11a0d40eeec653f4aadd8a585",
