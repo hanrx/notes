@@ -134,6 +134,7 @@ Spring Cloud开源社区实现。
 - Availability： /əˌveɪləˈbɪləti/    n. 可用性；有效性；实用性
 - factories：  /'fæktriz/    工厂，车厂（factory复数形式）
 - Aware：  /əˈweə(r)/    adj. 意识到的；知道的；有…方面知识的；懂世故的
+- Command：   /kəˈmɑːnd/   n. 命令，指示；
 
 
 # 待补充

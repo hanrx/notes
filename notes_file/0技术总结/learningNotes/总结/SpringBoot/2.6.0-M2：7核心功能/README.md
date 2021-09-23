@@ -322,49 +322,154 @@ https://docs.spring.io/spring-boot/docs/2.6.0-M2/reference/htmlsingle/#features.
 
 ### 7.1.8. 网络环境
 
+ASpringApplication尝试ApplicationContext代表您创建正确的类型。用于确定 a 的算法WebApplicationType如下：
+
+- 如果存在 Spring MVC，AnnotationConfigServletWebServerApplicationContext则使用an
+- 如果 Spring MVC 不存在而 Spring WebFlux 存在，AnnotationConfigReactiveWebServerApplicationContext则使用an
+- 否则，AnnotationConfigApplicationContext使用
+
+这意味着如果您WebClient在同一个应用程序中使用 Spring MVC 和来自 Spring WebFlux的 new ，则默认情况下将使用 Spring MVC。您可以通过调用轻松覆盖它setWebApplicationType(WebApplicationType)。
+
+还可以ApplicationContext通过调用完全控制所使用的类型setApplicationContextClass(…)。
+
+提示：
+```json5
+在 JUnit 测试中setWebApplicationType(WebApplicationType.NONE)使用时 通常需要调用SpringApplication。
+```
 
 
+### 7.1.9. 访问应用程序参数
+
+如果您需要访问传递给 的应用程序参数SpringApplication.run(…​)，您可以注入一个org.springframework.boot.ApplicationArgumentsbean。所述ApplicationArguments接口提供访问两个原始String[]以及解析参数option和non-option参数，如下面的例子所示：
+```java
+import java.util.List;
+
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.stereotype.Component;
+
+@Component
+public class MyBean {
+
+    public MyBean(ApplicationArguments args) {
+        boolean debug = args.containsOption("debug");
+        List<String> files = args.getNonOptionArgs();
+        if (debug) {
+            System.out.println(files);
+        }
+        // if run with "--debug logfile.txt" prints ["logfile.txt"]
+    }
+
+}
 
 
+```
+
+提示：
+```json5
+Spring Boot 还CommandLinePropertySource向 Spring注册了一个Environment。这使您还可以使用@Value注释注入单个应用程序参数。
+```
 
 
+### 7.1.10. 使用 ApplicationRunner 或 CommandLineRunner
+
+如果您需要在启动后运行某些特定代码SpringApplication，您可以实现ApplicationRunner或CommandLineRunner接口。这两个接口以相同的方式工作并提供一个run方法，在SpringApplication.run(…​)完成之前调用该方法。
+
+笔记：
+```json5
+此合约非常适合应在应用程序启动之后但在开始接受流量之前运行的任务。
+```
+
+所述CommandLineRunner接口提供访问的应用程序的参数作为一个字符串数组，而ApplicationRunner用途ApplicationArguments接口前面讨论。以下示例显示了CommandLineRunner一个run方法：
+```java
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
+
+@Component
+public class MyCommandLineRunner implements CommandLineRunner {
+
+    @Override
+    public void run(String... args) {
+        // Do something...
+    }
+
+}
 
 
+```
+如果定义了必须按特定顺序调用的多个CommandLineRunner或ApplicationRunnerbean，则可以另外实现org.springframework.core.Ordered接口或使用org.springframework.core.annotation.Order注解。
+
+### 申请退出
+每个都SpringApplication向 JVM 注册一个关闭挂钩，以确保ApplicationContext退出时正常关闭。可以使用所有标准的 Spring 生命周期回调（例如DisposableBean接口或@PreDestroy注解）。
+
+此外，org.springframework.boot.ExitCodeGenerator如果bean希望在SpringApplication.exit()调用时返回特定的退出代码，它们可以实现该接口。然后可以将此退出代码传递给以将System.exit()其作为状态代码返回，如以下示例所示：
+```java
+import org.springframework.boot.ExitCodeGenerator;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+
+@SpringBootApplication
+public class MyApplication {
+
+    @Bean
+    public ExitCodeGenerator exitCodeGenerator() {
+        return () -> 42;
+    }
+
+    public static void main(String[] args) {
+        System.exit(SpringApplication.exit(SpringApplication.run(MyApplication.class, args)));
+    }
+
+}
 
 
+```
+此外，ExitCodeGenerator接口可以通过异常来实现。当遇到这样的异常时，Spring Boot 会返回实现getExitCode()方法提供的退出码。
 
 
+### 7.1.12. 管理功能
+可以通过指定spring.application.admin.enabled属性为应用程序启用与管理相关的功能。这SpringApplicationAdminMXBean【https://github.com/spring-projects/spring-boot/blob/v2.6.0-M2/spring-boot-project/spring-boot/src/main/java/org/springframework/boot/admin/SpringApplicationAdminMXBean.java】
+在平台上暴露了MBeanServer。您可以使用此功能远程管理您的 Spring Boot 应用程序。此功能也可用于任何服务包装器实现
+
+提示：
+```json5
+如果您想知道应用程序在哪个 HTTP 端口上运行，请获取键为 的属性local.server.port。
+```
 
 
+### 7.1.13. 应用程序启动跟踪
+在应用程序启动期间，SpringApplication和ApplicationContext执行许多与应用程序生命周期、bean 生命周期甚至处理应用程序事件相关的任务。有了ApplicationStartup，Spring Framework允许您使用StartupStep对象跟踪应用程序启动顺序。收集这些数据是为了分析目的，或者只是为了更好地了解应用程序启动过程。
+
+您可以ApplicationStartup在设置SpringApplication实例时选择一个实现。例如，要使用BufferingApplicationStartup，您可以编写：
+```java
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.metrics.buffering.BufferingApplicationStartup;
+
+@SpringBootApplication
+public class MyApplication {
+
+    public static void main(String[] args) {
+        SpringApplication application = new SpringApplication(MyApplication.class);
+        application.setApplicationStartup(new BufferingApplicationStartup(2048));
+        application.run(args);
+    }
+
+}
 
 
+```
+第一个可用的实现FlightRecorderApplicationStartup是由 Spring Framework 提供的。它将特定于 Spring 的启动事件添加到 Java Flight Recorder 会话中，用于分析应用程序并将其 Spring 上下文生命周期与 JVM 事件（例如分配、GC、类加载......）相关联。配置完成后，您可以通过在启用飞行记录器的情况下运行应用程序来记录数据：
+```shell
+$ java -XX:StartFlightRecording:filename=recording.jfr,duration=10s -jar demo.jar
+
+```
+Spring Boot 随附BufferingApplicationStartup变体；此实现旨在缓冲启动步骤并将它们排入外部指标系统。应用程序可以BufferingApplicationStartup在任何组件中请求类型的 bean 。
+
+Spring Boot 还可以配置为公开一个startup端点，该端点以 JSON 文档的形式提供此信息。
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+## 7.2. 外化配置
 
 
 
