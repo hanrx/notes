@@ -471,25 +471,72 @@ Spring Boot 还可以配置为公开一个startup端点，该端点以 JSON 文�
 
 ## 7.2. 外化配置
 
+Spring Boot 允许您将配置外部化，以便您可以在不同环境中使用相同的应用程序代码。您可以使用各种外部配置源，包括 Java 属性文件、YAML 文件、环境变量和命令行参数。
+
+属性值可以通过直接注射到你的bean@Value注释，通过Spring的访问Environment抽象，或者被绑定到结构化对象【https://docs.spring.io/spring-boot/docs/2.6.0-M2/reference/htmlsingle/#features.external-config.typesafe-configuration-properties】
+通过@ConfigurationProperties。
 
 
+Spring Boot 使用一个非常特殊的PropertySource顺序，旨在允许合理地覆盖值。属性按以下顺序考虑（较低项目的值覆盖较早的项目）：
+
+1. 默认属性（由 setting 指定SpringApplication.setDefaultProperties）。
+2. @PropertySource你的@Configuration类的注释。请注意，Environment在刷新应用程序上下文之前，不会将此类属性源添加到。现在配置某些属性（例如在刷新开始之前读取的logging.*和）为时已晚spring.main.*。 
+3. 配置数据（如application.properties文件）
+4. 一RandomValuePropertySource，只有在拥有性能random.*。
+5. 操作系统环境变量。
+6. Java 系统属性 ( System.getProperties())。
+7. JNDI 属性来自java:comp/env.
+8. ServletContext 初始化参数。
+9. ServletConfig 初始化参数。
+10. 来自SPRING_APPLICATION_JSON（嵌入在环境变量或系统属性中的内联 JSON）的属性。
+11. 命令行参数。
+12. properties属性在您的测试中。可用于测试应用程序的特定部分@SpringBootTest的测试注释。
+13. @TestPropertySource 测试中的注释。
+14. $HOME/.config/spring-boot当 devtools 处于活动状态时，目录中的Devtools 全局设置属性。
 
 
+配置数据文件按以下顺序考虑：
+1. 打包在 jar 中的应用程序属性（application.properties和 YAML 变体）。
+2. 打包在 jar 中的特定于配置文件的应用程序属性（application-{profile}.properties和 YAML 变体）。
+3. 打包 jar 之外的应用程序属性（application.properties和 YAML 变体）。
+4. 打包的 jar（application-{profile}.properties和 YAML 变体）之外的特定于配置文件的应用程序属性。
+
+笔记：
+```json5
+建议您的整个应用程序坚持使用一种格式。如果您的配置文件在同一位置同时具有.properties和.yml格式，.properties则优先。
+```
+
+为了提供一个具体示例，假设您开发了一个@Component使用name属性的 ，如以下示例所示：
+```java
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+@Component
+public class MyBean {
+
+    @Value("${name}")
+    private String name;
+
+    // ...
+
+}
 
 
+```
+在您的应用程序类路径上（例如，在您的 jar 中），您可以拥有一个application.properties文件，该文件为name. 在新环境中运行时，application.properties可以在 jar 之外提供一个覆盖name. 对于一次性测试，您可以使用特定的命令行开关（例如，java -jar app.jar --name="Spring"）启动。
+
+提示：
+```json5
+该env和configprops端点可以在确定为什么属性具有特定值有用。您可以使用这两个端点来诊断意外的属性值。有关详细信息，请参阅“生产就绪功能”【https://docs.spring.io/spring-boot/docs/2.6.0-M2/reference/htmlsingle/#actuator.endpoints】部分。
+```
+
+### 7.2.1. 访问命令行属性
+默认情况下，SpringApplication将任何命令行选项参数（即以 开头的参数--，例如--server.port=9000）转换为 aproperty并将它们添加到 Spring Environment。如前所述，命令行属性始终优先于基于文件的属性源。
+
+如果您不希望将命令行属性添加到 中Environment，可以使用 禁用它们SpringApplication.setAddCommandLineProperties(false)。
 
 
-
-
-
-
-
-
-
-
-
-
-
+### 7.2.2. JSON 应用程序属性
 
 
 
