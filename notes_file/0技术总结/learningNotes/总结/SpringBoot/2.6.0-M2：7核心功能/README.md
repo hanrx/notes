@@ -160,6 +160,225 @@ public class MyApplication {
 
 ### 7.1.5. 流利的构建器 API
 
+如果您需要构建ApplicationContext层次结构（具有父/子关系的多个上下文），或者如果您更喜欢使用“流畅”构建器 API，则可以使用SpringApplicationBuilder.
+
+在SpringApplicationBuilder让要链接的多个方法调用，并且包括parent和child其让你创建层次结构，以显示在下面的示例性方法：
+```java
+new SpringApplicationBuilder()
+        .sources(Parent.class)
+        .child(Application.class)
+        .bannerMode(Banner.Mode.OFF)
+        .run(args);
+```
+笔记：
+```json5
+创建ApplicationContext层次结构时有一些限制。例如，Web 组件必须包含在子上下文中，并且Environment对于父上下文和子上下文都相同。有关完整的详细信息，请参阅SpringApplicationBuilderJavadoc。
+https://docs.spring.io/spring-boot/docs/2.6.0-M2/api/org/springframework/boot/builder/SpringApplicationBuilder.html
+```
+
+### 7.1.6. 应用程序可用性
+
+在平台上部署时，应用程序可以使用Kubernetes Probes【https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/】等基础设施向平台提供有关其可用性的信息。Spring Boot 包括对常用“活跃”和“就绪”可用性状态的开箱即用支持。如果您使用 Spring Boot 的“执行器”支持，那么这些状态将作为健康端点组公开。
+
+此外，您还可以通过将ApplicationAvailability接口注入您自己的 bean来获取可用性状态。
+
+#### 活跃状态
+应用程序的“活跃”状态表明它的内部状态是否允许它正常工作，或者如果它当前失败则自行恢复。损坏的“Liveness”状态意味着应用程序处于无法恢复的状态，基础设施应该重新启动应用程序。
+
+笔记：
+```json5
+通常，“Liveness”状态不应基于外部检查，例如Health 检查。如果确实如此，则出现故障的外部系统（数据库、Web API、外部缓存）将触发整个平台的大规模重启和级联故障。
+```
+
+Spring Boot 应用程序的内部状态主要由 Spring 表示ApplicationContext。如果应用程序上下文已成功启动，Spring Boot 会假定应用程序处于有效状态。一旦上下文刷新，应用程序就被认为是活动的，请参阅Spring Boot 应用程序生命周期和相关的应用程序事件。
+https://docs.spring.io/spring-boot/docs/2.6.0-M2/reference/htmlsingle/#features.spring-application.application-events-and-listeners
+
+#### 准备状态
+应用程序的“就绪”状态表明应用程序是否已准备好处理流量。失败的“就绪”状态告诉平台它现在不应将流量路由到应用程序。这通常在启动过程中发生的，而CommandLineRunner和ApplicationRunner组件正在处理，或在任何时候，如果应用程序决定，它是太忙了额外的流量。
+
+一旦应用程序和命令行运行程序被调用，应用程序就被认为已准备就绪，请参阅Spring Boot 应用程序生命周期和相关的应用程序事件。
+
+提示：
+```json5
+预期在启动期间运行的任务应该由CommandLineRunner和ApplicationRunner组件执行，而不是使用 Spring 组件生命周期回调，例如@PostConstruct.
+```
+
+#### 管理应用程序可用性状态
+应用程序组件可以通过注入ApplicationAvailability接口并在其上调用方法，随时检索当前的可用性状态。更多的时候，应用程序会想要监听状态更新或更新应用程序的状态。
+
+例如，我们可以将应用程序的“Readiness”状态导出到一个文件中，这样 Kubernetes 的“exec Probe”就可以查看这个文件：
+```java
+import org.springframework.boot.availability.AvailabilityChangeEvent;
+import org.springframework.boot.availability.ReadinessState;
+import org.springframework.context.event.EventListener;
+import org.springframework.stereotype.Component;
+
+@Component
+public class MyReadinessStateExporter {
+
+    @EventListener
+    public void onStateChange(AvailabilityChangeEvent<ReadinessState> event) {
+        switch (event.getState()) {
+        case ACCEPTING_TRAFFIC:
+            // create file /tmp/healthy
+            break;
+        case REFUSING_TRAFFIC:
+            // remove file /tmp/healthy
+            break;
+        }
+    }
+
+}
+
+
+```
+
+当应用程序中断且无法恢复时，我们还可以更新应用程序的状态：
+```java
+import org.springframework.boot.availability.AvailabilityChangeEvent;
+import org.springframework.boot.availability.LivenessState;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.stereotype.Component;
+
+@Component
+public class MyLocalCacheVerifier {
+
+    private final ApplicationEventPublisher eventPublisher;
+
+    public MyLocalCacheVerifier(ApplicationEventPublisher eventPublisher) {
+        this.eventPublisher = eventPublisher;
+    }
+
+    public void checkLocalCache() {
+        try {
+            // ...
+        }
+        catch (CacheCompletelyBrokenException ex) {
+            AvailabilityChangeEvent.publish(this.eventPublisher, ex, LivenessState.BROKEN);
+        }
+    }
+
+}
+
+
+```
+Spring Boot通过 Actuator Health Endpoints 为“Liveness”和“Readiness”提供Kubernetes HTTP 探测。您可以在专用部分中获得有关在 Kubernetes 上部署 Spring Boot 应用程序的更多指导。
+
+
+### 7.1.7. 应用程序事件和侦听器
+
+除了通常的 Spring Framework 事件（例如 ）之外ContextRefreshedEvent【https://docs.spring.io/spring-framework/docs/5.3.9/javadoc-api/org/springframework/context/event/ContextRefreshedEvent.html】，aSpringApplication还会发送一些额外的应用程序事件。
+
+笔记：
+```json5
+某些事件实际上ApplicationContext是在创建之前触发的，因此您不能将这些事件注册为@Bean. 您可以使用SpringApplication.addListeners(…​)方法或SpringApplicationBuilder.listeners(…​)方法注册它们。
+
+如果您希望自动注册这些侦听器，无论应用程序的创建方式如何，都可以将META-INF/spring.factories文件添加到您的项目并使用org.springframework.context.ApplicationListener密钥引用您的侦听器，如以下示例所示：
+
+
+org.springframework.context.ApplicationListener=com.example.project.MyListener
+```
+
+当您的应用程序运行时，应用程序事件按以下顺序发送：
+
+- 1. An ApplicationStartingEvent在运行开始时发送，但在任何处理之前发送，除了侦听器和初始化程序的注册。
+
+- 2. 一个ApplicationEnvironmentPreparedEvent当被发送Environment到中已知的上下文中使用，但是在创建上下文之前。
+
+- 3. 一个ApplicationContextInitializedEvent在当发送ApplicationContext准备和ApplicationContextInitializers一直呼吁，但被加载任何bean定义之前。
+
+- 4. ApplicationPreparedEvent在刷新开始之前但在加载 bean 定义之后发送一个。
+
+- 5. ApplicationStartedEvent在刷新上下文之后但在调用任何应用程序和命令行运行程序之前发送An 。
+
+- 6. 紧随AvailabilityChangeEvent其后发送一个，LivenessState.CORRECT以指示该应用程序被视为实时应用程序。
+
+- 7. 在ApplicationReadyEvent任何之后被送到应用程序和命令行亚军已被调用。
+
+- 8. AvailabilityChangeEvent在 with 之后立即发送一个，ReadinessState.ACCEPTING_TRAFFIC以指示应用程序已准备好为请求提供服务。
+
+- 9. ApplicationFailedEvent如果启动时出现异常，则发送An 。
+
+
+上面的列表只包括SpringApplicationEvent绑定到 a 的 s SpringApplication。除此之外，以下事件也在 之后ApplicationPreparedEvent和之前发布ApplicationStartedEvent：
+- 准备好 WebServerInitializedEvent后发送A。和分别是 servlet 和反应式变体。WebServerServletWebServerInitializedEventReactiveWebServerInitializedEvent
+- 刷新ContextRefreshedEvent时发送A。ApplicationContext
+
+提示：
+```json5
+您通常不需要使用应用程序事件，但知道它们存在会很方便。在内部，Spring Boot 使用事件来处理各种任务。
+```
+
+笔记：
+```json5
+默认情况下，事件侦听器不应运行在同一线程中执行的潜在冗长任务。考虑改用应用程序和命令行运行程序。
+https://docs.spring.io/spring-boot/docs/2.6.0-M2/reference/htmlsingle/#features.spring-application.command-line-runner
+```
+
+应用程序事件通过使用 Spring Framework 的事件发布机制发送。此机制的一部分确保发布到子上下文中的侦听器的事件也发布到任何祖先上下文中的侦听器。因此，如果您的应用程序使用SpringApplication实例层次结构，则侦听器可能会收到同一类型应用程序事件的多个实例。
+
+为了让您的侦听器区分其上下文的事件和后代上下文的事件，它应该请求注入其应用程序上下文，然后将注入的上下文与事件的上下文进行比较。上下文可以通过实现注入，ApplicationContextAware或者如果侦听器是 bean，则使用@Autowired.
+
+
+### 7.1.8. 网络环境
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

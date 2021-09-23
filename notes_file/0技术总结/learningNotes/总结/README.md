@@ -131,9 +131,9 @@ Spring Cloud开源社区实现。
 - lazyInitialization：延迟初始化。Spring Boot概念，参见：7.1.2. 延迟初始化。
   - lazy： /ˈleɪzi/  adj. 懒惰的；懒洋洋的；怠惰的；慢吞吞的
   - Initialization： /ɪˌnɪʃəlaɪˈzeɪʃn/   n. [计] 初始化；赋初值
-
-
-
+- Availability： /əˌveɪləˈbɪləti/    n. 可用性；有效性；实用性
+- factories：  /'fæktriz/    工厂，车厂（factory复数形式）
+- Aware：  /əˈweə(r)/    adj. 意识到的；知道的；有…方面知识的；懂世故的
 
 
 # 待补充
