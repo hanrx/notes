@@ -502,6 +502,7 @@ URI：http://localhost:8603/web/collect/video/add
 参数说明：
 - userUid：不可为空，用户UID。
 - blogUid【图文UID】和videoUid【视频UID】：不可同时传参。
+
 请求：
 实例1：查询图文 点赞收藏情况》》http://localhost:8603/web/collect/getComment?userUid=b2833edb8f46db03a4c17b3ef7d9b85a&blogUid=b2f3ba18b73899f0a5ae67ab5184fe11
 
