@@ -137,7 +137,7 @@ Spring Cloud开源社区实现。
 - Command：   /kəˈmɑːnd/   n. 命令，指示；
 - location： /ləʊˈkeɪʃn/   n. 位置；地点；外景拍摄场地
 - optional： /ˈɒpʃənl/   adj. 可选择的，随意的  
-
+- discovery：  /dɪˈskʌvəri/  n. 发现，被发现的事物；（法律）强制性透露 
 
 
 

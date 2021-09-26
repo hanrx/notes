@@ -16,6 +16,22 @@
 
 
 # 脚本
+## 20210926
+CREATE TABLE `t_association` (
+--   `uid` varchar(32) NOT NULL COMMENT '唯一uid',
+--   `name` varchar(255) NOT NULL COMMENT '协会名称',
+--   `areas_code`  varchar(8) DEFAULT NULL COMMENT '协会所属地区',
+--   `admin_uid`  varchar(32) DEFAULT NULL COMMENT '协会创建人',
+--   `population` int(11) unsigned DEFAULT '0' COMMENT '协会人数',
+--   `integral` int(11) unsigned DEFAULT '0' COMMENT '协会积分',  
+--   `open_control` tinyint(1) NOT NULL DEFAULT '0' COMMENT '协会管控(0:未开启 1:开启)',
+--   `status` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '状态',
+--   `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建时间',
+--   `update_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '更新时间',
+--   PRIMARY KEY (`uid`)
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='协会表';
+
+
 ## 20210922
 ALTER TABLE `mogu_blog`.`t_study_video`
 ADD COLUMN `praise_count` int(255) NULL DEFAULT 0 COMMENT '图文点赞数' AFTER `comment_count`;
