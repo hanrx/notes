@@ -135,6 +135,15 @@ Spring Cloud开源社区实现。
 - factories：  /'fæktriz/    工厂，车厂（factory复数形式）
 - Aware：  /əˈweə(r)/    adj. 意识到的；知道的；有…方面知识的；懂世故的
 - Command：   /kəˈmɑːnd/   n. 命令，指示；
+- location： /ləʊˈkeɪʃn/   n. 位置；地点；外景拍摄场地
+- optional： /ˈɒpʃənl/   adj. 可选择的，随意的  
+
+
+
+
+
+
+
 
 
 # 待补充
