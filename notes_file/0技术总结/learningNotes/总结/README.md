@@ -138,7 +138,7 @@ Spring Cloud开源社区实现。
 - location： /ləʊˈkeɪʃn/   n. 位置；地点；外景拍摄场地
 - optional： /ˈɒpʃənl/   adj. 可选择的，随意的  
 - discovery：  /dɪˈskʌvəri/  n. 发现，被发现的事物；（法律）强制性透露 
-
+- exclusion：  /ɪkˈskluːʒn/  n. 排斥，排除在外；被排除在外的人（或事物）；认为不可能；（合约中的）除外事项；<英>开除学籍
 
 
 
