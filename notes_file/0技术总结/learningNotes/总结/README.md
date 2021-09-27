@@ -139,8 +139,18 @@ Spring Cloud开源社区实现。
 - optional： /ˈɒpʃənl/   adj. 可选择的，随意的  
 - discovery：  /dɪˈskʌvəri/  n. 发现，被发现的事物；（法律）强制性透露 
 - exclusion：  /ɪkˈskluːʒn/  n. 排斥，排除在外；被排除在外的人（或事物）；认为不可能；（合约中的）除外事项；<英>开除学籍
+- Constructor：  /kənˈstrʌktər/  n. 构造器；构造方法；构造函数
+- Configuration：  /kənˌfɪɡəˈreɪʃn/  n. 布局，构造；配置
+- Optional： /ˈɒpʃənl/   adj. 可选择的，随意的
+- Validated：   /ˈvælɪˌdeɪtid/ adj. 经过验证的
 
 
+# 注解
+- @ConfigurationProperties("my.service")：JavaBean 属性绑定。需启用 配置属性扫描。还可以在公共@Bean方法上使用它。当您想要将属性绑定到您无法控制的第三方组件时，这样做会特别有用。
+- @ConstructorBinding：注释用于指示应使用构造函数绑定。这意味着绑定器将期望找到一个带有您希望绑定的参数的构造函数。如果您使用的是 Java 16 或更高版本，则构造函数绑定可以与记录一起使用。在这种情况下，除非您的记录有多个构造函数，否则不需要使用@ConstructorBinding.
+- @DefaultValue：指定默认值
+- @EnableConfigurationProperties：注释指定要处理的类型列表。这可以在任何@Configuration类上完成.@EnableConfigurationProperties(SomeProperties.class)
+- @ConfigurationPropertiesScan：要使用配置属性扫描，请将@ConfigurationPropertiesScan注释添加到您的应用程序。
 
 
 
