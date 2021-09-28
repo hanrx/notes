@@ -143,6 +143,22 @@ Spring Cloud开源社区实现。
 - Configuration：  /kənˌfɪɡəˈreɪʃn/  n. 布局，构造；配置
 - Optional： /ˈɒpʃənl/   adj. 可选择的，随意的
 - Validated：   /ˈvælɪˌdeɪtid/ adj. 经过验证的
+- discovery：   /dɪˈskʌvəri/   n. 发现，被发现的事物；（法律）强制性透露
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # 注解
