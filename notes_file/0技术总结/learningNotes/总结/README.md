@@ -146,7 +146,7 @@ Spring Cloud开源社区实现。
 - discovery：   /dɪˈskʌvəri/   n. 发现，被发现的事物；（法律）强制性透露
 - prefix：   /ˈpriːfɪks/   n. 前缀
 - cluster：   /ˈklʌstə(r)/   n. 组，簇；星团；一连串同类事件；（聚集在同一地方的）一群人；（计算机磁盘上的）丛集，群集；辅音群，辅音连缀；基
-
+- prometheus：  /pro'miθɪəs/   n. 普罗米修斯（希腊神话中人名，为人类盗火种甘受罚）
 
 
 

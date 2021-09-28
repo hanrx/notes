@@ -16,6 +16,9 @@
 
 
 # 脚本
+## 20210928 
+ALTER TABLE `mogu_blog`.`t_admin`
+ADD COLUMN `channel_uid` varchar(32) NULL COMMENT '所属渠道uid' AFTER `person_resume`;
 ## 20210926
 CREATE TABLE `t_association` (
 --   `uid` varchar(32) NOT NULL COMMENT '唯一uid',
