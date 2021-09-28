@@ -144,8 +144,8 @@ Spring Cloud开源社区实现。
 - Optional： /ˈɒpʃənl/   adj. 可选择的，随意的
 - Validated：   /ˈvælɪˌdeɪtid/ adj. 经过验证的
 - discovery：   /dɪˈskʌvəri/   n. 发现，被发现的事物；（法律）强制性透露
-
-
+- prefix：   /ˈpriːfɪks/   n. 前缀
+- cluster：   /ˈklʌstə(r)/   n. 组，簇；星团；一连串同类事件；（聚集在同一地方的）一群人；（计算机磁盘上的）丛集，群集；辅音群，辅音连缀；基
 
 
 
@@ -167,7 +167,7 @@ Spring Cloud开源社区实现。
 - @DefaultValue：指定默认值
 - @EnableConfigurationProperties：注释指定要处理的类型列表。这可以在任何@Configuration类上完成.@EnableConfigurationProperties(SomeProperties.class)
 - @ConfigurationPropertiesScan：要使用配置属性扫描，请将@ConfigurationPropertiesScan注释添加到您的应用程序。
-
+- @RefreshScope: 实现配置自动更新：
 
 
 
