@@ -1801,10 +1801,184 @@ public class MyProperties {
 
 
 #### @ConfigurationProperties 与 @Value
+的@Value注释是核心容器的功能，和它不提供相同的功能，类型安全配置属性。下表总结了@ConfigurationProperties和支持的功能@Value：
+
+| 特征 | @ConfigurationProperties | @Value |
+| ------ | ------ | ------ |
+|  松绑    |   是的   |   有限（见下面的注释）   |
+|  元数据支持    |  是的    |   不   |
+|   SpEL 评估   |   不   |    是的  |
+
+笔记：
+```markdown
+如果您确实想使用@Value，我们建议您使用其规范形式（kebab-case 仅使用小写字母）来引用属性名称。这将允许 Spring Boot 使用与放松绑定时相同的逻辑@ConfigurationProperties。例如，@Value("{demo.item-price}")会从文件中以及从系统环境中拾取demo.item-price和demo.itemPrice形成表格。如果你使用的不是，并不会予以考虑。 application.propertiesDEMO_ITEMPRICE@Value("{demo.itemPrice}")demo.item-priceDEMO_ITEMPRICE
+```
+如果您为自己的组件定义了一组配置键，我们建议您将它们分组到带有@ConfigurationProperties. 这样做将为您提供结构化、类型安全的对象，您可以将其注入到您自己的 bean 中。
+
+SpEL在解析这些文件和填充环境时，不会处理来自应用程序属性文件的表达式。但是，可以SpEL在@Value. 如果应用程序属性文件中的属性值是一个SpEL表达式，则在通过@Value.
+		
+
+## 7.3. 侧面 Profiles
+
+Spring Profiles 提供了一种分离应用程序配置部分并使其仅在某些环境中可用的方法。Any @Component，@Configuration或者@ConfigurationProperties可以在@Profile加载时标记为限制，如下例所示：
+```java
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
+
+@Configuration(proxyBeanMethods = false)
+@Profile("production")
+public class ProductionConfiguration {
+
+    // ...
+
+}
+
+
+```
+
+笔记：
+```markdown
+如果@ConfigurationPropertiesbean 是通过@EnableConfigurationProperties而不是自动扫描注册的，则@Profile需要在@Configuration具有@EnableConfigurationProperties注释的类上指定注释。在@ConfigurationProperties扫描的情况下，@Profile可以在@ConfigurationProperties类本身上指定。
+```
+
+您可以使用spring.profiles.active Environment属性来指定哪些配置文件处于活动状态。您可以使用本章前面描述的任何方式指定属性。例如，您可以将它包含在您的 中application.properties，如下例所示：
+
+```properties
+spring.profiles.active=dev,hsqldb
+
+```
+
+您还可以使用以下开关在命令行上指定它：--spring.profiles.active=dev,hsqldb.
+
+如果没有配置文件处于活动状态，则启用默认配置文件。默认配置文件的名称是default，可以使用该spring.profiles.default Environment属性进行调整，如以下示例所示：
+```properties
+spring.profiles.default=none
+
+```
+
+### 7.3.1. 添加活动配置文件
+该spring.profiles.active属性遵循与其他属性相同的排序规则：最高者PropertySource获胜。这意味着您可以在其中指定活动配置文件application.properties，然后使用命令行开关替换它们。
+
+有时，将属性添加到活动配置文件而不是替换它们是很有用的。该SpringApplication入口点设置额外的配置文件的Java API（即，是对那些被激活的顶级spring.profiles.active属性）。请参阅SpringApplication 中的setAdditionalProfiles()方法。如果给定的配置文件处于活动状态，则下一节中描述的配置文件组也可用于添加活动配置文件。
+
+
+### 7.3.2. 个人资料组
+有时，您在应用程序中定义和使用的配置文件过于精细，使用起来很麻烦。例如，你可能有proddb和prodmq配置文件，您使用启用数据库和信息功能独立。
+
+为了解决这个问题，Spring Boot 允许您定义配置文件组。配置文件组允许您为相关的配置文件组定义逻辑名称。
+
+例如，我们可以创建一个production包含我们proddb和prodmq个人资料的组
+```properties
+spring.profiles.group.production[0]=proddb
+spring.profiles.group.production[1]=prodmq
+
+```
+我们的应用程序现在可以开始使用，一--spring.profiles.active=production键激活production,proddb和prodmq配置文件。
+
+
+### 7.3.3. 以编程方式设置配置文件
+您可以通过SpringApplication.setAdditionalProfiles(…​)在应用程序运行之前调用来以编程方式设置活动配置文件。也可以使用 Spring 的ConfigurableEnvironment界面来激活配置文件。
 
 
 
+### 7.3.4. 特定于配置文件的配置文件
+application.properties(或application.yml) 和通过引用的文件的特定于配置文件的变体@ConfigurationProperties被视为文件并加载。有关详细信息，请参阅“配置文件特定文件”。
 
+
+## 7.4. 日志记录
+Spring Boot 使用Commons Logging进行所有内部日志记录，但保持底层日志实现处于打开状态。为Java Util Logging、Log4J2和Logback提供了默认配置。在每种情况下，记录器都预先配置为使用控制台输出，也可以使用可选的文件输出。
+
+默认情况下，如果您使用“Starters”，则使用 Logback 进行日志记录。还包括适当的 Logback 路由，以确保使用 Java Util Logging、Commons Logging、Log4J 或 SLF4J 的依赖库都能正常工作。
+
+提示：
+```markdown
+
+有许多适用于 Java 的日志记录框架。如果上面的列表看起来令人困惑，请不要担心。通常，您不需要更改日志记录依赖项，并且 Spring Boot 默认值工作得很好。
+```
+
+提示：
+```markdown
+将应用程序部署到 servlet 容器或应用程序服务器时，通过 Java Util Logging API 执行的日志记录不会路由到应用程序的日志中。这可以防止容器或其他已部署到它的应用程序执行的日志记录出现在您的应用程序日志中。
+```
+
+### 7.4.1. 日志格式
+Spring Boot 的默认日志输出类似于以下示例：
+```markdown
+2019-03-05 10:57:51.112 INFO 45469 --- [main] org.apache.catalina.core.StandardEngine：启动 Servlet 引擎：Apache Tomcat/7.0.52
+2019-03-05 10:57:51.253 INFO 45469 --- [ost-startStop-1] oaccC[Tomcat].[localhost].[/] : 初始化 Spring 嵌入式 WebApplicationContext
+2019-03-05 10:57:51.253 INFO 45469 --- [ost-startStop-1] osweb.context.ContextLoader：根 WebApplicationContext：初始化在 1358 毫秒内完成
+2019 年 3 月 5 日 10：57：51.698 信息 45469 --- [ost-startStop-1] osbceServletRegistrationBean：将 servlet：'dispatcherServlet' 映射到 [/]
+2019-03-05 10:57:51.702 INFO 45469 --- [ost-startStop-1] osbcembedded.FilterRegistrationBean：映射过滤器：'hiddenHttpMethodFilter'到：[/*]
+```
+
+输出以下项目：
+
+- 日期和时间：毫秒精度且易于排序。
+- 日志级别：ERROR，WARN，INFO，DEBUG，或TRACE。
+- 进程标识。
+- 一个---分离器来区分实际日志消息的开始。
+- 线程名称：括在方括号中（可能会被截断以用于控制台输出）。
+- 记录器名称：这通常是源类名称（通常缩写）。
+- 日志消息。
+
+笔记：
+```markdown
+Logback 没有FATAL级别。它被映射到ERROR.
+```
+
+
+### 7.4.2. 控制台输出
+默认日志配置在写入消息时将消息回显到控制台。默认情况下，会记录ERROR-level、WARN-level 和INFO-level 消息。您还可以通过使用--debug标志启动应用程序来启用“调试”模式。
+```shell
+$ java -jar myapp.jar --debug
+```
+
+笔记：
+```markdown
+您也可以debug=true在您的application.properties.
+```
+
+启用调试模式后，会配置一系列核心记录器（嵌入式容器、Hibernate 和 Spring Boot）以输出更多信息。启用调试模式并没有配置您的应用程序记录所有消息DEBUG的水平。
+
+或者，您可以通过使用--trace标志（或trace=true在您的application.properties）中启动您的应用程序来启用“跟踪”模式。这样做可以为选择的核心记录器（嵌入式容器、Hibernate 模式生成和整个 Spring 产品组合）启用跟踪日志记录。
+
+
+#### 彩色编码输出
+如果您的终端支持 ANSI，则使用颜色输出来提高可读性。您可以设置spring.output.ansi.enabled为支持的值以覆盖自动检测。
+
+使用%clr转换字配置颜色编码。在最简单的形式中，转换器根据日志级别为输出着色，如以下示例所示：
+```markdown
+%clr(%5p)
+
+```
+
+下表描述了日志级别到颜色的映射：
+
+| 等级 | 颜色 |
+| ------ | ------ |
+|   FATAL   |   红色的   | 
+|  ERROR    |    红色的  | 
+|   WARN   |   黄色   | 
+|  INFO    |  绿    | 
+|   DEBUG   |  绿    | 
+|  TRACE    |   绿   | 
+
+
+或者，您可以通过将其作为转换选项提供来指定应使用的颜色或样式。例如，要使文本变黄，请使用以下设置：
+```markdown
+%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){yellow}
+
+```
+
+支持以下颜色和样式：
+
+- blue
+- cyan
+- faint
+- green
+- magenta
+- red
+- yellow
 
 
 
