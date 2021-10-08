@@ -1981,6 +1981,101 @@ $ java -jar myapp.jar --debug
 - yellow
 
 
+### 7.4.3. 文件输出
+默认情况下，Spring Boot 只记录到控制台，不写入日志文件。如果你想在控制台输出之外写入日志文件，你需要设置一个logging.file.nameorlogging.file.path属性（例如，在你的 中application.properties）。
+
+下表显示了如何logging.*一起使用这些属性：
+
+表 8. 记录属性
+
+| logging.file.name	 | logging.file.path | 例子	描述 |
+| ------ | ------ | ------ |
+|   （没有任何）   |   （没有任何）   |   仅控制台记录。   |
+|  特定文件|    （没有任何）   |  my.log：  写入指定的日志文件。名称可以是确切位置或相对于当前目录。  |
+|   （没有任何）   |    具体目录  | /var/log： 写入spring.log指定目录。名称可以是确切位置或相对于当前目录。     |
+
+
+日志文件在达到 10 MB 时会旋转，并且与控制台输出一样，默认情况下会记录ERROR-level、WARN-level 和INFO-level 消息。
+	
+
+提示：
+```markdown
+
+日志属性独立于实际的日志基础设施。因此，特定的配置键（例如logback.configurationFile用于 Logback）不受 spring Boot 管理。
+```
+
+### 7.4.4. 文件轮换
+如果您使用的是 Logback，则可以使用您的application.properties或application.yaml文件微调日志轮换设置。对于所有其他日志系统，您需要自己直接配置轮换设置（例如，如果您使用 Log4J2，则可以添加一个log4j.xml文件）。
+
+支持以下轮换策略属性：
+
+| 姓名 | 描述 |
+| ------ | ------ |
+|   logging.logback.rollingpolicy.file-name-pattern   |    用于创建日志存档的文件名模式。  | 
+|   logging.logback.rollingpolicy.clean-history-on-start   |   应用程序启动时是否应进行日志存档清理。   | 
+|  logging.logback.rollingpolicy.max-file-size    |    归档前日志文件的最大大小。  | 
+|    logging.logback.rollingpolicy.total-size-cap  |    删除之前可以占用的最大大小日志存档量。  | 
+|  logging.logback.rollingpolicy.max-history    |   保留日志存档的天数（默认为 7）   | 
+
+
+### 7.4.5. 日志级别
+所有支持的日志系统都可以在 Spring 中设置日志级别Environment（例如 in application.properties），方法是使用logging.level.<logger-name>=<level>wherelevel是 TRACE、DEBUG、INFO、WARN、ERROR、FATAL 或 OFF 之一。该root记录器可以通过使用被配置logging.level.root。
+
+以下示例显示了 中的潜在日志记录设置application.properties：
+```properties
+logging.level.root=warn
+logging.level.org.springframework.web=debug
+logging.level.org.hibernate=error
+
+```
+还可以使用环境变量设置日志记录级别。例如，LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_WEB=DEBUG将设置org.springframework.web为DEBUG。
+
+笔记：
+```markdown
+上述方法仅适用于包级日志记录。由于宽松绑定总是将环境变量转换为小写，因此不可能以这种方式为单个类配置日志记录。如果需要为类配置日志记录，可以使用该SPRING_APPLICATION_JSON变量。
+```
+
+#### 7.4.6. 日志组
+能够将相关的记录器组合在一起以便可以同时配置它们通常很有用。例如，您通常可能会更改所有与 Tomcat 相关的记录器的日志记录级别，但您无法轻松记住顶级包。
+
+为了解决这个问题，Spring Boot 允许您在 Spring 中定义日志记录组Environment。例如，以下是如何通过将“tomcat”组添加到您的 来定义“tomcat”组application.properties：
+```properties
+logging.group.tomcat=org.apache.catalina,org.apache.coyote,org.apache.tomcat
+
+```
+定义后，您可以使用一行更改组中所有记录器的级别：
+```properties
+logging.level.tomcat=trace
+
+```
+
+Spring Boot 包括以下可以开箱即用的预定义日志记录组：
+
+| 姓名 | 记录器 |
+| ------ | ------ |
+|  网络    |   org.springframework.core.codec, org.springframework.http, org.springframework.web, org.springframework.boot.actuate.endpoint.web,org.springframework.boot.web.servlet.ServletContextInitializerBeans   |
+|   sql   |   org.springframework.jdbc.core, org.hibernate.SQL,org.jooq.tools.LoggerListener   |
+
+	
+### 7.4.7. 使用日志关闭钩子
+为了在您的应用程序终止时释放日志资源，提供了一个关闭挂钩，当 JVM 退出时将触发日志系统清理。除非您的应用程序部署为 war 文件，否则此关闭挂钩会自动注册。如果您的应用程序具有复杂的上下文层次结构，则关闭挂钩可能无法满足您的需求。如果没有，请禁用关闭挂钩并调查底层日志系统直接提供的选项。例如，Logback 提供了上下文选择器，允许在其自己的上下文中创建每个 Logger。您可以使用该logging.register-shutdown-hook属性禁用关闭挂钩。将其设置为false将禁用注册。您可以在您的application.properties或application.yaml文件中设置属性：
+```properties
+logging.register-shutdown-hook=false
+
+```
+
+### 7.4.8. 自定义日志配置
+的各种记录系统可以通过包括在类路径相应的库被激活，并且可以通过在类路径的根目录或在由下面的Spring指定的位置提供一个适当的配置文件进行进一步定制Environment属性：logging.config。
+
+您可以使用org.springframework.boot.logging.LoggingSystemsystem 属性强制 Spring Boot 使用特定的日志记录系统。该值应该是实现的完全限定类名LoggingSystem。您还可以使用值完全禁用 Spring Boot 的日志记录配置none。
+
+暂时停止更新……
+
+
+
+
+
+
 
 
 
