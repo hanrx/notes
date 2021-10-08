@@ -147,6 +147,10 @@ Spring Cloud开源社区实现。
 - prefix：   /ˈpriːfɪks/   n. 前缀
 - cluster：   /ˈklʌstə(r)/   n. 组，簇；星团；一连串同类事件；（聚集在同一地方的）一群人；（计算机磁盘上的）丛集，群集；辅音群，辅音连缀；基
 - prometheus：  /pro'miθɪəs/   n. 普罗米修斯（希腊神话中人名，为人类盗火种甘受罚）
+- Conditional：   /kənˈdɪʃənl/   adj. 有条件的，有前提的；（从句）条件的
+- cluster：  /ˈklʌstə(r)/    n. 组，簇；星团；一连串同类事件；（聚集在同一地方的）一群人；（计算机磁盘上的）丛集，群集；辅音群，辅音连缀；基
+- concurrent：  /kənˈkʌrənt/   adj. 并发的；一致的；同时发生的；并存的
+- atomic：  /əˈtɒmɪk/    adj. 原子的，原子能的；微粒子的
 - abstract： ['æbstrækt, æb'strækt]  adj. 抽象的，纯概念的；（艺术）抽象派的；理论上的，不切实际的
 - queued：  [kjuːd]    v. 排队（queue的过去分词）
 - monitored：   ['mɑnətər]   v. 检测；监控；监听（外国广播或电话）；监控（无线电或电视传输信号）（monitor 的过去式及过去分词）
