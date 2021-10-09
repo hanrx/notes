@@ -168,7 +168,7 @@ Spring Cloud开源社区实现。
 - transaction： [trænˈzækʃn]  n. 交易，买卖，业务；（学术团体会议的）议事录，公报（transactions）；（人与人之间的）交流，相互影响；事务（元），事项
 - management： [ˈmænɪdʒmənt]   n. 经营，管理，安排；管理人员，管理层；（成功的）处理手段，（有效的）处理能力；治疗，监控；<古>欺骗，欺诈
 - reentrant：[riːˈentrənt]   可重入 adj. 再进去的；凹角的 
-
+- Monitor： [ˈmɒnɪtə(r)] n. 监视器；监听器；监控器；显示屏；班长
 
 
 
