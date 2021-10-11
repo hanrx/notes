@@ -169,11 +169,11 @@ Spring Cloud开源社区实现。
 - management： [ˈmænɪdʒmənt]   n. 经营，管理，安排；管理人员，管理层；（成功的）处理手段，（有效的）处理能力；治疗，监控；<古>欺骗，欺诈
 - reentrant：[riːˈentrənt]   可重入 adj. 再进去的；凹角的 
 - Monitor： [ˈmɒnɪtə(r)] n. 监视器；监听器；监控器；显示屏；班长
-
-
-
-
-
+- Future：  /ˈfjuːtʃə(r)/    n. 未来，将来；前途，前景；期货；（动词的）将来时态
+- Completable：    adj. [数] 可完备化的
+- Current：  /ˈkɜːrənt/    adj. (current) 现在的；流通的，通用的；最近的；草写的
+- Priority： /praɪˈɒrəti/    n. 优先事项，最重要的事；优先，优先权，重点；<英>优先通行权
+- Daemon：   /ˈdiːmən/   n. 守护进程；后台程序
 
 
 
