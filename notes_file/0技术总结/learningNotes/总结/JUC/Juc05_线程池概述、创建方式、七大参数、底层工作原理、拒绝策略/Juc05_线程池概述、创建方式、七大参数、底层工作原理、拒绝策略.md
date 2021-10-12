@@ -101,17 +101,55 @@ public class ExecutorTest {
 ![img_9.png](img_9.png)
 ```
 
-## ③. 你在工作中是如何创建线程池的,是否自定义过线程池使用z
+## ③. 你在工作中是如何创建线程池的,是否自定义过线程池使用
+- ①. AbortPolicy: 最大不会抛出异常的值= maximumPoolSize + new LinkedBlockin gDeque<Runnable>(3) =8个。如果超过8个,默认的拒绝策略会抛出异常
+- ②. CallerRunPolicy: 如果超过8个,不会抛出异常,会返回给调用者去
+- ③. DiscardOldestPolicy:如果超过8个,将最早进入队列的任务删除,之后再尝试加入队列
+- ④. DiscardPolicy:直接丢弃任务,不予任何处理也不抛出异常.如果允许任务丢失,这是最好的拒绝策略
+```java
+public class MyThreadPoolDemo {
+    public static void main(String[] args) {
+        ExecutorService threadPool = new ThreadPoolExecutor(
+                2,
+                5,
+                1L,
+                TimeUnit.SECONDS,
+                new LinkedBlockingDeque<Runnable>(3),
+                Executors.defaultThreadFactory(),
+                //默认抛出异常
+                //new ThreadPoolExecutor.AbortPolicy()
+                //回退调用者
+                //new ThreadPoolExecutor.CallerRunsPolicy()
+                //处理不来的不处理,丢弃时间最长的
+                //new ThreadPoolExecutor.DiscardOldestPolicy()
+                //直接丢弃任务,不予任何处理也不抛出异常
+                new ThreadPoolExecutor.DiscardPolicy()
+        );
+        //模拟10个用户来办理业务 没有用户就是来自外部的请求线程.
+        try {
+            for (int i = 1; i <= 10; i++) {
+                threadPool.execute(() -> {
+                    System.out.println(Thread.currentThread().getName() + "\t 办理业务");
+                });
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            threadPool.shutdown();
+        }
+        //threadPoolInit();
+    }
+}
 
+```
 
+## ④. 合理配置线程池你是如何考虑的?
 
+- ①. CPU密集型
+![img_10.png](img_10.png)
 
-
-
-
-
-
-
+- ②. IO密集型
+![img_11.png](img_11.png)
 
 
 
