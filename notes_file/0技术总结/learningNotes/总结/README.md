@@ -193,7 +193,7 @@ Spring Cloud开源社区实现。
 - reactor：  [riˈæktə(r)]  n. [化工] 反应器；[核] 反应堆；起反应的人
 - Predicate：[ˈprɛdɪˌkeɪt]   v. 使……基于；断言；暗示
 - route：      [ruːt]    路由 n. 路线，航线；道路，公路；（交通工具的）固定路线；巡访；途径，渠道；<北美>递送路线；用于美国干线公路号码前
-
+- locator：  [ləu'keitə, 'ləukeitə]  n. 定位器，探测器
 
 
 
