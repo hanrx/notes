@@ -28,6 +28,7 @@
 
 ## 对象存储MinIO
 ## 新版对象存储MinIOdocker启动
+- docker 
 ```markdown
 docker run --privileged -d -it -p 9090:9000   -p 9091:9001   --name minio \
 -e "MINIO_ACCESS_KEY=iafoot2021" \
@@ -36,6 +37,29 @@ docker run --privileged -d -it -p 9090:9000   -p 9091:9001   --name minio \
 -v /home/haniAfoot/minio/data:/data \
 -v /home/haniAfoot/minio/config:/root/.minio \
 minio/minio server /data --console-address ":9000" --address ":9001"
+```
+- docker-compose
+```markdown
+minio:
+    image: minio/minio:latest
+    container_name: minio
+    privileged: true
+    restart: always
+    command: server --console-address ':9001' /data
+    ports:
+      - 19090:9000
+      - 19091:9001
+    volumes:
+      - /home/haniAfoot/minio/data:/data
+      - /home/haniAfoot/minio/config:/root/.minio
+    environment:
+      - TZ=Asia/Shanghai
+      - LANG=zh_CN.UTF-8
+      - MINIO_ACCESS_KEY=iafoot2021
+      - MINIO_SECRET_KEY=iafoot2021
+    networks:
+      - outside
+
 ```
 
 MinIO是世界上最快的对象存储服务器，在标准硬件上，读写速度分贝为183GB/s 和 171GB/s，对象存储可以作为主要存储层，用于Spark，Presto，TensorFlow，H20.ai 以及替代产品等各种工作负载用于Hadoop HDFS
