@@ -1,0 +1,159 @@
+
+# ①. SpringBoot的概述
+
+
+
+
+
+
+
+
+
+
+# ②. HelloWorld项目
+
+
+
+
+
+
+
+
+
+
+# ③. 父项目依赖管理特性
+
+
+
+
+
+
+
+
+
+
+# ④. 底层注解@Configuration
+
+
+
+
+
+
+
+
+
+
+
+# ⑤. 底层注解@Import导入组件
+
+
+
+
+
+
+
+
+
+
+
+
+# ⑥. 底层注解@Conditional条件装配
+
+
+
+
+
+
+
+
+
+
+# ⑦. 原生配置文件引入:ImportResource
+
+
+
+
+
+
+# ⑧. 底层注解@ConfigurationProperties配置绑定
+
+
+
+
+
+
+
+# ⑨. SpringBootApplication自动配置原理入门
+
+
+
+
+
+
+## ①. @SpringBootConfiguration
+
+
+
+
+
+
+
+
+## ②. @ComponentScan
+
+
+
+## ③. @EnableAutoConfiguration
+
+
+
+
+# ⑩. 最佳实践Lombok、dev-tools、Spring Initailizr
+
+
+
+
+
+## ①. Lombok
+
+
+
+
+
+
+## ②. 最佳实践-dev-tools
+
+
+
+
+
+
+## ③. 最佳实践-Spring Initailizr
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
