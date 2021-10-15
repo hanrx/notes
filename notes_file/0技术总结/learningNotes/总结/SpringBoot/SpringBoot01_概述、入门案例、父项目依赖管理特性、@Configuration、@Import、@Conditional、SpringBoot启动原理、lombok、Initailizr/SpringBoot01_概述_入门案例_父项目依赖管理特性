@@ -1,5 +1,14 @@
 
 # ①. SpringBoot的概述
+- ①. Spring Boot是一个便捷搭建基于spring工程的脚手架,是整合Spring技术栈的一站式框架
+- ②. 作用
+  - 是帮助开发人员快速搭建大型的spring 项目
+  - 简化工程的配置,依赖管理
+  - 实现开发人员把时间都集中在业务开发上
+- ③. 缺点:
+  - 人称版本帝，迭代快，需要时刻关注变化
+  - 封装太深，内部原理复杂，不容易精通
+  - ④.SrpingBoot官网文档 https://docs.spring.io/spring-boot/docs/
 
 
 
