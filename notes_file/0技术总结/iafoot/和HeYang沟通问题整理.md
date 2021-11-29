@@ -16,6 +16,13 @@
 
 
 # 脚本
+## 20211129 表t_user添加：【用户所属地区、用户所属协会】
+
+ALTER TABLE `iafoot_blog`.`t_user`
+ADD COLUMN `areas_code` varchar(8) NULL COMMENT '用户所属地区' AFTER `user_tag`;
+ALTER TABLE `iafoot_blog`.`t_user`
+ADD COLUMN `association_uid` varchar(32) NULL COMMENT '用户所属协会' AFTER `areas_code`;
+
 ## 20210928 
 ALTER TABLE `mogu_blog`.`t_admin`
 ADD COLUMN `channel_uid` varchar(32) NULL COMMENT '所属渠道uid' AFTER `person_resume`;
