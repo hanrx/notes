@@ -16,6 +16,29 @@
 
 
 # 脚本
+## 20211219 表t_user添加：【用户 实名认证 - 信息】
+ALTER TABLE `iafoot_blog`.`t_user`
+ADD COLUMN `real_name` varchar(32) NULL COMMENT '实名认证-姓名' AFTER `association_uid`;
+ALTER TABLE `iafoot_blog`.`t_user`
+ADD COLUMN `real_sex` varchar(8) NULL COMMENT '实名认证-姓别' AFTER `real_name`;
+ALTER TABLE `iafoot_blog`.`t_user`
+ADD COLUMN `real_nationality` varchar(32) NULL COMMENT '实名认证-国籍' AFTER `real_sex`;
+ALTER TABLE `iafoot_blog`.`t_user`
+ADD COLUMN `real_certificate_type` varchar(32) NULL COMMENT '实名认证-证件类型' AFTER `real_nationality`;
+ALTER TABLE `iafoot_blog`.`t_user`
+ADD COLUMN `real_certificate_code` varchar(32) NULL COMMENT '实名认证-证件号' AFTER `real_certificate_type`;
+ALTER TABLE `iafoot_blog`.`t_user`
+ADD COLUMN `real_certificate_begind` date NULL COMMENT '实名认证-证件有效期开始' AFTER `real_certificate_code`;
+ALTER TABLE `iafoot_blog`.`t_user`
+ADD COLUMN `real_certificate_endd` date NULL COMMENT '实名认证-证件有效期结束' AFTER `real_certificate_begind`;
+ALTER TABLE `iafoot_blog`.`t_user`
+ADD COLUMN `real_pc` varchar(128) NULL COMMENT '实名认证-职业类别（Professional category）' AFTER `real_certificate_endd`;
+ALTER TABLE `iafoot_areas`.`t_user`
+ADD COLUMN `real_sex` varchar(128) NULL COMMENT '实名认证-地区' AFTER `real_pc`;
+
+
+
+
 ## 20211129 表t_user添加：【用户所属地区、用户所属协会】
 
 ALTER TABLE `iafoot_blog`.`t_user`
