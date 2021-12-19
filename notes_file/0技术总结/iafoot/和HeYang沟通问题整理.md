@@ -33,8 +33,8 @@ ALTER TABLE `iafoot_blog`.`t_user`
 ADD COLUMN `real_certificate_endd` date NULL COMMENT '实名认证-证件有效期结束' AFTER `real_certificate_begind`;
 ALTER TABLE `iafoot_blog`.`t_user`
 ADD COLUMN `real_pc` varchar(128) NULL COMMENT '实名认证-职业类别（Professional category）' AFTER `real_certificate_endd`;
-ALTER TABLE `iafoot_areas`.`t_user`
-ADD COLUMN `real_sex` varchar(128) NULL COMMENT '实名认证-地区' AFTER `real_pc`;
+ALTER TABLE `iafoot_blog`.`t_user`
+ADD COLUMN `real_areas` varchar(128) NULL COMMENT '实名认证-地区' AFTER `real_pc`;
 
 
 
