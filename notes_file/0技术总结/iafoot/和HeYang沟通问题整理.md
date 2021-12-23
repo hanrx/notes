@@ -16,6 +16,13 @@
 
 
 # 脚本
+
+
+## 20211223 表t_user添加：【用户 协会认证-状态(0未通过，1申请加入协会，2申请通过加入协会) 】
+ALTER TABLE `iafoot_blog`.`t_user`
+ADD COLUMN `association_type` tinyint(1) NULL COMMENT '协会认证-状态(0未通过，1申请加入协会，2申请通过加入协会)' AFTER `association_uid`;
+
+
 ## 20211219 表t_user添加：【用户 实名认证 - 信息】
 ALTER TABLE `iafoot_blog`.`t_user`
 ADD COLUMN `real_name` varchar(32) NULL COMMENT '实名认证-姓名' AFTER `association_uid`;
