@@ -18,7 +18,7 @@
 # 脚本
 
 ## 202112126 添加表t_user_ussers 【用户关注信息列表】
-CREATE TABLE `t_user_ussers` (
+CREATE TABLE `iafoot_blog`.`t_user_ussers` (
   `uid` varchar(32) NOT NULL COMMENT '唯一uid',
   `user_uid`  varchar(32) DEFAULT NULL COMMENT '关注人',
   `admin_user_uid`  varchar(32) DEFAULT NULL COMMENT '被关注人（系统管理员或用户）',
