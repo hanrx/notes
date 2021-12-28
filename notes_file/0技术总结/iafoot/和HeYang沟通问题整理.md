@@ -17,6 +17,15 @@
 
 # 脚本
 
+
+## 20211228 表表t_user添加：【用户身份证 正方面图片URL 】
+
+ALTER TABLE `iafoot_blog`.`t_user`
+ADD COLUMN `real_certificate_front` varchar(128) NULL COMMENT '实名认证-证件-正面' AFTER `real_certificate_code`;
+ALTER TABLE `iafoot_blog`.`t_user`
+ADD COLUMN `real_certificate_back` varchar(128) NULL COMMENT '实名认证-证件-反面' AFTER `real_certificate_front`;
+
+
 ## 202112126 添加表t_user_ussers 【用户关注用户信息列表】
 CREATE TABLE `iafoot_blog`.`t_user_users` (
   `uid` varchar(32) NOT NULL COMMENT '唯一uid',
