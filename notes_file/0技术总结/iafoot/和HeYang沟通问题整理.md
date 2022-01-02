@@ -18,6 +18,11 @@
 # 脚本
 
 
+## 20220102 表t_study_video添加：【封面图cover_path】
+ALTER TABLE `iafoot_blog`.`t_study_video`
+ADD COLUMN `cover_path` varchar(255) NULL COMMENT '封面图' AFTER `baidu_path`;
+
+
 ## 20211228 表表t_user添加：【用户身份证 正方面图片URL 】
 
 ALTER TABLE `iafoot_blog`.`t_user`
