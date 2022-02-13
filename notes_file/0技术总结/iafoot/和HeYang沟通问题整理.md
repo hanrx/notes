@@ -24,9 +24,9 @@ ALTER TABLE `iafoot_blog`.`t_admin`
 ADD COLUMN `blog_sort_uids` varchar(2048) NULL COMMENT '图文分类-UIDS' AFTER `channel_uid`;
 
 ALTER TABLE `iafoot_blog`.`t_admin`
-ADD COLUMN `study_video_uids` varchar(2048) NULL COMMENT '视频分类-UIDS' AFTER `blog_sort_uids`;
+ADD COLUMN `resource_sort_uids` varchar(2048) NULL COMMENT '视频分类-UIDS' AFTER `blog_sort_uids`;
 ALTER TABLE `iafoot_blog`.`t_admin`
-ADD COLUMN `association_uid` varchar(32) NULL COMMENT '所属协会-UID' AFTER `study_video_uids`;
+ADD COLUMN `association_uid` varchar(32) NULL COMMENT '所属协会-UID' AFTER `resource_sort_uids`;
 
 
 
