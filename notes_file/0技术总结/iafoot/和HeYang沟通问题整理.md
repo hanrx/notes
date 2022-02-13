@@ -18,6 +18,18 @@
 # 脚本
 
 
+## 20220213 表t_admin添加：【图文分类-UIDS，视频分类-UIDS,所属协会-UID】
+
+ALTER TABLE `iafoot_blog`.`t_admin`
+ADD COLUMN `blog_sort_uids` varchar(2048) NULL COMMENT '图文分类-UIDS' AFTER `channel_uid`;
+
+ALTER TABLE `iafoot_blog`.`t_admin`
+ADD COLUMN `study_video_uids` varchar(2048) NULL COMMENT '视频分类-UIDS' AFTER `blog_sort_uids`;
+ALTER TABLE `iafoot_blog`.`t_admin`
+ADD COLUMN `association_uid` varchar(32) NULL COMMENT '所属协会-UID' AFTER `study_video_uids`;
+
+
+
 ## 20220102 表t_study_video添加：【封面图cover_path】
 ALTER TABLE `iafoot_blog`.`t_study_video`
 ADD COLUMN `cover_path` varchar(255) NULL COMMENT '封面图' AFTER `baidu_path`;
