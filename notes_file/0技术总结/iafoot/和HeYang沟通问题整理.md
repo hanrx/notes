@@ -17,6 +17,8 @@
 
 # 脚本
 
+## 20220225 插入全国协会
+INSERT INTO `t_association` (`uid`, `name`, `areas_code`, `admin_uid`, `population`, `integral`, `open_control`, `status`, `create_time`, `update_time`) VALUES('a24bc65b75436e56de847e9b66f52ce3', '全国', '1', 'e3ad21421c867e6dc64ca24a48c5cc83', 0, 0, 0, 1, '2021-12-27 07:43:27', '2021-12-27 07:43:27');
 
 ## 20220213 表t_admin添加：【图文分类-UIDS，视频分类-UIDS,所属协会-UID】
 
