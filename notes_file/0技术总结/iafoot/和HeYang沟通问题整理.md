@@ -17,6 +17,19 @@
 
 # 脚本
 
+## 20220329  添加意见反馈表
+CREATE TABLE `t_feed_back` (
+`uid` VARCHAR(32) NOT NULL COMMENT '唯一uid',
+`user_uid` VARCHAR(32) NOT NULL COMMENT '用户uid',
+`text` VARCHAR(2048) NULL COMMENT '意见反馈的内容',
+`pic_url` VARCHAR(100) NULL COMMENT '图片URL',
+`mobile` VARCHAR(50) NULL COMMENT '手机',
+`status` TINYINT UNSIGNED NOT NULL DEFAULT '1' COMMENT '状态',
+`create_time` TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建时间',
+`update_time` TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '更新时间',
+PRIMARY KEY (`uid`)
+) ENGINE=INNODB DEFAULT CHARSET=utf8mb3 COMMENT='意见反馈表'
+
 ## 20220225 插入全国协会
 INSERT INTO `t_association` (`uid`, `name`, `areas_code`, `admin_uid`, `population`, `integral`, `open_control`, `status`, `create_time`, `update_time`) VALUES('a24bc65b75436e56de847e9b66f52ce3', '全国', '1', 'e3ad21421c867e6dc64ca24a48c5cc83', 0, 0, 0, 1, '2021-12-27 07:43:27', '2021-12-27 07:43:27');
 
