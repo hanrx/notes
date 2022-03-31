@@ -17,6 +17,12 @@
 
 # 脚本
 
+## 20220331 修改字段长度。
+ALTER TABLE t_system_config
+MODIFY COLUMN qi_niu_area VARCHAR(32)
+NULL COMMENT '七牛云存储区域 华东（z0），华北(z1)，华南(z2)，北美(na0)，东南亚(as0)'
+
+
 ## 20220329  添加意见反馈表
 CREATE TABLE `t_feed_back` (
 `uid` VARCHAR(32) NOT NULL COMMENT '唯一uid',
