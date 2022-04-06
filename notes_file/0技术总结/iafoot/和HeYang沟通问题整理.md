@@ -17,6 +17,9 @@
 
 # 脚本
 
+## 20220406 修改评论特殊字符存储失败问题
+ALTER TABLE t_comment MODIFY  content  VARCHAR(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
 ## 20220331 修改字段长度。
 ALTER TABLE t_system_config
 MODIFY COLUMN qi_niu_area VARCHAR(32)
