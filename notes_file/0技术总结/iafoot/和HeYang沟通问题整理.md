@@ -14,7 +14,7 @@
 
 
 
-
+admin密码iafoot2022^&
 # 脚本
 
 ## 20220413  t_system_config对象存储配置
@@ -22,8 +22,8 @@ ALTER TABLE t_system_config ADD bvw_end_point varchar(255) null COMMENT '百度�
 
 ALTER TABLE t_system_config ADD bvw_work_flow varchar(255) null COMMENT '百度云存储媒资处理工作流';
 
-UPDATe t_system_config set bvw_end_point = 'videworks.mige.tv:8901',bvw_work_flow = 'sbappa';
-
+正式环境  UPDATe t_system_config set bvw_end_point = 'videworks.mige.tv:8901',bvw_work_flow = 'sbrealse;
+测试环境 UPDATe t_system_config set bvw_end_point = 'videworks.mige.tv:8901',bvw_work_flow = 'sbappa';
 ## 20220406 修改评论特殊字符存储失败问题
 ALTER TABLE t_comment MODIFY  content  VARCHAR(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
