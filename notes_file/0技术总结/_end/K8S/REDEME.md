@@ -71,9 +71,56 @@ Kubeadm降低部署门槛，但屏蔽了很多细节，遇到问题很难排查�
 - 可以访问外网，需要拉取镜像。
 - 禁止swap分区。
 - 安装基础服务：yum install wget
-- 
+
+最终目标：
+- 在所以节点上安装Docker和kubeadm
+- 部署Kubernetes Master
+- 部署容器网络插件
+- 部署Kubernetes Node，将节点加入Kubernetes集群中
+- 部署Dashboard Web页面，可视化查看Kubernetes资源
 
 
+操作系统处理：
+- 关闭防火墙：
+  - systemctl stop firewalld
+  - systemctl disable firewalld
+- 关闭selinux：
+  - 永久: sed -i 's/enforcing/disabled/' /etc/selinux/config
+  - 临时：setenforce 0
+- 关闭swap：
+  - 临时：swapoff -a
+  - 永久：sed -ri 's/.*swap.*/#&/' /etc/fstab
+- 根据规划设置主机名：hostnamectl   set -hostname <hostname>
+- 在master添加hosts
+```markdown
+cat >> /etc/hosts <<EOF
+192.168.44.141 master
+192.168.44.142 node1
+192.168.44.143 node2
+EOF
+```
+- 将桥接的IPv4流量传递到iptables的链
+```markdown
+cat >> /etc/sysctl.d/k8s.conf << EOF
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+EOF
+sysctl --system #生效
+```
+- 时间同步
+```markdown
+yum install ntpdate -y
+ntpdate time.windows.com
+```
+![](.REDEME_images/64873141.png)
+
+所有节点安装Docker/kubeadm/kubelet
+![](.REDEME_images/f25922d2.png)
+![](.REDEME_images/929fd26e.png)
+设置开机启动docker
+![](.REDEME_images/7329e437.png)
+docker改成阿里的镜像
+![](.REDEME_images/06b80053.png)
 
 # 第三部分 K8S核心技术
 
