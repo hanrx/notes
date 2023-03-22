@@ -122,6 +122,18 @@ ntpdate time.windows.com
 docker改成阿里的镜像
 ![](.REDEME_images/06b80053.png)
 
+## 二进制方式搭建
+
+
+
+
+
+
+
+
+
+
+
 # 第三部分 K8S核心技术
 
 
